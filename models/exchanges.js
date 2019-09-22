@@ -39,3 +39,7 @@ var exchangeSchema = new Schema({
         max: 10
     }
 });
+
+var Exchanges = mongoose.model('Exchange', exchangeSchema);
+
+module.exports = Exchanges;

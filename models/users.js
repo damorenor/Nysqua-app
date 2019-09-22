@@ -36,6 +36,15 @@ var userSchema = new Schema({
     },
     preferences: {
         type: String
+    },
+    exchangeList: {
+        type: [{ type: Schema.ObjectId, ref: 'Exchange' }]
+    },
+    garmentList: {
+        type: [{ type: Schema.ObjectId, ref: 'Garment' }]
+    },
+    magazineList: {
+        type: [{ type: Schema.ObjectId, ref: 'Magazine' }]
     }
 }, { timestamps: true }
 );
