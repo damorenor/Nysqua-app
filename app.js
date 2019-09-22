@@ -10,6 +10,19 @@ var usersRouter = require('./routes/users');
 var singInRouter = require('./routes/singInRouter');
 var singUpRouter = require('./routes/singUpRouter');
 
+var mongoose = require('mongoose');
+
+var users = require('./models/users');
+var garments = require('./models/garments');
+
+var url = 'mongodb://localhost:27017/Nysqua';
+var connect = mongoose.connect(url);
+
+connect.then((db) => {
+  console.log('Connected to Nysqua DataBase');
+}, (err) => {
+  console.log(err);
+});
 var app = express();
 
 

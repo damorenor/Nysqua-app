@@ -1,19 +1,28 @@
 var express = require('express');
 var bodyParser = require('body-parser');
+var mongoose = require('mongoose');
+
+var Users = require('../models/users');
 
 var singInRouter = express.Router();
 
 singInRouter.use(bodyParser.json());
 singInRouter.route('/')
-    .all((req, res, next) => {
+    .get((req, res, next) => {
         res.statusCode = 200;
         res.setHeader('Content-Type', 'text/plain');
-        next();
-    })
-    .get((req, res, next) => {
-        res.end('Welcome user: ' + req.body.userId +
+        Users.find({ username: req.body.userId, password: req.body.pass })
+            .then((user) => {
+                console.log('User Find', user);
+                res.statusCode = 200;
+                res.setHeader('Content-type', 'application/json');
+                res.json(user);
+            }, (err) => next(err))
+            .catch((err) => next(err));
+        /*
+        res.end('Welcome user: ' +  +
             ' your password is: ' + req.body.pass);
-
+*/
     }).post((req, res, next) => {
         res.statusCode = 403;
         res.end('POST operation not support');
