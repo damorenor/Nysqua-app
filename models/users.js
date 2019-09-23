@@ -3,6 +3,9 @@ var Schema = mongoose.Schema;
 require('mongoose-currency').loadType(mongoose);
 var Currency = mongoose.Types.Currency;
 
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
+
 var userSchema = new Schema({
     email: {
         type: String,
@@ -49,6 +52,16 @@ var userSchema = new Schema({
 }, { timestamps: true }
 );
 
-var Users = mongoose.model('User', userSchema);
+userSchema.methods.encryptPassword = async (password) => {
+  const salt = await bcrypt.genSalt(saltRounds);
+  const hash = await bcrypt.hash(password, salt);
+  return hash;
+};
 
-module.exports = Users;
+userSchema.methods.checkPassword = async function (password) {
+  return await bcrypt.compare(password, this.password);
+};
+
+var User = mongoose.model('User', userSchema);
+
+module.exports = User;
