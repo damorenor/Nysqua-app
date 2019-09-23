@@ -1,0 +1,73 @@
+:root {
+  --background_color:#FAFAFA;
+}
+body{
+  overflow: hidden;
+}
+.App {
+  background-color: var(--background_color);
+  min-width: 100vw;
+  max-width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-left: 16vw;
+  padding-right: 16vw; 
+  overflow:hidden;
+}
+
+.cards_container{
+  background-color: var(--background_color);
+  width: 100%;
+  margin-top: 4vh;
+  margin-bottom: 4vh;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  justify-content: center;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.card{
+  background-color: white;
+  display: flex;
+  flex: 1;
+  flex-wrap: wrap;  
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-right: 2vw;
+  padding-left: 2vw;
+  padding-bottom: 2vh;  
+  padding-top: 2vh;
+  height: auto;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 0.5vw;
+}
+
+.logo_Card {
+  background: linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%);
+  height: 100%;
+  display: flex;
+  flex: 1;
+  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-right: 2vw;
+  padding-left: 2vw;
+  padding-bottom: 2vh;
+  padding-top: 2vh;
+  height: auto;
+  border-radius: 0.5vw;
+  margin-right: 2vw;
+  text-align: center;
+}
+
+.logo_Card h1 {
+  font-size: 2.5rem;
+  color: white;
+  width: 50%;
+}
+
