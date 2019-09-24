@@ -8,10 +8,10 @@ import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
-import { withStyles, createMuiTheme  } from '@material-ui/core/styles';
+import { withStyles, createMuiTheme } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
 import Container from '@material-ui/core/Container';
-import {signInStyles} from './SignInStyles';
+import { signInStyles } from './SignInStyles';
 import { FaFacebookF } from 'react-icons/fa';
 import { FaGoogle } from 'react-icons/fa';
 import { IconContext } from "react-icons";
@@ -27,12 +27,12 @@ import './SignIn.css';
 
 class SignIn extends Component {
 
-  constructor(props){
+  constructor(props) {
     super(props);
 
     this.state = {
       email: '',
-      showPassword: false ,
+      showPassword: false,
       password: ''
     };
 
@@ -43,7 +43,7 @@ class SignIn extends Component {
     this.handleMouseDownPassword = event => {
       event.preventDefault();
     };
-    
+
 
     this.theme = createMuiTheme({
       palette: {
@@ -124,28 +124,28 @@ class SignIn extends Component {
     })(Button);
   }
 
-/*   componentDidMount() {
-    axios.get('https://dog.ceo/api/breeds/image/random')
-    .then(response => {
-      console.log(response.data);
-    })
-    .catch(error => {
-      console.log(error);
-    });
-  } */
+  /*   componentDidMount() {
+      axios.get('https://dog.ceo/api/breeds/image/random')
+      .then(response => {
+        console.log(response.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+    } */
 
-   
 
-  handleChange(event){
+
+  handleChange(event) {
     var prop = String(event.target.id);
     this.setState({ [prop]: event.target.value });
   }
 
-  handleClickShowPassword(){
+  handleClickShowPassword() {
     this.setState({ showPassword: !this.state.showPassword });
   }
-    
-  render(){
+
+  render() {
     return (
       <Container component="main" maxWidth="xs">
         <CssBaseline />
@@ -243,16 +243,16 @@ class SignIn extends Component {
               </ThemeProvider>
 
               < this.StyledButton onClick={() => {
-                 axios.get('http://localhost:3000/singIn', {
+                axios.get('http://localhost:3000/signIn', {
                   userId: this.state.email,
                   pass: this.state.password,
                 })
-                .then((response) => {
-                  console.log(response.data);
-                }, (error) => {
-                  console.log(error);
-                });
-               
+                  .then((response) => {
+                    console.log(response.data);
+                  }, (error) => {
+                    console.log(error);
+                  });
+
               }}
                 fullWidth
                 focusRipple
@@ -267,8 +267,8 @@ class SignIn extends Component {
 
             </form>
           </div>
-        </div> 
-     
+        </div>
+
         <Box mt={5}>
           < div className="login_link" >
             <p className="login_text">
