@@ -1,14 +1,15 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
-
+var cors = require('./cors');
 var Users = require('../models/users');
 
 var singInRouter = express.Router();
 
 singInRouter.use(bodyParser.json());
 singInRouter.route('/')
-    .get((req, res, next) => {
+    .options(cors.corsWithOptions, (req, res) => { res.sendStatus(200); })
+    .get(cors.cors, (req, res, next) => {
         res.statusCode = 200;
         res.setHeader('Content-Type', 'text/plain');
         Users.find({ username: req.body.userId, password: req.body.pass })
@@ -19,17 +20,13 @@ singInRouter.route('/')
                 res.json(user);
             }, (err) => next(err))
             .catch((err) => next(err));
-        /*
-        res.end('Welcome user: ' +  +
-            ' your password is: ' + req.body.pass);
-*/
-    }).post((req, res, next) => {
+    }).post(cors.cors, (req, res, next) => {
         res.statusCode = 403;
         res.end('POST operation not support');
-    }).put((req, res, next) => {
+    }).put(cors.cors, (req, res, next) => {
         res.statusCode = 403;
         res.end('PUT operation not support');
-    }).delete((req, res, next) => {
+    }).delete(cors.cors, (req, res, next) => {
         res.statusCode = 403;
         res.end('DELETE operation not support');
     });
