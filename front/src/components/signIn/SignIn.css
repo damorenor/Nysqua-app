@@ -8,14 +8,11 @@
     flex-direction: column;
     align-items: center;
     align-content: center;
-    
 }
 
 .internal_paper{
-    margin-top: 3vh;
-    margin-bottom: 3vh;
-    margin-left: 3vh;
-    margin-right: 3vh;
+    margin-top: 4.5vh;
+    margin-bottom: 1.5vh;
 }
 
 .form{
@@ -78,7 +75,7 @@
     height: 50px;
     line-height: 50px;
     text-align: center;
-    margin-top: -1.4vh;
+    margin-top: -1.2vh;
     color: rgba(0, 0, 0, 0.5);
 }
 
