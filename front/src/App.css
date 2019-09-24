@@ -25,7 +25,7 @@ body{
   margin-top: 4vh;
   margin-bottom: 4vh;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: stretch;
   justify-content: center;
 }
@@ -48,9 +48,8 @@ body{
 
 .logo_Card {
   background: linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%);
-  height: 100%;
   display: flex;
-  flex: 1;
+  height: 100%;
   flex-wrap: wrap;
   flex-direction: column;
   align-items: center;
@@ -59,9 +58,7 @@ body{
   padding-left: 2vw;
   padding-bottom: 2vh;
   padding-top: 2vh;
-  height: auto;
   border-radius: 0.5vw;
-  margin-right: 2vw;
   text-align: center;
 }
 

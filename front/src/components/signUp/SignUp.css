@@ -1,26 +1,37 @@
 .padding_1 {
     height: 5vh;
-    
+
 }
 
-.paper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    align-content: center;
+.MuiOutlinedInput-adornedEnd {
+    padding-right: 0px !important;
 }
 
-.internal_paper{
-    margin-top: 5vh;
+.columns_container{
+    margin-top: 1.25vh;
     margin-bottom: 1vh;
 }
 
-.form{
-    width: '100%';
+.paper {
+    width: 100%;
+    padding: 0%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+}
+
+.internal_paper {
+    margin-top: 3vh;
+    margin-bottom: 1vh;
+}
+
+.form {
+    width: 100%;
     margin-top: -2vh;
 }
 
-.social_media_btn{
+.social_media_btn {
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -29,9 +40,8 @@
 
 }
 
-.social_icons{
+.social_icons {
     width: 100%;
-
 }
 
 .login_link {
@@ -41,7 +51,7 @@
     color: rgba(0, 0, 0, 0.6);
 }
 
-.login_link a{
+.login_link a {
     transition-property: text-decoration-color;
     transition-duration: 0.2s;
     color: #FE6B8B;
@@ -50,7 +60,7 @@
     font-weight: 400;
 }
 
-.login_link a:hover{
+.login_link a:hover {
     text-decoration-color: #FE6B8B;
 }
 
@@ -61,7 +71,6 @@
     align-items: center;
     align-content: center;
     text-align: center;
-    margin-bottom: 1vh;
 }
 
 .title h1 {
@@ -99,4 +108,12 @@
 
 .react-icons {
     vertical-align: middle;
-  }
+}
+
+.Slide-media-446 {
+    border-radius: 0.5vh !important;
+}
+
+.Slide-mediaBackground-449 {
+    border-radius: 0.5vh !important;
+}
