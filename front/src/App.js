@@ -25,7 +25,10 @@ function App() {
             </div>
           </Grid>
           <Grid item xs={6} sm={6}>
-            <SliderSignUp/>
+          <div className="card">
+          <SliderSignUp/>
+            </div>
+           
           </Grid>
         </Grid>
       </div>
