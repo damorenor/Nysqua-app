@@ -25,10 +25,7 @@ function App() {
             </div>
           </Grid>
           <Grid item xs={6} sm={6}>
-          <div className="card">
-          <SliderSignUp/>
-            </div>
-           
+            < SliderSignUp / >
           </Grid>
         </Grid>
       </div>
