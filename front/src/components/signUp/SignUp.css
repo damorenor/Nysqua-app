@@ -3,6 +3,16 @@
 
 }
 
+
+.slider a.previousButton {
+    
+    display:none !important;
+}
+.slider a.nextButton {
+    
+    display:none !important;
+}
+
 .MuiOutlinedInput-adornedEnd {
     padding-right: 0px !important;
 }
@@ -23,7 +33,7 @@
 
 .internal_paper {
     margin-top: 3vh;
-    margin-bottom: 1vh;
+    margin-bottom: -5vh;
 }
 
 .form {

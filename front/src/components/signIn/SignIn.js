@@ -136,7 +136,7 @@ class SignIn extends Component {
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <div className="paper">
-          <div className="internal_paper">
+          <div className="internal_paper_in">
 
             <div className="title">
               <h1>Inicia sesion con</h1>
@@ -210,7 +210,7 @@ class SignIn extends Component {
                   endAdornment: (
                     <InputAdornment position="end">
                       <IconButton
-                        edge="end"
+                    
                         aria-label="toggle password visibility"
                         onClick={this.handleClickShowPassword}
                         onMouseDown={this.handleMouseDownPassword}>
