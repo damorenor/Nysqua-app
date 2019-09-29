@@ -5,8 +5,12 @@ import App from './App';
 import SignUpPage from './SignUpPage';
 import SignInPage from './SignInPage';
 import * as serviceWorker from './serviceWorker';
+import { Route, Switch, BrowserRouter} from 'react-router-dom'; 
 
-ReactDOM.render(<SignInPage />, document.getElementById('root'));
+ReactDOM.render(
+    <BrowserRouter>
+        <Route path="/" component={App}/>
+    </BrowserRouter> ,document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

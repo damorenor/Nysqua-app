@@ -391,7 +391,7 @@ class SignUp extends Component {
         <Box mt={5}>
           < div className="login_link" >
             <p className="login_text">
-              Ya tienes una cuenta? <a href="#" > Inicia sesion </a>
+              Ya tienes una cuenta? <a href="/SignIn" > Inicia sesion </a>
             </p>
           </div>
         </Box>

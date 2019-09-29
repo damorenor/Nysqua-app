@@ -38,8 +38,6 @@ class SliderSignUp extends Component {
       ]
 
     };
-  
-
     
     render(){
   
@@ -53,9 +51,6 @@ class SliderSignUp extends Component {
           </Slider>
         );
     };
-
-    
-
 };
 
 export default SliderSignUp;

@@ -1,12 +1,8 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
 import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
-import './components/signIn/SignIn.css'
-import './components/signUp/SignUp.css'
-import SingIn from './components/signIn/SignIn.js';
+import './components/signUp/SignUp.css';
 import SignUp from './components/signUp/SignUp.js';
+import './App.css';
 import SliderSignUp from './components/signUp/SliderSignUp.js';
 
 function SignUpPage() {
@@ -20,12 +16,12 @@ function SignUpPage() {
           alignItems = "stretch"
           wrap = "nowrap" >
           <Grid item xs={6} sm={6}>
+            <SliderSignUp />
+          </Grid>
+          <Grid item xs={6} sm={5}>
             <div className="card">
               <SignUp/>
             </div>
-          </Grid>
-          <Grid item xs={6} sm={6}>
-            < SliderSignUp / >
           </Grid>
         </Grid>
       </div>

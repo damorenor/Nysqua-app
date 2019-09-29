@@ -259,7 +259,7 @@ class SignIn extends Component {
         <Box mt={5}>
           < div className="login_link" >
             <p className="login_text">
-              No tienes una cuenta? <a href="#" > Registrate </a>
+              No tienes una cuenta? <a href="/SignUp" > Registrate </a>
             </p>
           </div>
         </Box>

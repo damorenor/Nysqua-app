@@ -32,8 +32,8 @@
 }
 
 .internal_paper {
-    margin-top: 3vh;
-    margin-bottom: -5vh;
+    margin-top: 5vh;
+    margin-bottom: 2vh;
 }
 
 .form {
@@ -85,7 +85,7 @@
 
 .title h1 {
     color: rgba(0, 0, 0, 0.6);
-    font-size: 1.2rem;
+    font-size: 1.4rem !important;
 }
 
 #or {
@@ -126,6 +126,8 @@
     height: 100% !important;
     overflow: hidden;
     border-radius: 0.5vw !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12),
+    0 1px 2px rgba(0, 0, 0, 0.24) !important;
 }
 
 .Slide-media-446 {
