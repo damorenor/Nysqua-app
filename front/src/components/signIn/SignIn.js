@@ -33,6 +33,9 @@ class SignIn extends Component {
       password: ''
     };
 
+    this.gradient = 'linear-gradient(136deg, rgb(242, 113, 33) 0%, rgb(233, 64, 87) 50%, rgb(138, 35, 135) 100%)';
+    this.primaryColor = '#E94057';
+
     this.handleChange = this.handleChange.bind(this);
 
     this.handleClickShowPassword = this.handleClickShowPassword.bind(this);
@@ -45,7 +48,7 @@ class SignIn extends Component {
     this.theme = createMuiTheme({
       palette: {
         primary: {
-          main: '#FE6B8B'
+          main: this.primaryColor
         },
       },
     });
@@ -54,10 +57,10 @@ class SignIn extends Component {
       root: {
         marginTop: '1.2vh',
         '& label.Mui-focused': {
-          color: '#FE6B8B',
+          color: this.primaryColor,
         },
         '& .MuiInput-underline:after': {
-          borderBottomColor: '#FE6B8B',
+          borderBottomColor: this.primaryColor,
         },
         '& .MuiOutlinedInput-root': {
           '& fieldset': {
@@ -67,7 +70,7 @@ class SignIn extends Component {
             borderColor: 'rgba(0, 0, 0, 0.6);',
           },
           '&.Mui-focused fieldset': {
-            borderColor: '#FE6B8B',
+            borderColor: this.primaryColor,
           },
         },
       },
@@ -75,7 +78,7 @@ class SignIn extends Component {
 
     this.StyledButton = withStyles({
       root: {
-        backgroundImage: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
+        backgroundImage: this.gradient,
         borderRadius: 3,
         border: 0,
         color: 'white',
@@ -106,13 +109,13 @@ class SignIn extends Component {
         color: 'rgba(0, 0, 0, 0.5)',
         backgroundColor: 'white',
         boxShadow: '0 3px 5px 2px rgba(255, 255, 255, .3)',
-        padding: '15px 15px',
+        padding: '16px 15px',
         fontSize: '0.95rem',
         transitionProperty: 'color, border',
         transitionDuration: '0.2s, 0.2s',
         '&:hover': {
-          color: '#FE6B8B',
-          border: '1px solid #FE6B8B',
+          color: this.primaryColor,
+          border: '1px solid #E94057',
           backgroundColor: 'white',
         },
         '&:active': {

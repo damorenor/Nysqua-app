@@ -1,5 +1,7 @@
 :root {
   --background_color:#FAFAFA;
+  --gradient: linear-gradient(136deg, rgb(242, 113, 33) 0%, rgb(233, 64, 87) 50%, rgb(138, 35, 135) 100%);
+  --primary: #E94057;
 }
 body{
    background-color: var(--background_color);
@@ -63,7 +65,7 @@ body{
 }
 
 .logo_Card {
-  background: linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%);
+  background: var(--gradient);
   display: flex;
   height: 100%;
   flex-wrap: wrap;

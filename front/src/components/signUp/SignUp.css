@@ -1,8 +1,11 @@
+:root {
+    --primary: #E94057;
+}
+
 .padding_1 {
     height: 5vh;
 
 }
-
 
 .slider a.previousButton {
     
@@ -64,14 +67,14 @@
 .login_link a {
     transition-property: text-decoration-color;
     transition-duration: 0.2s;
-    color: #FE6B8B;
+    color: var(--primary);
     text-decoration-line: underline;
     text-decoration-color: white;
     font-weight: 400;
 }
 
 .login_link a:hover {
-    text-decoration-color: #FE6B8B;
+    text-decoration-color: var(--primary);
 }
 
 .title {
