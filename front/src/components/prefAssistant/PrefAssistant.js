@@ -7,6 +7,10 @@ import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import StepConnector from '@material-ui/core/StepConnector';
 import { FaFacebookF } from 'react-icons/fa';
+import AvatarImageCropper from 'react-avatar-image-cropper';
+import TextField from '@material-ui/core/TextField';
+
+
     
 import './PrefAssistant.css';
 
@@ -17,6 +21,29 @@ class PrefAssistant extends Component {
         this.state = {
             activeStep: 0
         };
+
+        this.StyledTextField = withStyles({
+            root: {
+              marginTop: '1.2vh',
+              '& label.Mui-focused': {
+                color: this.primaryColor,
+              },
+              '& .MuiInput-underline:after': {
+                borderBottomColor: this.primaryColor,
+              },
+              '& .MuiOutlinedInput-root': {
+                '& fieldset': {
+                  borderColor: 'rgba(0, 0, 0, 0.3);',
+                },
+                '&:hover fieldset': {
+                  borderColor: 'rgba(0, 0, 0, 0.6);',
+                },
+                '&.Mui-focused fieldset': {
+                  borderColor: this.primaryColor,
+                },
+              },
+            },
+          })(TextField);
 
         this.gradient = 'linear-gradient(136deg, rgb(242, 113, 33) 0%, rgb(233, 64, 87) 50%, rgb(138, 35, 135) 100%)';
         this.primaryColor = '#E94057';
@@ -128,10 +155,28 @@ class PrefAssistant extends Component {
             </div>
         );
     }
+    apply = (file) => {
+        // handle the blob file you want
+        // such as get the image src
+        var src = window.URL.createObjectURL(file);
+    }
 
     render(){
         return(
             < div className = "preferences_assistant" >
+                <div style={{ width: '27vh', height: '27vh', margin: 'auto', border: '1px solid black' }}>
+                    <AvatarImageCropper apply={this.apply} />
+                </div>
+                < this.StyledTextField
+                variant="outlined"
+                margin="normal"
+                fullWidth
+                id="email"
+                label="Correo electronico"
+                name="email"
+                autoComplete="email"
+                onChange={this.handleChange}
+              />
                 <Typography>{this.getStepContent(this.state.activeStep)}</Typography>
                 <Stepper alternativeLabel activeStep={this.state.activeStep} connector={<this.colorlibConnector />}>
                     {this.steps.map(label => (
