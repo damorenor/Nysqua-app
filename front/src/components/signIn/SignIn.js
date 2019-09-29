@@ -4,14 +4,11 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
-import Typography from '@material-ui/core/Typography';
 import { withStyles, createMuiTheme } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
 import Container from '@material-ui/core/Container';
-import { signInStyles } from './SignInStyles';
 import { FaFacebookF } from 'react-icons/fa';
 import { FaGoogle } from 'react-icons/fa';
 import { IconContext } from "react-icons";
@@ -55,6 +52,7 @@ class SignIn extends Component {
 
     this.StyledTextField = withStyles({
       root: {
+        marginTop: '1.2vh',
         '& label.Mui-focused': {
           color: '#FE6B8B',
         },
@@ -124,18 +122,6 @@ class SignIn extends Component {
     })(Button);
   }
 
-  /*   componentDidMount() {
-      axios.get('https://dog.ceo/api/breeds/image/random')
-      .then(response => {
-        console.log(response.data);
-      })
-      .catch(error => {
-        console.log(error);
-      });
-    } */
-
-
-
   handleChange(event) {
     var prop = String(event.target.id);
     this.setState({ [prop]: event.target.value });
@@ -150,7 +136,7 @@ class SignIn extends Component {
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <div className="paper">
-          <div className="internal_paper">
+          <div className="internal_paper_in">
 
             <div className="title">
               <h1>Inicia sesion con</h1>
@@ -224,7 +210,7 @@ class SignIn extends Component {
                   endAdornment: (
                     <InputAdornment position="end">
                       <IconButton
-                        edge="end"
+                    
                         aria-label="toggle password visibility"
                         onClick={this.handleClickShowPassword}
                         onMouseDown={this.handleMouseDownPassword}>
@@ -248,6 +234,7 @@ class SignIn extends Component {
                   pass: this.state.password,
                 })
                   .then((response) => {
+                    //añadir logica
                     console.log(response.data);
                   }, (error) => {
                     console.log(error);
@@ -272,7 +259,7 @@ class SignIn extends Component {
         <Box mt={5}>
           < div className="login_link" >
             <p className="login_text">
-              No tienes una cuenta? <a href="#" > Registrate </a>
+              No tienes una cuenta? <a href="/SignUp" > Registrate </a>
             </p>
           </div>
         </Box>

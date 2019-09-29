@@ -1,20 +1,19 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
-import './components/signIn/SignIn.css'
-import SingIn from './components/signIn/SignIn.js';
+import { Route, Switch, BrowserRouter} from 'react-router-dom'; 
+import SingInPage from './SignInPage';
+import SignUpPage from './SignUpPage';
 
 function App() {
   return (
-    <div className="App" >
-      <div className="cards_container">
-        <div className="logo_Card">
-          <h1>Logo de la aplicacion</h1>
-        </div>
-        <div className="card">
-            <SingIn/>
-        </div>
-      </div>
+    <div className="App">
+      <Route render={({location}) => (
+        <Switch location={location}>
+          <Route exact path="/SignIn" component={SingInPage}/>
+          <Route exact path="/SignUp" component={SignUpPage}/>
+        </Switch>
+      )}>
+      </Route>
     </div>
   );
 }
