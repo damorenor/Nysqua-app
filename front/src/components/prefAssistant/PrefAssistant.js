@@ -237,6 +237,8 @@ class PrefAssistant extends Component {
         });
     }
     handleCheckChangeSub(event) {
+
+        /* recorrer arrego hasta que el id sea el mismo */
         var changedProp = "checked" + event.currentTarget.value.toString();
         this.setState({
             [changedProp]: !this.state[changedProp]
