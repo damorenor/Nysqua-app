@@ -31,6 +31,7 @@ class PrefAssistant extends Component {
             checked3: true,
             checked4: true,
             checked5: true,
+            subcategories:[{name:"test1",checked:true},{name:"test2",checked:false},{name:"test3",checked:false},{name:"test4",checked:false}]
         };
 
         this.gradient = 'linear-gradient(136deg, rgb(242, 113, 33) 0%, rgb(233, 64, 87) 50%, rgb(138, 35, 135) 100%)';
@@ -235,8 +236,33 @@ class PrefAssistant extends Component {
             [changedProp]: !this.state[changedProp]
         });
     }
+    handleCheckChangeSub(event) {
+        var changedProp = "checked" + event.currentTarget.value.toString();
+        this.setState({
+            [changedProp]: !this.state[changedProp]
+        });
+    }
 
     render(){
+        
+        const listItems = this.state.subcategories.map(function(d){
+            var idstr = "checkbox" + d.name;
+
+            return  <ul className="ks-cboxtags"> 
+                        <li>
+                            <input type="checkbox" id={idstr}
+                                 value={d.name} 
+                              /* checked={d.checked}  */
+                              
+                             />
+                            <label for={idstr}>{d.name}</label> 
+                        </li>   
+                    </ul>
+            
+        })
+        
+        
+        
         return(
             < div className = "preferences_assistant" >
                 <Stepper alternativeLabel activeStep={this.state.activeStep} connector={<this.colorlibConnector />}>
@@ -290,7 +316,7 @@ class PrefAssistant extends Component {
                                             autoComplete = "Bio"
                                             color = {this.primaryColor}
                                             multiline
-                                            rows = "5"
+                                            rows = "4"
                                             rowsMax = "10"
                                             onChange = {this.handleChange}
                                         />
@@ -449,7 +475,9 @@ class PrefAssistant extends Component {
                                 <div className="title_container">
                                     <h1 className="title">3. Que categorias te interesan?</h1>
                                 </div>
-                                <h1>3</h1>
+                                <div className="subcategories_container">
+                                    {listItems}
+                                </div>              
                             </div>
                         </ReactSwipe>
                     </div>
