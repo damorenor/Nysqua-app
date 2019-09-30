@@ -144,7 +144,18 @@
     padding-left: 2vw !important;
     padding-right: 2vw !important;
 }
+.profilepic{
+    width: 22vh;
+    height: 22vh;
+    border-radius: 50%;
+    display: flex;
+    align-items: stretch;   
+    z-index: 5;
+}
 
+.profilepic:hover{
+    opacity: 0.6;
+}
 .preferences_assistant .column{
     height: 45vh;
     min-height: 100%;
@@ -155,4 +166,14 @@
     justify-content: center;
     align-items: center;
     justify-items: center;
+}
+
+.image-upload > input
+{
+    display: none;
+}
+.image-upload img
+{
+    width: 20vh;
+    cursor: pointer;
 }

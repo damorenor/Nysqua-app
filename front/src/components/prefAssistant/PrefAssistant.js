@@ -24,12 +24,16 @@ class PrefAssistant extends Component {
         this.state = {
             activeStep: 0,
             bio: "",
+            file: null,
+            profilephoto: "https://cdn.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"
         };
 
         this.gradient = 'linear-gradient(136deg, rgb(242, 113, 33) 0%, rgb(233, 64, 87) 50%, rgb(138, 35, 135) 100%)';
         this.primaryColor = '#E94057';
 
         this.steps = this.getSteps();
+        this.onFormSubmit = this.onFormSubmit.bind(this);
+        this.onImageChange = this.onImageChange.bind(this);
         this.handleNext = this.handleNext.bind(this);
         this.handleBack = this.handleBack.bind(this);
         this.handlReset = this.handleReset.bind(this);
@@ -125,7 +129,34 @@ class PrefAssistant extends Component {
             },
         })(TextField);
     }
+    onFormSubmit(event){
+        event.preventDefault();
+        const formData = new FormData();
+        formData.append('myImage',this.state.file);
+        const config = {
+            headers: {  
+                'content-type': 'multipart/form-data'
+            }
+        };
+        console.log(formData);
+       
+        /*axios.post("/upload",formData,config)
+            .then((response) => {
+                alert("The file is successfully uploaded");
+            }).catch((error) => {
+        }); */
+    }
 
+    onImageChange = (event) => {
+        this.setState({file:event.target.files[0]});
+        if (event.target.files && event.target.files[0]) {
+          let reader = new FileReader();
+          reader.onload = (e) => {
+            this.setState({profilephoto: e.target.result});
+          };
+          reader.readAsDataURL(event.target.files[0]);
+        }
+      }
       
     getSteps() {
         return ['Descripcion', 'Que ropa buscas?', 'Categorias'];
@@ -213,7 +244,13 @@ class PrefAssistant extends Component {
                                     alignItems = "stretch">
                                     <Grid item xs={6} sm={6} className="column">
                                         
-                                     //AQUI
+                                    <div className="image-upload">
+                                        <label for="file-input">
+                                            <img  id ="target" className ="profilepic"  src ={this.state.profilephoto} ></img>
+                                        </label>
+                                        <input id="file-input" name="myImage" type="file" onChange= {this.onImageChange} />
+                                           {/*  <Button onClick={this.onFormSubmit}>mandelo</Button> */}
+                                    </div>
 
                                     </Grid>
                                     <Grid item xs={6} sm={6} className="column">
