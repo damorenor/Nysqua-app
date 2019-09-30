@@ -25,7 +25,12 @@ class PrefAssistant extends Component {
             activeStep: 0,
             bio: "",
             file: null,
-            profilephoto: "https://cdn.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"
+            profilephoto: "https://media.biobiochile.cl/wp-content/uploads/2019/03/pikachu-750x400.jpg",
+            checked1: true,
+            checked2: true,
+            checked3: true,
+            checked4: true,
+            checked5: true,
         };
 
         this.gradient = 'linear-gradient(136deg, rgb(242, 113, 33) 0%, rgb(233, 64, 87) 50%, rgb(138, 35, 135) 100%)';
@@ -39,6 +44,7 @@ class PrefAssistant extends Component {
         this.handlReset = this.handleReset.bind(this);
         this.colorlibStepIcon = this.colorlibStepIcon.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.handleCheckChange = this.handleCheckChange.bind(this);
         let reactSwipeEl;
 
         this.colorlibConnector = withStyles({
@@ -46,7 +52,7 @@ class PrefAssistant extends Component {
                 width: '100%',
             },
             alternativeLabel: {
-                top: 26,
+                top: 27,
             },
             active: {
                 '& $line': {
@@ -129,6 +135,7 @@ class PrefAssistant extends Component {
             },
         })(TextField);
     }
+
     onFormSubmit(event){
         event.preventDefault();
         const formData = new FormData();
@@ -165,6 +172,11 @@ class PrefAssistant extends Component {
     handleNext(){
         this.setState({activeStep: this.state.activeStep + 1});
         this.reactSwipeEl.next();
+        console.log(this.state.checked1);
+        console.log(this.state.checked2);
+        console.log(this.state.checked3);
+        console.log(this.state.checked4);
+        console.log(this.state.checked5);
     }
 
     handleBack(){
@@ -181,15 +193,15 @@ class PrefAssistant extends Component {
 
         var iconClass = "";
 
-        if (props.completed == true){
+        if (props.completed === true){
             iconClass = "completed";
         }
         
-        if (props.completed == false){
+        if (props.completed === false){
             iconClass = "uncompleted";
         }
 
-        if(props.active == true){
+        if(props.active === true){
             iconClass = "active";
         }
 
@@ -217,6 +229,13 @@ class PrefAssistant extends Component {
         });
     }
 
+    handleCheckChange(event) {
+        var changedProp = "checked" + event.currentTarget.value.toString();
+        this.setState({
+            [changedProp]: !this.state[changedProp]
+        });
+    }
+
     render(){
         return(
             < div className = "preferences_assistant" >
@@ -238,22 +257,29 @@ class PrefAssistant extends Component {
                                     <h1 className="title">1. Informacion extra para tu perfil</h1>
                                 </div>
                                 <Grid container 
-                                    spacing={6}
-                                    direction = "row"
+                                    spacing={0}
+                                    direction = "column"
                                     justify = "center"
-                                    alignItems = "stretch">
-                                    <Grid item xs={6} sm={6} className="column">
+                                    alignItems = "center"
+                                    wrap = "nowrap">
+                                    <Grid item xs={6} sm={12} fullWidth>
                                         
                                     <div className="image-upload">
-                                        <label for="file-input">
-                                            <img  id ="target" className ="profilepic"  src ={this.state.profilephoto} ></img>
+                                        < label htmlFor = "file-input" >
+                                            <div className = "profilepic">
+                                            <img  id ="target" className ="crop"  src ={this.state.profilephoto} ></img>
+                                            </div>
+                                            
                                         </label>
                                         <input id="file-input" name="myImage" type="file" onChange= {this.onImageChange} />
                                            {/*  <Button onClick={this.onFormSubmit}>mandelo</Button> */}
                                     </div>
 
                                     </Grid>
-                                    <Grid item xs={6} sm={6} className="column">
+                                    <Grid item xs={6} sm={12} fullWidth>
+                                        <h2>Cuentanos un poco sobre ti</h2>
+                                    </Grid>
+                                    <Grid item xs={6} sm={12} fullWidth>
                                         < this.StyledTextField
                                             variant = "outlined"
                                             margin = "normal"
@@ -264,8 +290,8 @@ class PrefAssistant extends Component {
                                             autoComplete = "Bio"
                                             color = {this.primaryColor}
                                             multiline
-                                            rows = "12"
-                                            rowsMax = "14"
+                                            rows = "5"
+                                            rowsMax = "10"
                                             onChange = {this.handleChange}
                                         />
                                     </Grid>
@@ -275,11 +301,153 @@ class PrefAssistant extends Component {
                                 <div className="title_container">
                                     <h1 className="title">2. Para quien buscas ropa?</h1>
                                 </div>
-                                <h1>2</h1>
+                                <div className="second_container">
+                                    <Grid container 
+                                    spacing={1}
+                                    direction = "row"
+                                    justify = "center"
+                                    alignItems = "center">
+                                        <Grid item xs={4} sm={4}>
+                                            <div className="type1">
+                                                <div>
+                                                    <div className="img_overlay">
+                                                        <a class="tm-link left">Hombre</a>
+                                                    </div>
+                                                    <img 
+                                                        src="http://assets.myntassets.com/assets/images/1862801/2018/2/9/11518155061506-Roadster-Men-Maroon--Navy-Blue-Regular-Fit-Checked-Casual-Shirt-8861518155061131-1.jpg">
+                                                    </img>
+                                                </div>
+                                                <div>
+                                                    <input type="radio" name="yrdo_1" id="yes_1" 
+                                                        value = {1}
+                                                        checked={this.state.checked1}
+                                                        onChange={this.handleCheckChange}></input>
+                                                    <input type="radio" name="nrdo_1" id="no_1"
+                                                        value = {1}
+                                                        checked={!this.state.checked1}
+                                                        onChange={this.handleCheckChange}></input>
+                                                    <div id="switch_1">
+                                                        <label htmlFor="yes_1">Si</label>
+                                                        <label htmlFor="no_1">No</label>
+                                                        <span></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </Grid>
+                                        <Grid item xs={4} sm={4}>
+                                            <div className="type1">
+                                                <div>
+                                                    <div className="img_overlay">
+                                                        <a class="tm-link left">Mujer</a>
+                                                    </div>
+                                                    <img
+                                                        src="http://image27.choichic.com/o_img/2018/03/04/252822-10530412/women-s-fashion-front-zip-mesh-jacket.jpg">    
+                                                    </img>
+                                                </div>
+                                                <div>
+                                                    <input type="radio" name="yrdo_2" id="yes_2"
+                                                        value = {2}
+                                                        checked={this.state.checked2}
+                                                        onChange={this.handleCheckChange}></input>
+                                                    <input type="radio" name="nrdo_2" id="no_2"
+                                                        value = {2}
+                                                        checked={!this.state.checked2}
+                                                        onChange={this.handleCheckChange}></input>
+                                                    <div id="switch_2">
+                                                        <label htmlFor="yes_2">Si</label>
+                                                        <label htmlFor="no_2">No</label>
+                                                        <span></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </Grid>
+                                        <Grid item xs={4} sm={4}>
+                                            <div className="type1">
+                                                <div>
+                                                    <div className="img_overlay">
+                                                        <a class="tm-link left">Niño</a>
+                                                    </div>
+                                                    <img
+                                                        src="https://imagena1.lacoste.com/dw/image/v2/AAUP_PRD/on/demandware.static/-/Sites-master/default/dw26b0e681/AJ8064_W9D_20.jpg">    
+                                                    </img>
+                                                </div>
+                                                <div>
+                                                    <input type="radio" name="yrdo_3" id="yes_3"
+                                                        value = {3}
+                                                        checked={this.state.checked3}
+                                                        onChange={this.handleCheckChange}></input>
+                                                    <input type="radio" name="nrdo_3" id="no_3"
+                                                        value = {3}
+                                                        checked={!this.state.checked3}
+                                                        onChange={this.handleCheckChange}></input>
+                                                    <div id="switch_3">
+                                                        <label htmlFor="yes_3">Si</label>
+                                                        <label htmlFor="no_3">No</label>
+                                                        <span></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </Grid>
+                                        <Grid item xs={4} sm={4}>
+                                            <div className="type2">
+                                                <div>
+                                                    <div className="img_overlay">
+                                                        <a class="tm-link left">Niña</a>
+                                                    </div>
+                                                    <img
+                                                        src="https://cdn.shopify.com/s/files/1/1017/0329/products/isla-dress-ghosty-raspberry-socks-websized_2000x.jpg?v=1567646051">    
+                                                    </img>
+                                                </div>
+                                                <div>
+                                                    <input type="radio" name="yrdo_4" id="yes_4"
+                                                        value = {4}
+                                                        checked={this.state.checked4}
+                                                        onChange={this.handleCheckChange}></input>
+                                                    <input type="radio" name="nrdo_4" id="no_4"
+                                                        value = {4}
+                                                        checked={!this.state.checked4}
+                                                        onChange={this.handleCheckChange}></input>
+                                                    <div id="switch_4">
+                                                        <label htmlFor="yes_4">Si</label>
+                                                        <label htmlFor="no_4">No</label>
+                                                        <span></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </Grid>
+                                        <Grid item xs={4} sm={4}>
+                                            <div className="type2">
+                                                <div>
+                                                    <div className="img_overlay">
+                                                        <a class="tm-link left">Bebes</a>
+                                                    </div>
+                                                    <img
+                                                        src="http://www.babyfashions.us/wp-content/uploads/2018/09/Baby-Fashion-Buying-the-Trendiest-Infant-Clothes.jpeg">    
+                                                    </img>
+                                                </div>
+                                                <div>
+                                                    <input type="radio" name="yrdo_5" id="yes_5"
+                                                        value = {5}
+                                                        checked={this.state.checked5}
+                                                        onChange={this.handleCheckChange}></input>
+                                                    <input type="radio" name="nrdo_5" id="no_5"
+                                                        value = {5}
+                                                        checked={!this.state.checked5}
+                                                        onChange={this.handleCheckChange}></input>
+                                                    <div id="switch_5">
+                                                        <label htmlFor="yes_5">Si</label>
+                                                        <label htmlFor="no_5">No</label>
+                                                        <span></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </Grid>
+                                    </Grid>
+                                </div>
                             </div>
                             <div className="carousel_content">
                                 <div className="title_container">
-                                    <h1 className="title">3. Que tipo de ropa buscas?</h1>
+                                    <h1 className="title">3. Que categorias te interesan?</h1>
                                 </div>
                                 <h1>3</h1>
                             </div>

@@ -3,7 +3,8 @@
     --primary: #E94057;
     --shadow: 0 3px 6px rgba(0, 0, 0, 0.16),
     0 3px 6px rgba(0, 0, 0, 0.23);
-    --carousel-height: 50vh;
+    --carousel-height: 64vh;
+    --gradient: linear-gradient(136deg, rgb(242, 113, 33) 0%, rgb(233, 64, 87) 50%, rgb(138, 35, 135) 100%);
 }
 
 * {
@@ -30,7 +31,7 @@
     align-items: center;
     justify-content: center;
     padding: 0px;
-    margin-top: 5vh;
+    margin-top: 3vh;
     border-radius: 0.5vw;
     overflow: auto;
     box-shadow: var(--shadow);
@@ -148,16 +149,34 @@
     width: 22vh;
     height: 22vh;
     border-radius: 50%;
-    display: flex;
-    align-items: stretch;   
-    z-index: 5;
+    max-width: 100%;
+    overflow: hidden;
+    margin: 0 auto;
+    padding: 0;
+    position: relative;
+    margin-top: 7vh;
+   
+}
+
+.profilepic > .crop {
+    object-fit: cover;  
+    position:absolute;
+    left: -100%;
+    right: -100%;
+    top: -100%;
+    bottom: -100%;
+    margin: auto;
+    min-height: 100%;
+    min-width: 100%;
+    display: block;
+    max-width: none !important;
 }
 
 .profilepic:hover{
     opacity: 0.6;
 }
 .preferences_assistant .column{
-    height: 45vh;
+    height: auto;
     min-height: 100%;
     max-height: 100%;
     display: flex;
@@ -176,4 +195,251 @@
 {
     width: 20vh;
     cursor: pointer;
+}
+
+.MuiGrid-grid-sm-12 {
+    width: 80% !important;
+    height: auto !important;
+}
+
+#switch_1,
+#switch_2,
+#switch_3,
+#switch_4,
+#switch_5 {
+    position: relative;
+    width: 120px;
+    height: 50px;
+    text-align: center;
+    background: var(--gradient);
+    transition: all 0.2s ease;
+    border-radius: 25px;
+    box-shadow: var(--shadow);
+}
+
+#switch_1 span,
+#switch_2 span,
+#switch_3 span,
+#switch_4 span,
+#switch_5 span {
+    position: relative;
+    width: 20px;
+    height: 4px;
+    top: 46%;
+    left: 50%;
+    margin: -4px 0px 0px -7px;
+    background: #fff;
+    display: block;
+    transform: rotate(-45deg);
+    transition: all 0.2s ease;
+}
+
+#switch_1 span:after,
+#switch_2 span:after,
+#switch_3 span:after,
+#switch_4 span:after,
+#switch_5 span:after
+{
+    content: "";
+    display: block;
+    position: absolute;
+    width: 4px;
+    height: 12px;
+    margin-top: -8px;
+    background: #fff;
+    transition: all 0.2s ease;
+}
+
+input[type=radio] {
+    display: none;
+}
+
+#switch_1 label,
+#switch_2 label,
+#switch_3 label,
+#switch_4 label,
+#switch_5 label {
+    cursor: pointer;
+    color: rgba(255, 255, 255, 0.4);
+    width: 60px;
+    line-height: 50px;
+    transition: all 0.2s ease;
+    font-weight: bold;
+    font-size: 1.1em;
+}
+
+#switch_1 label[for=yes_1],
+#switch_2 label[for=yes_2],
+#switch_3 label[for=yes_3],
+#switch_4 label[for=yes_4],
+#switch_5 label[for=yes_5] {
+    position: absolute;
+    left: 0px;
+    height: 100%;
+}
+
+#switch_1 label[for=no_1],
+#switch_2 label[for=no_2],
+#switch_3 label[for=no_3],
+#switch_4 label[for=no_4],
+#switch_5 label[for=no_5] {
+    position: absolute;
+    right: 0px;
+}
+
+#no_1:checked~#switch_1,
+#no_2:checked~#switch_2,
+#no_3:checked~#switch_3,
+#no_4:checked~#switch_4,
+#no_5:checked~#switch_5
+{
+    background: white;
+}
+
+#no_1:checked~#switch_1 span,
+#no_2:checked~#switch_2 span,
+#no_3:checked~#switch_3 span,
+#no_4:checked~#switch_4 span,
+#no_5:checked~#switch_5 span
+{
+    background: var(--primary);
+    margin-left: -11px;
+}
+
+#no_1:checked~#switch_1 span:after,
+#no_2:checked~#switch_2 span:after,
+#no_3:checked~#switch_3 span:after,
+#no_4:checked~#switch_4 span:after,
+#no_5:checked~#switch_5 span:after
+{
+    background: var(--primary);
+    height: 20px;
+    margin-top: -8px;
+    margin-left: 8px;
+}
+
+#yes_1:checked~#switch_1 label[for=yes_1],
+#yes_2:checked~#switch_2 label[for=yes_2],
+#yes_3:checked~#switch_3 label[for=yes_3],
+#yes_4:checked~#switch_4 label[for=yes_4],
+#yes_5:checked~#switch_5 label[for=yes_5]
+{
+    font-weight: bold;
+    color: #fff;
+}
+
+#no_1:checked~#switch_1 label[for=no_1],
+#no_2:checked~#switch_2 label[for=no_2],
+#no_3:checked~#switch_3 label[for=no_3],
+#no_4:checked~#switch_4 label[for=no_4],
+#no_5:checked~#switch_5 label[for=no_5]
+{
+    font-weight: bold;
+    color: var(--primary);
+}
+
+#no_1:checked~#switch_1 label[for=yes_1],
+#no_2:checked~#switch_2 label[for=yes_2],
+#no_3:checked~#switch_3 label[for=yes_3],
+#no_4:checked~#switch_4 label[for=yes_4],
+#no_5:checked~#switch_5 label[for=yes_5]
+{
+    font-weight: bold;
+    color: rgba(1, 1, 1, 0.4);
+}
+
+.preferences_assistant .second_container {
+    height: 100%;
+    width: 100%;
+    margin: 0%;
+    padding: 0%;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.second_container .type1 {
+    height: auto;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 0%;
+    margin-bottom: 0%;
+}
+
+.second_container .type2 {
+    height: auto;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 3vh;
+}
+
+.second_container img{
+    width: 16vh;
+    height: 16vh;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 1.2vh;
+    object-position: top right;
+}
+
+.second_container .img_overlay{
+    width: 16vh;
+    height: 16vh;
+    border-radius: 50%;
+    margin-bottom: 1.5vh;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 1));
+}
+
+.tm-link {
+    position: relative;
+    font-size: 20px;
+    line-height: 22px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    color: white;
+    text-transform: uppercase;
+    text-decoration: none;
+    margin: 0 30px;
+    cursor: default;
+    margin-top: 5vh;
+}
+
+.tm-link:after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -5px;
+    width: 0;
+    height: 3px;
+    background-color: white;
+    transition: .3s width linear;
+}
+
+.tm-link.left:after {
+    width: 17px;
+}
+
+.img_overlay:hover > .tm-link:after {
+    width: 100%;
+}
+
+.preferences_assistant h2{
+    font-size: 1.4em;
+    font-weight: 600;
+    color: rgba(1, 1, 1, 0.6);
+    margin: 0;
+    margin-top: 3vh;
 }
