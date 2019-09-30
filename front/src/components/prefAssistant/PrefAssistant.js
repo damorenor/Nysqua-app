@@ -6,44 +6,25 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import StepConnector from '@material-ui/core/StepConnector';
-import { FaFacebookF } from 'react-icons/fa';
+import { FaUserAlt } from 'react-icons/fa';
+import { FaTshirt } from 'react-icons/fa';
+import { FaTags } from 'react-icons/fa';
 import AvatarImageCropper from 'react-avatar-image-cropper';
 import TextField from '@material-ui/core/TextField';
-
-
-    
+import 'react-animated-slider/build/horizontal.css';
 import './PrefAssistant.css';
+import ReactSwipe from 'react-swipe';
+import 'react-animated-slider/build/horizontal.css';
+import Grid from '@material-ui/core/Grid';
 
 class PrefAssistant extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            activeStep: 0
+            activeStep: 0,
+            bio: "",
         };
-
-        this.StyledTextField = withStyles({
-            root: {
-              marginTop: '1.2vh',
-              '& label.Mui-focused': {
-                color: this.primaryColor,
-              },
-              '& .MuiInput-underline:after': {
-                borderBottomColor: this.primaryColor,
-              },
-              '& .MuiOutlinedInput-root': {
-                '& fieldset': {
-                  borderColor: 'rgba(0, 0, 0, 0.3);',
-                },
-                '&:hover fieldset': {
-                  borderColor: 'rgba(0, 0, 0, 0.6);',
-                },
-                '&.Mui-focused fieldset': {
-                  borderColor: this.primaryColor,
-                },
-              },
-            },
-          })(TextField);
 
         this.gradient = 'linear-gradient(136deg, rgb(242, 113, 33) 0%, rgb(233, 64, 87) 50%, rgb(138, 35, 135) 100%)';
         this.primaryColor = '#E94057';
@@ -53,10 +34,15 @@ class PrefAssistant extends Component {
         this.handleBack = this.handleBack.bind(this);
         this.handlReset = this.handleReset.bind(this);
         this.colorlibStepIcon = this.colorlibStepIcon.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+        let reactSwipeEl;
 
         this.colorlibConnector = withStyles({
+            root:{
+                width: '100%',
+            },
             alternativeLabel: {
-                top: 22,
+                top: 26,
             },
             active: {
                 '& $line': {
@@ -69,7 +55,7 @@ class PrefAssistant extends Component {
                 },
             },
             line: {
-                height: 3,
+                height: 5,
                 border: 0,
                 backgroundColor: '#eaeaf0',
                 borderRadius: 1,
@@ -89,6 +75,7 @@ class PrefAssistant extends Component {
                 fontSize: '1.05rem',
                 transitionProperty: 'opacity',
                 transitionDuration: '0.1s',
+                marginRight: '0px !important',
                 '&:hover': {
                     opacity: 0.9,
                 },
@@ -96,42 +83,68 @@ class PrefAssistant extends Component {
                     boxShadow: '0 3px 5px 2px rgba(255, 255, 255, .3)',
                 },
             },
-            label: {
-                textTransform: 'capitalize',
+        })(Button);
+
+        this.BackButton = withStyles({
+            root: {
+                backgroundColor: 'transparent',
+                fontWeight: 'bold',
+                color: this.primaryColor,
+                height: 48,
+                padding: '0',
+                fontSize: '1.05rem',
+                '&:hover': {
+                    backgroundColor: 'transparent',
+                },
+                '&:active': {
+                    backgroundColor: 'transparent',
+                    boxShadow: '0 3px 5px 2px rgba(255, 255, 255, .3)',
+                },
             },
         })(Button);
+        
+        this.StyledTextField = withStyles({
+            root: {
+                '& label.Mui-focused': {
+                    color: this.primaryColor,
+                },
+                '& .MuiInput-underline:after': {
+                    borderBottomColor: this.primaryColor,
+                },
+                '& .MuiOutlinedInput-root': {
+                    '& fieldset': {
+                        borderColor: 'rgba(0, 0, 0, 0.3);',
+                    },
+                    '&:hover fieldset': {
+                        borderColor: 'rgba(0, 0, 0, 0.6);',
+                    },
+                    '&.Mui-focused fieldset': {
+                        borderColor: this.primaryColor,
+                    },
+                },
+            },
+        })(TextField);
     }
 
       
     getSteps() {
-        return ['Select master blaster campaign settings', 'Create an ad group', 'Create an ad'];
-    }
-    
-    getStepContent(stepIndex) {
-        switch (stepIndex) {
-            case 0:
-            return 'Select campaign settings...';
-            case 1:
-            return 'What is an ad group anyways?';
-            case 2:
-            return 'This is the bit I really care about!';
-            default:
-            return 'Uknown stepIndex';
-        }
+        return ['Descripcion', 'Que ropa buscas?', 'Categorias'];
     }
 
     handleNext(){
         this.setState({activeStep: this.state.activeStep + 1});
+        this.reactSwipeEl.next();
     }
 
     handleBack(){
         this.setState({activeStep: this.state.activeStep - 1});
+        this.reactSwipeEl.prev();
     }
 
     handleReset(){
         this.setState({activeStep: 0});
     }
-        
+
     colorlibStepIcon(props) {
         console.log(props);
 
@@ -149,9 +162,15 @@ class PrefAssistant extends Component {
             iconClass = "active";
         }
 
+        const icons = {
+            1: < FaUserAlt /> ,
+            2: < FaTshirt /> ,
+            3: < FaTags /> ,
+        };
+
         return (
             <div className={iconClass}>
-                <FaFacebookF />
+                {icons[String(props.icon)]}
             </div>
         );
     }
@@ -161,54 +180,86 @@ class PrefAssistant extends Component {
         var src = window.URL.createObjectURL(file);
     }
 
+    handleChange(event) {
+        this.setState({
+            bio: event.target.value
+        });
+    }
+
     render(){
         return(
             < div className = "preferences_assistant" >
-                <div style={{ width: '27vh', height: '27vh', margin: 'auto', border: '1px solid black' }}>
-                    <AvatarImageCropper apply={this.apply} />
-                </div>
-                < this.StyledTextField
-                variant="outlined"
-                margin="normal"
-                fullWidth
-                id="email"
-                label="Correo electronico"
-                name="email"
-                autoComplete="email"
-                onChange={this.handleChange}
-              />
-                <Typography>{this.getStepContent(this.state.activeStep)}</Typography>
                 <Stepper alternativeLabel activeStep={this.state.activeStep} connector={<this.colorlibConnector />}>
-                    {this.steps.map(label => (
-                    <Step key={label}>
-                        <StepLabel StepIconComponent={this.colorlibStepIcon}>{label}</StepLabel>
-                    </Step>
-                    ))}
+                        {this.steps.map(label => (
+                        <Step key={label}>
+                            <StepLabel StepIconComponent={this.colorlibStepIcon}>{label}</StepLabel>
+                        </Step>
+                        ))}
                 </Stepper>
-                <div>
-                    {this.state.activeStep === this.steps.length ? (
-                    <div>
-                        <Typography>All steps completed</Typography>
-                        <Button onClick={this.handleReset}>Reset</Button>
+                < div className = "card" >
+                    <div className="content">
+                       <ReactSwipe
+                            className="carousel"
+                            swipeOptions={{ continuous: false }}
+                            ref={el => (this.reactSwipeEl = el)}>
+                            <div className="carousel_content">
+                                <div className="title_container">
+                                    <h1 className="title">1. Informacion extra para tu perfil</h1>
+                                </div>
+                                <Grid container 
+                                    spacing={6}
+                                    direction = "row"
+                                    justify = "center"
+                                    alignItems = "stretch">
+                                    <Grid item xs={6} sm={6} className="column">
+                                        
+                                     //AQUI
+
+                                    </Grid>
+                                    <Grid item xs={6} sm={6} className="column">
+                                        < this.StyledTextField
+                                            variant = "outlined"
+                                            margin = "normal"
+                                            fullWidth
+                                            id = "bio"
+                                            label = "Tu biografia"
+                                            name = "bio"
+                                            autoComplete = "Bio"
+                                            color = {this.primaryColor}
+                                            multiline
+                                            rows = "12"
+                                            rowsMax = "14"
+                                            onChange = {this.handleChange}
+                                        />
+                                    </Grid>
+                                </Grid>
+                            </div>
+                            <div className="carousel_content">
+                                <div className="title_container">
+                                    <h1 className="title">2. Para quien buscas ropa?</h1>
+                                </div>
+                                <h1>2</h1>
+                            </div>
+                            <div className="carousel_content">
+                                <div className="title_container">
+                                    <h1 className="title">3. Que tipo de ropa buscas?</h1>
+                                </div>
+                                <h1>3</h1>
+                            </div>
+                        </ReactSwipe>
                     </div>
-                    ) : (
-                    <div>
-                        <div>
-                        <Button
+                    < div className = "buttons_container" >
+                        < this.BackButton disableRipple = {true}
                             disabled={this.state.activeStep === 0}
-                            onClick={this.handleBack}   
-                        >
+                            onClick={this.handleBack}>
                             Back
-                        </Button>
+                        </this.BackButton>
                         <this.StyledButton onClick={this.handleNext}>
                             {this.state.activeStep === this.steps.length - 1 ? 'Finish' : 'Next'}
                         </this.StyledButton>
-                        </div>
                     </div>
-                    )}
                 </div>
             </div>
-
         );
     }
 

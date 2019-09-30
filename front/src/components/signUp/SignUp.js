@@ -34,14 +34,14 @@ class SignUp extends Component {
     super(props);
 
     this.state = {
-			email: '',
-			username: '',
-			showPassword: false,
-			showConfirmPassword: false,
-			password: '',
-			confirmPassword: '',
-      birthdate: new Date('2018-08-18T21:11:54'),
-      gender: '',
+		email: '',
+		username: '',
+		showPassword: false,
+		showConfirmPassword: false,
+		password: '',
+		confirmPassword: '',
+		birthdate: new Date('2018-08-18T21:11:54'),
+		gender: '',
 	};
 	
 	this.gradient = 'linear-gradient(136deg, rgb(242, 113, 33) 0%, rgb(233, 64, 87) 50%, rgb(138, 35, 135) 100%)';
