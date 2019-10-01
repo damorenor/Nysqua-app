@@ -25,13 +25,26 @@ class PrefAssistant extends Component {
             activeStep: 0,
             bio: "",
             file: null,
-            profilephoto: "https://media.biobiochile.cl/wp-content/uploads/2019/03/pikachu-750x400.jpg",
+            profilephoto: "https://www.rogowaylaw.com/wp-content/uploads/Blank-Employee.jpg",
             checked1: false,
             checked2: false,
             checked3: false,
             checked4: false,
             checked5: false,
-            subcategories:[{name:"test1",checked:false},{name:"test2",checked:false},{name:"test3",checked:false},{name:"test4",checked:false}]
+            subcategories:[ {name:"Camisas",checked:false},
+                            {name:"Camisetas",checked:false},
+                            {name:"Pantalones",checked:false},
+                            {name:"Sweaters y Cardigans",checked:false},
+                            {name:"Bermudas",checked:false},
+                            {name:"Chaquetas y Blazers",checked:false},
+                            {name:"Zapatos",checked:false},
+                            {name:"Buzos",checked:false},
+                            {name:"Jeans",checked:false},
+                            {name:"Accesorios",checked:false},
+                            {name:"Pijamas",checked:false},
+                            {name:"Blusas",checked:false},
+                            {name:"Shorts",checked:false},
+                            {name:"Vestidos y Faldas",checked:false},]
         };
 
         this.gradient = 'linear-gradient(136deg, rgb(242, 113, 33) 0%, rgb(233, 64, 87) 50%, rgb(138, 35, 135) 100%)';
@@ -46,7 +59,6 @@ class PrefAssistant extends Component {
         this.colorlibStepIcon = this.colorlibStepIcon.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleCheckChange = this.handleCheckChange.bind(this);
-        this.handleCheckChangeSub = this.handleCheckChangeSub.bind(this);
         
         let reactSwipeEl;
 
@@ -239,19 +251,19 @@ class PrefAssistant extends Component {
             [changedProp]: !this.state[changedProp]
         });
     }
-    handleCheckChangeSub(event) {
-        
-        /* recorrer arrego hasta que el id sea el mismo */
-        for (var i = 0; i < this.state.subcategories.length; i++) {
-            if(this.state.subcategories[i].name==event.currentTarget.value.toString()){
-                this.state.subcategories[i].checked = !this.state.subcategories[i].checked;
-            }
-          };
 
-
-    }
 
     render(){
+        
+        const handleCheckChangeSub = (event) => {
+            console.log("llego");
+            for (var i = 0; i < this.state.subcategories.length; i++) {
+                if(this.state.subcategories[i].name==event.currentTarget.value.toString()){
+                    this.state.subcategories[i].checked = !this.state.subcategories[i].checked;
+                    console.log(this.state.subcategories[i].checked);   
+                }
+              };
+        };
         
         const listItems = this.state.subcategories.map(function(d){
             var idstr = "checkbox" + d.name;
@@ -259,14 +271,13 @@ class PrefAssistant extends Component {
             return  <ul className="ks-cboxtags"> 
                         <li>
                             <input type="checkbox" id={idstr}
-                                value={d.name} 
-                                checked={d.checked}  
-                                /* onChange={this.handleCheckChangeSub} */
+                                value = {d.name} 
+                                onChange = {handleCheckChangeSub} 
                              />
-                            <label for={idstr}>{d.name}</label> 
+                            <label htmlFor={idstr}>{d.name}</label> 
                         </li>   
                     </ul>
-        })
+        });
 /*         axios.get('http://localhost:3001/users/me', {
 									Autorization: ''
 								
@@ -283,7 +294,7 @@ class PrefAssistant extends Component {
                         {this.steps.map(label => (
                         <Step key={label}>
                             <StepLabel StepIconComponent={this.colorlibStepIcon}>{label}</StepLabel>
-                        </Step>
+                        </Step> 
                         ))}
                 </Stepper>
                 < div className = "card" >
@@ -294,7 +305,7 @@ class PrefAssistant extends Component {
                             ref={el => (this.reactSwipeEl = el)}>
                             <div className="carousel_content">
                                 <div className="title_container">
-                                    <h1 className="title">1. Informacion extra para tu perfil</h1>
+                                    <h1 className="title"> Cuentanos un poco sobre ti</h1>
                                 </div>
                                 <Grid container 
                                     spacing={0}
@@ -317,7 +328,7 @@ class PrefAssistant extends Component {
 
                                     </Grid>
                                     <Grid item xs={6} sm={12} fullWidth>
-                                        <h2>Cuentanos un poco sobre ti</h2>
+                                        <h2>Agrega una breve descripcion para quienes verán tu perfil</h2>
                                     </Grid>
                                     <Grid item xs={6} sm={12} fullWidth>
                                         < this.StyledTextField
@@ -339,7 +350,7 @@ class PrefAssistant extends Component {
                             </div>
                             <div className="carousel_content">
                                 <div className="title_container">
-                                    <h1 className="title">2. Para quien buscas ropa?</h1>
+                                    <h1 className="title"> ¿Qué ropa estas buscando?</h1>
                                 </div>
                                 <div className="second_container">
                                     <Grid container 
@@ -351,7 +362,7 @@ class PrefAssistant extends Component {
                                             <div className="type1">
                                                 <div>
                                                     <div className="img_overlay">
-                                                        <a class="tm-link left">Hombre</a>
+                                                        <a className="tm-link left">Hombre</a>
                                                     </div>
                                                     <img 
                                                         src="http://assets.myntassets.com/assets/images/1862801/2018/2/9/11518155061506-Roadster-Men-Maroon--Navy-Blue-Regular-Fit-Checked-Casual-Shirt-8861518155061131-1.jpg">
@@ -378,7 +389,7 @@ class PrefAssistant extends Component {
                                             <div className="type1">
                                                 <div>
                                                     <div className="img_overlay">
-                                                        <a class="tm-link left">Mujer</a>
+                                                        <a className="tm-link left">Mujer</a>
                                                     </div>
                                                     <img
                                                         src="http://image27.choichic.com/o_img/2018/03/04/252822-10530412/women-s-fashion-front-zip-mesh-jacket.jpg">    
@@ -405,7 +416,7 @@ class PrefAssistant extends Component {
                                             <div className="type1">
                                                 <div>
                                                     <div className="img_overlay">
-                                                        <a class="tm-link left">Niño</a>
+                                                        <a className="tm-link left">Niño</a>
                                                     </div>
                                                     <img
                                                         src="https://imagena1.lacoste.com/dw/image/v2/AAUP_PRD/on/demandware.static/-/Sites-master/default/dw26b0e681/AJ8064_W9D_20.jpg">    
@@ -432,7 +443,7 @@ class PrefAssistant extends Component {
                                             <div className="type2">
                                                 <div>
                                                     <div className="img_overlay">
-                                                        <a class="tm-link left">Niña</a>
+                                                        <a className="tm-link left">Niña</a>
                                                     </div>
                                                     <img
                                                         src="https://cdn.shopify.com/s/files/1/1017/0329/products/isla-dress-ghosty-raspberry-socks-websized_2000x.jpg?v=1567646051">    
@@ -459,7 +470,7 @@ class PrefAssistant extends Component {
                                             <div className="type2">
                                                 <div>
                                                     <div className="img_overlay">
-                                                        <a class="tm-link left">Bebes</a>
+                                                        <a className="tm-link left">Bebes</a>
                                                     </div>
                                                     <img
                                                         src="http://www.babyfashions.us/wp-content/uploads/2018/09/Baby-Fashion-Buying-the-Trendiest-Infant-Clothes.jpeg">    
@@ -487,7 +498,7 @@ class PrefAssistant extends Component {
                             </div>
                             <div className="carousel_content">
                                 <div className="title_container">
-                                    <h1 className="title">3. Que categorias te interesan?</h1>
+                                    <h1 className="title">¿Te interesa algo en especifico?</h1>
                                 </div>
                                 <div className="subcategories_container">
                                     {listItems}

@@ -227,7 +227,7 @@ class SignIn extends Component {
               <ThemeProvider theme={this.theme}>
                 <FormControlLabel
                   control={<Checkbox value="remember" color="primary" />}
-                  label="Remember me"
+                  label="Recuerdame"
                 />
               </ThemeProvider>
 
