@@ -21,7 +21,6 @@ import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
-import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import axios from 'axios';
@@ -363,24 +362,22 @@ class SignUp extends Component {
 						</ThemeProvider>
 						
             <this.StyledButton onClick={() => {
-								/*
-								axios.post('http://localhost:3000/signUp', {
-									userId: this.state.email,
-									pass: this.state.password,
+								
+								axios.post('http://localhost:3001/users', {
+									email: this.state.email,
+									password: this.state.password,
+									username: this.state.username,
+									birthDate: this.state.birthdate,
+									gender:this.state.gender,
+								
 								}).then((response) => {
 									//añadir logica
 									console.log(response.data);
 									}, (error) => {
 									console.log(error);
 								});
-								*/
-								console.log(this.state.email);
-								console.log(this.state.username);
-								console.log(this.state.password);
-								console.log(this.state.confirmPassword);
-								console.log(this.state.birthdate);
-								console.log(this.state.gender);
 							}}
+							href="/PrefAssistant" 
 							fullWidth
 							focusRipple
 							variant="contained"

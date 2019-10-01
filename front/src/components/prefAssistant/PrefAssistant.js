@@ -26,12 +26,12 @@ class PrefAssistant extends Component {
             bio: "",
             file: null,
             profilephoto: "https://media.biobiochile.cl/wp-content/uploads/2019/03/pikachu-750x400.jpg",
-            checked1: true,
-            checked2: true,
-            checked3: true,
-            checked4: true,
-            checked5: true,
-            subcategories:[{name:"test1",checked:true},{name:"test2",checked:false},{name:"test3",checked:false},{name:"test4",checked:false}]
+            checked1: false,
+            checked2: false,
+            checked3: false,
+            checked4: false,
+            checked5: false,
+            subcategories:[{name:"test1",checked:false},{name:"test2",checked:false},{name:"test3",checked:false},{name:"test4",checked:false}]
         };
 
         this.gradient = 'linear-gradient(136deg, rgb(242, 113, 33) 0%, rgb(233, 64, 87) 50%, rgb(138, 35, 135) 100%)';
@@ -46,6 +46,8 @@ class PrefAssistant extends Component {
         this.colorlibStepIcon = this.colorlibStepIcon.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleCheckChange = this.handleCheckChange.bind(this);
+        this.handleCheckChangeSub = this.handleCheckChangeSub.bind(this);
+        
         let reactSwipeEl;
 
         this.colorlibConnector = withStyles({
@@ -136,6 +138,7 @@ class PrefAssistant extends Component {
             },
         })(TextField);
     }
+    
 
     onFormSubmit(event){
         event.preventDefault();
@@ -237,12 +240,15 @@ class PrefAssistant extends Component {
         });
     }
     handleCheckChangeSub(event) {
-
+        
         /* recorrer arrego hasta que el id sea el mismo */
-        var changedProp = "checked" + event.currentTarget.value.toString();
-        this.setState({
-            [changedProp]: !this.state[changedProp]
-        });
+        for (var i = 0; i < this.state.subcategories.length; i++) {
+            if(this.state.subcategories[i].name==event.currentTarget.value.toString()){
+                this.state.subcategories[i].checked = !this.state.subcategories[i].checked;
+            }
+          };
+
+
     }
 
     render(){
@@ -253,17 +259,23 @@ class PrefAssistant extends Component {
             return  <ul className="ks-cboxtags"> 
                         <li>
                             <input type="checkbox" id={idstr}
-                                 value={d.name} 
-                              /* checked={d.checked}  */
-                              
+                                value={d.name} 
+                                checked={d.checked}  
+                                /* onChange={this.handleCheckChangeSub} */
                              />
                             <label for={idstr}>{d.name}</label> 
                         </li>   
                     </ul>
-            
         })
-        
-        
+/*         axios.get('http://localhost:3001/users/me', {
+									Autorization: ''
+								
+								}).then((response) => {
+									//añadir logica
+									console.log(response.data);
+									}, (error) => {
+									console.log(error);
+								}); */
         
         return(
             < div className = "preferences_assistant" >

@@ -232,18 +232,19 @@ class SignIn extends Component {
               </ThemeProvider>
 
               < this.StyledButton onClick={() => {
-                axios.get('http://localhost:3000/signIn', {
-                  userId: this.state.email,
-                  pass: this.state.password,
+                axios.post('http://localhost:3001/users/login', {
+                  email: this.state.email,
+                  password: this.state.password,
                 })
                   .then((response) => {
                     //añadir logica
-                    console.log(response.data);
+                    console.log(response.data.token);
                   }, (error) => {
                     console.log(error);
                   });
 
               }}
+               href="/PrefAssistant"  
                 fullWidth
                 focusRipple
                 variant="contained"

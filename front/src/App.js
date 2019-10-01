@@ -10,9 +10,10 @@ function App() {
     <div className="App">
       <Route render={({location}) => (
         <Switch location={location}>
-          <Route exact path="/" component={PrefAssistant} />
+          <Route exact path="/" component={SignUpPage} /> 
           <Route exact path="/SignIn" component={SingInPage}/>
           <Route exact path="/SignUp" component={SignUpPage}/>
+          <Route exact path="/PrefAssistant" component={PrefAssistant}/>
         </Switch>
       )}>
       </Route>
