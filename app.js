@@ -7,8 +7,8 @@ var passportManager = require( './config/passport');
 var config = require ('./config/db');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/user.route');
-var singInRouter = require('./routes/singInRouter');
-var singUpRouter = require('./routes/singUpRouter');
+var signInRouter = require('./routes/signInRouter');
+var signUpRouter = require('./routes/signUpRouter');
 
 var mongoose = require('mongoose');
 
@@ -35,7 +35,7 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'front/build')));
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);

@@ -4,10 +4,10 @@ var mongoose = require('mongoose');
 var cors = require('./cors');
 var Users = require('../models/users');
 
-var singInRouter = express.Router();
+var signInRouter = express.Router();
 
-singInRouter.use(bodyParser.json());
-singInRouter.route('/')
+signInRouter.use(bodyParser.json());
+signInRouter.route('/')
     .options(cors.corsWithOptions, (req, res) => { res.sendStatus(200); })
     .get(cors.cors, (req, res, next) => {
         res.statusCode = 200;
@@ -31,4 +31,4 @@ singInRouter.route('/')
         res.end('DELETE operation not support');
     });
 
-module.exports = singInRouter;
+module.exports = signInRouter;
