@@ -1,20 +1,23 @@
 const authenticate = require("../middleware/auth");
 const express     = require('express');
-const router      =  new express.Router()
-const User        = require('../models/users')
-const {ObjectID}  = require('mongodb')
+const router      =  new express.Router();
+const User        = require('../models/users');
+const {ObjectID}  = require('mongodb');
+var cors = require('./cors');
 
 
 
-router.post('/', async (req,res) => {
+router.post('/', async (req, res) => {
   //find an existing user
   let user = await User.findOne({ email: req.body.email });
   if (user) return res.status(400).send("User already registered.");
 
   user = new User({
-    name: req.body.name,
+    username: req.body.username,
     password: req.body.password,
-    email: req.body.email
+    email: req.body.email,
+    birthDate: req.body.birthdate,
+    gender: req.body.gender
   });
   try{
       const token = await user.newAuthToken()
@@ -26,9 +29,8 @@ router.post('/', async (req,res) => {
 
 router.post('/login', async (req, res) => {
   try {
-      const user  = await User.checkValidCredentials(req.body.email, req.body.password)
+      const user = await User.checkValidCredentials(req.body.email, req.body.password)
       const token = await user.newAuthToken()
-      console.log("Hola")
       res.send({ user, token})
   } catch (error) {
       res.status(400).send()        
