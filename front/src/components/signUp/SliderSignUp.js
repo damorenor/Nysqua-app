@@ -1,7 +1,5 @@
 import React, { Component } from "react";
-
 import Slider from 'react-animated-slider';
-import verticalCss from  'react-animated-slider/build/vertical.css';
 import './SignUp.css';
 
 class SliderSignUp extends Component {
@@ -42,7 +40,7 @@ class SliderSignUp extends Component {
     render(){
   
         return(
-          <Slider classNames={verticalCss}  direction="vertical" autoplay={2000}>
+          <Slider autoplay={2000}>
             {this.content.map((article, index) => <div key={index}>
               <img src= {article.image}/>
               <h2>{article.title}</h2>

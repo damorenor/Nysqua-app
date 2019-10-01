@@ -5,10 +5,10 @@ var mongoose = require('mongoose');
 
 var Users = require('../models/users');
 
-var singUpRouter = express.Router();
+var signUpRouter = express.Router();
 
-singUpRouter.use(bodyParser.json());
-singUpRouter.route('/')
+signUpRouter.use(bodyParser.json());
+signUpRouter.route('/')
     .options(cors.corsWithOptions, (req, res) => { res.sendStatus(200); })
     .get(cors.cors, (req, res, next) => {
         res.end('Welcome, add new User');
@@ -31,4 +31,4 @@ singUpRouter.route('/')
         res.end('DELETE operation not support');
     });
 
-module.exports = singUpRouter;
+module.exports = signUpRouter;

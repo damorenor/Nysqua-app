@@ -21,7 +21,6 @@ import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
-import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import axios from 'axios';
@@ -34,15 +33,18 @@ class SignUp extends Component {
     super(props);
 
     this.state = {
-			email: '',
-			username: '',
-			showPassword: false,
-			showConfirmPassword: false,
-			password: '',
-			confirmPassword: '',
-      birthdate: new Date('2018-08-18T21:11:54'),
-      gender: '',
-    };
+		email: '',
+		username: '',
+		showPassword: false,
+		showConfirmPassword: false,
+		password: '',
+		confirmPassword: '',
+		birthdate: new Date('2018-08-18T21:11:54'),
+		gender: '',
+	};
+	
+	this.gradient = 'linear-gradient(136deg, rgb(242, 113, 33) 0%, rgb(233, 64, 87) 50%, rgb(138, 35, 135) 100%)';
+	this.primaryColor = '#E94057';
 
     this.handleChange = this.handleChange.bind(this);
 		this.handleGenderChange = this.handleGenderChange.bind(this);
@@ -64,7 +66,7 @@ class SignUp extends Component {
     this.theme = createMuiTheme({
       palette: {
         primary: {
-					main: '#FE6B8B',
+					main: this.primaryColor,
 					contrastText: '#FFF',
 				},
       },
@@ -75,10 +77,10 @@ class SignUp extends Component {
       root: {
         marginTop: '1.2vh',
         '& label.Mui-focused': {
-          color: '#FE6B8B',
+          color: this.primaryColor,
         },
         '& .MuiInput-underline:after': {
-          borderBottomColor: '#FE6B8B',
+          borderBottomColor: this.primaryColor,
         },
         '& .MuiOutlinedInput-root': {
           '& fieldset': {
@@ -88,7 +90,7 @@ class SignUp extends Component {
             borderColor: 'rgba(0, 0, 0, 0.6);',
           },
           '&.Mui-focused fieldset': {
-            borderColor: '#FE6B8B',
+            borderColor: this.primaryColor,
           },
         },
       },
@@ -96,7 +98,7 @@ class SignUp extends Component {
 
     this.StyledButton = withStyles({
       root: {
-        backgroundImage: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
+        backgroundImage: this.gradient,
         borderRadius: 3,
         border: 0,
         color: 'white',
@@ -127,13 +129,13 @@ class SignUp extends Component {
         color: 'rgba(0, 0, 0, 0.5)',
         backgroundColor: 'white',
         boxShadow: '0 3px 5px 2px rgba(255, 255, 255, .3)',
-        padding: '15px 15px',
+        padding: '16px 15px',
         fontSize: '0.95rem',
         transitionProperty: 'color, border',
         transitionDuration: '0.2s, 0.2s',
         '&:hover': {
-          color: '#FE6B8B',
-          border: '1px solid #FE6B8B',
+          color: this.primaryColor,
+          border: '1px solid #E94057',
           backgroundColor: 'white',
         },
         '&:active': {
@@ -360,24 +362,22 @@ class SignUp extends Component {
 						</ThemeProvider>
 						
             <this.StyledButton onClick={() => {
-								/*
-								axios.post('http://localhost:3000/signUp', {
-									userId: this.state.email,
-									pass: this.state.password,
+								
+								axios.post('http://localhost:3001/users', {
+									email: this.state.email,
+									password: this.state.password,
+									username: this.state.username,
+									birthDate: this.state.birthdate,
+									gender:this.state.gender,
+								
 								}).then((response) => {
 									//añadir logica
 									console.log(response.data);
 									}, (error) => {
 									console.log(error);
 								});
-								*/
-								console.log(this.state.email);
-								console.log(this.state.username);
-								console.log(this.state.password);
-								console.log(this.state.confirmPassword);
-								console.log(this.state.birthdate);
-								console.log(this.state.gender);
 							}}
+							href="/PrefAssistant" 
 							fullWidth
 							focusRipple
 							variant="contained"
@@ -391,7 +391,7 @@ class SignUp extends Component {
         <Box mt={5}>
           < div className="login_link" >
             <p className="login_text">
-              Ya tienes una cuenta? <a href="/SignIn" > Inicia sesion </a>
+              ¿Ya tienes una cuenta? <a href="/SignIn" > Inicia sesion </a>
             </p>
           </div>
         </Box>
