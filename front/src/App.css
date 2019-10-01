@@ -1,0 +1,92 @@
+:root {
+  --background_color:#FAFAFA;
+  --gradient: linear-gradient(136deg, rgb(242, 113, 33) 0%, rgb(233, 64, 87) 50%, rgb(138, 35, 135) 100%);
+  --primary: #E94057;
+  --shadow: 0 3px 6px rgba(0, 0, 0, 0.16),
+  0 3px 6px rgba(0, 0, 0, 0.23);
+}
+body{
+   background-color: var(--background_color);
+   overflow: hidden; 
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+}
+.App {
+  background-color: var(--background_color);
+  min-width: 70vw;
+  max-width: 70vw;
+  width: 70vw;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  overflow:hidden;
+}
+
+.slider_container{
+  background-color: var(--background_color);
+  width: 100%;
+  margin-top: 4vh;
+  margin-bottom: 4vh;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+}
+
+.cards_container{
+  background-color: var(--background_color);
+  width: 100%;
+  margin-top: 4vh;
+  margin-bottom: 4vh;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  justify-content: center;
+}
+
+.card{
+  background-color: white;
+  display: flex;
+  flex: 1;
+  flex-wrap: wrap;  
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-right: 2vw;
+  padding-left: 2vw;
+  padding-bottom: 2vh;  
+  padding-top: 2vh;
+  height: auto;
+  border-radius: 0.5vw;
+  box-shadow: var(--shadow);
+}
+
+.logo_Card {
+  background: var(--gradient);
+  display: flex;
+  height: 100%;
+  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-right: 2vw;
+  padding-left: 2vw;
+  padding-bottom: 2vh;
+  padding-top: 2vh;
+  border-radius: 0.5vw;
+  text-align: center;
+  box-shadow: var(--shadow);
+}
+
+
+.logo_Card h1 {
+  font-size: 2.5rem;
+  color: white;
+  width: 50%;
+}
+

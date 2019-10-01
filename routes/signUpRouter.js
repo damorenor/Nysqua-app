@@ -1,6 +1,6 @@
 var express = require('express');
 var bodyParser = require('body-parser');
-
+var cors = require('./cors');
 var mongoose = require('mongoose');
 
 var Users = require('../models/users');
@@ -9,11 +9,12 @@ var singUpRouter = express.Router();
 
 singUpRouter.use(bodyParser.json());
 singUpRouter.route('/')
-    .get((req, res, next) => {
+    .options(cors.corsWithOptions, (req, res) => { res.sendStatus(200); })
+    .get(cors.cors, (req, res, next) => {
         res.end('Welcome, add new User');
         res.statusCode = 200;
         res.setHeader('Content-type', 'application/json');
-    }).post((req, res, next) => {
+    }).post(cors.cors, (req, res, next) => {
         Users.create(req.body)
             .then((user) => {
                 console.log('User Created', user);
@@ -22,17 +23,10 @@ singUpRouter.route('/')
                 res.json(user);
             }, (err) => next(err))
             .catch((err) => next(err));
-        /*res.statusCode = 403;
-        res.end('Adding user with\nMail: ' + req.body.email +
-            '\nPassword: ' + req.body.password + '\\nUsername: ' +
-            req.body.username + '\nBirthDate: ' + req.body.birthdate +
-            '\nGender: ' + req.body.gender +
-            '\nbiography: ' + req.body.biography
-        );*/
-    }).put((req, res, next) => {
+    }).put(cors.cors, (req, res, next) => {
         res.statusCode = 403;
         res.end('PUT operation not support');
-    }).delete((req, res, next) => {
+    }).delete(cors.cors, (req, res, next) => {
         res.statusCode = 403;
         res.end('DELETE operation not support');
     });
