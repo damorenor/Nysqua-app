@@ -40,13 +40,16 @@ class SliderSignUp extends Component {
     render(){
   
         return(
-          <Slider autoplay={2000}>
-            {this.content.map((article, index) => <div key={index}>
-              <img src= {article.image}/>
-              <h2>{article.title}</h2>
-              <div>{article.description}</div>
-            </div>)}
-          </Slider>
+          < div className = "slider_container" >
+            <div className="slider_overlay"></div>
+            <Slider autoplay={2000}>
+              {this.content.map((article, index) => <div key={index}>
+                <img src= {article.image}/>
+                <h2>{article.title}</h2>
+                <div>{article.description}</div>
+              </div>)}
+            </Slider>
+          </div>
         );
     };
 };

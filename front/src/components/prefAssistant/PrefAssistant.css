@@ -499,7 +499,7 @@ ul.ks-cboxtags li label:hover {
 }
 
 ul.ks-cboxtags li label:before {
-    display: inline-block;
+    display: none;
     font-style: normal;
     font-variant: normal;
     text-rendering: auto;
@@ -533,5 +533,10 @@ ul.ks-cboxtags li input[type="checkbox"] {
 ul.ks-cboxtags li input[type="checkbox"] {
   position: absolute;
   opacity: 0;
+}
+
+.MuiTypography-body2{
+    font-family: 'Product Sans' !important;
+    font-size: 0.95em !important;
 }
 
