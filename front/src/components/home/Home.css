@@ -1,0 +1,44 @@
+.home_container {
+    width: 100%;
+    max-width: 100%;
+    min-width: 100%;
+    height: 100%;
+    flex-direction: column;
+    align-items: center !important;
+    justify-content: flex-start;
+}
+
+.home{
+    min-width: 70vw;
+    max-width: 70vw;
+    width: 70vw;
+    margin-left: 15vw !important;
+    margin-right: 15vw !important;
+    margin-top: 4vh !important;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+}
+
+.divider-1 {
+    border-bottom: 1px solid #FFF;
+    background-color: #DADADA;
+    width: 100%;
+    height: 1.5px;
+    margin: 0px 0px 1.5em 0px;
+}
+
+.divider-1 span {
+    display: block;
+    width: 50px;
+    height: 1.5px;
+    background-color: #2196F3;
+}
+.carouselcontainer{
+    width: 100%;
+    height: 30vh;
+    border-radius: 0.5vw;
+}

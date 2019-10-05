@@ -142,55 +142,55 @@ class SignIn extends Component {
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <div className="paper">
-          <div className="internal_paper_in">
+        <div className="internal_paper_in">
 
             <div className="title">
-              <h1>Inicia sesion con</h1>
+            <h1>Inicia sesion con</h1>
             </div>
 
 
             <div className="social_icons">
-              <ThemeProvider theme={this.theme}>
+            <ThemeProvider theme={this.theme}>
                 < Grid container>
-                  < Grid item xs={12} sm={6}>
+                < Grid item xs={12} sm={6}>
                     < div className="social_media_btn" >
-                      < this.SocialMedia
+                    < this.SocialMedia
                         type="submit"
                         variant="contained"
                         size="medium"
                         text="bold" >
                         <IconContext.Provider value={{ size: "1.9em", className: 'react-icons' }}>
-                          <div>
+                        <div>
                             <FaFacebookF />
-                          </div>
+                        </div>
                         </IconContext.Provider>
-                      </this.SocialMedia>
+                    </this.SocialMedia>
                     </div>
-                  </Grid>
-                  <Grid item xs={12} sm={6}>
+                </Grid>
+                <Grid item xs={12} sm={6}>
                     < div className="social_media_btn" >
-                      < this.SocialMedia
+                    < this.SocialMedia
                         type="submit"
                         variant="contained"
                         size="medium"
                         text="bold" >
                         <IconContext.Provider value={{ size: "1.9em ", className: 'react-icons' }}>
-                          <div>
+                        <div>
                             <FaGoogle />
-                          </div>
+                        </div>
                         </IconContext.Provider>
-                      </this.SocialMedia>
+                    </this.SocialMedia>
                     </div>
-                  </Grid>
                 </Grid>
-              </ThemeProvider>
+                </Grid>
+            </ThemeProvider>
             </div>
 
             <div id="or">O</div>
 
             <form className="form" noValidate>
 
-              < this.StyledTextField
+            < this.StyledTextField
                 variant="outlined"
                 margin="normal"
                 fullWidth
@@ -199,9 +199,9 @@ class SignIn extends Component {
                 name="email"
                 autoComplete="email"
                 onChange={this.handleChange}
-              />
+            />
 
-              < this.StyledTextField
+            < this.StyledTextField
                 variant="outlined"
                 margin="normal"
                 fullWidth
@@ -213,64 +213,64 @@ class SignIn extends Component {
                 //value={this.state.password}
                 onChange={this.handleChange}
                 InputProps={{
-                  endAdornment: (
+                endAdornment: (
                     <InputAdornment position="end">
-                      <IconButton
+                    <IconButton
                     
                         aria-label="toggle password visibility"
                         onClick={this.handleClickShowPassword}
                         onMouseDown={this.handleMouseDownPassword}>
                         {(this.state.showPassword) ? (<VisibilityOff />) : (<Visibility />)}
-                      </IconButton>
+                    </IconButton>
                     </InputAdornment>
-                  ),
+                ),
                 }}
-              />
+            />
 
-              <ThemeProvider theme={this.theme}>
+            <ThemeProvider theme={this.theme}>
                 <FormControlLabel
-                  control={<Checkbox value="remember" color="primary" />}
-                  label="Recuerdame"
+                control={<Checkbox value="remember" color="primary" />}
+                label="Recuerdame"
                 />
-              </ThemeProvider>
+            </ThemeProvider>
 
-              < this.StyledButton onClick={() => {
+            < this.StyledButton onClick={() => {
                 axios.post('http://localhost:3001/users/login', {
-                  email: this.state.email,
-                  password: this.state.password,
+                email: this.state.email,
+                password: this.state.password,
                 })
-                  .then((response) => {
+                .then((response) => {
                     //añadir logica
                     console.log(response.data.token);
-                  }, (error) => {
+                }, (error) => {
                     console.log(error);
-                  });
+                });
 
-              }}
-               href="/PrefAssistant"  
+            }}
+            href="/PrefAssistant"  
                 fullWidth
                 focusRipple
                 variant="contained"
                 size="medium"
                 text="bold"
-              > Inicia sesion </this.StyledButton>
+            > Inicia sesion </this.StyledButton>
 
-              <div className="login_link">
+            <div className="login_link">
                 < a href="#"> Olvidaste tu contraseña? </a>
-              </div>
+            </div>
 
             </form>
-          </div>
+        </div>
         </div>
 
         <Box mt={5}>
-          < div className="login_link" >
-            <p className="login_text">
-              No tienes una cuenta? <a href="/SignUp" > Registrate </a>
+        < div className="login_link" >
+            <p>
+                No tienes una cuenta?  <a href="/SignUp" > Registrate </a>
             </p>
-          </div>
+        </div>
         </Box>
-      </Container>
+    </Container>
     );
   }
 }

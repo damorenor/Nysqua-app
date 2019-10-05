@@ -6,21 +6,10 @@ import SingIn from './components/signIn/SignIn.js';
 
 function SingInPage() {
     return (
-        <div className="App" >
-        <div className="slider_container">
-          <Grid container 
-            spacing={4}
-            direction = "row"
-            justify = "center"
-            alignItems = "stretch"
-            wrap = "nowrap" >
-            <Grid item sm={5}>
-                <div class= "card">
+        <div className="sign_in" >
+          <div class= "card">
                 <SingIn/>
-                </div>
-            </Grid>
-          </Grid>
-        </div>
+          </div>
       </div>
 
 

@@ -182,222 +182,222 @@ class SignUp extends Component {
 
   render() {
     return (
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <div className="paper">
-          <div className="internal_paper">
+		<Container component="main" maxWidth="xs">
+			<CssBaseline />
+			<div className="paper">
+			<div className="internal_paper">
 
-            <div className="title">
-              <h1>Registrate con</h1>
-            </div>
+				<div className="title">
+				<h1>Registrate con</h1>
+				</div>
 
 
-            <div className="social_icons">
-              <ThemeProvider theme={this.theme}>
-                < Grid container>
-                  < Grid item xs={12} sm={6}>
-                    < div className="social_media_btn" >
-                      < this.SocialMedia
-                        type="submit"
-                        variant="contained"
-                        size="medium"
-                        text="bold" >
-                        <IconContext.Provider value={{ size: "1.9em", className: 'react-icons' }}>
-                          <div>
-                            <FaFacebookF />
-                          </div>
-                        </IconContext.Provider>
-                      </this.SocialMedia>
-                    </div>
-                  </Grid>
-                  <Grid item xs={12} sm={6}>
-                    < div className="social_media_btn" >
-                      < this.SocialMedia
-                        type="submit"
-                        variant="contained"
-                        size="medium"
-                        text="bold" >
-                        <IconContext.Provider value={{ size: "1.9em ", className: 'react-icons' }}>
-                          <div>
-                            <FaGoogle />
-                          </div>
-                        </IconContext.Provider>
-                      </this.SocialMedia>
-                    </div>
-                  </Grid>
-                </Grid>
-              </ThemeProvider>
-            </div>
-
-            <div id="or">O</div>
-
-            <form className="form" noValidate>
-
-            < this.StyledTextField
-							variant="outlined"
-							margin="normal"
-							fullWidth
-							id="email"
-							label="Correo electronico"
-							name="email"
-							autoComplete="email"
-							onChange={this.handleChange}
-            />
-            
-            < this.StyledTextField
-							variant="outlined"
-							margin="normal"
-							fullWidth
-							id = "username"
-							label="Nombre de Usuario"
-							name = "username"
-							autoComplete = "username"
-							onChange={this.handleChange}
-            />
-
-						< this.StyledTextField
-							variant="outlined"
-							margin="normal"
-							fullWidth
-							name="password"
-							label="Contraseña"
-							id="password"
-							autoComplete="current-password"
-							type={this.state.showPassword ? 'text' : 'password'}
-							value={this.state.password}
-							onChange={this.handleChange}
-							InputProps={{
-									endAdornment: (
-									<InputAdornment position="end">
-											<IconButton
-												aria-label="toggle password visibility"
-												onClick={this.handleClickShowPassword}
-												onMouseDown={this.handleMouseDownPassword}>
-												{(this.state.showPassword) ? (<VisibilityOff />) : (<Visibility />)}
-											</IconButton>
-									</InputAdornment>
-									),
-							}}
-						/>
-
-						< this.StyledTextField
-							variant="outlined"
-							margin="normal"
-							fullWidth
-							name = "confirmPassword"
-							label="Confirmar contraseña"
-							id = "confirmPassword"
-							autoComplete = "confirm password"
-							type={this.state.showConfirmPassword ? 'text' : 'password'}
-							value={this.state.confirmPassword}
-							onChange={this.handleChange}
-							InputProps={{
-									endAdornment: (
-									<InputAdornment position="end">
-											<IconButton
-												aria-label="toggle password visibility"
-												onClick={this.handleClickShowConfirmPassword}
-												onMouseDown={this.handleMouseDownConfirmPassword}>
-												{(this.state.showConfirmPassword) ? (<VisibilityOff />) : (<Visibility />)}
-											</IconButton>
-									</InputAdornment>
-									),
-							}}
-						/>
-
-						<ThemeProvider theme={this.theme}>
-							<div className = "columns_container">
-								<Grid container 
-								spacing={2}
-								direction = "row"
-								justify = "flex-end"
-								alignItems = "flex-end"
-								wrap = "nowrap" >
-								<Grid item xs={7}>
-										<MuiPickersUtilsProvider utils={DateFnsUtils}>
-											<KeyboardDatePicker
-												fullWidth
-												variant = "inline"
-												inputVariant = "outlined"
-												format="MM/dd/yyyy"
-												id="date-picker-inline"
-												label="Fecha de nacimiento"
-												maxDateMessage = "Fecha no valida"
-												minDateMessage = "Fecha no valida"
-												invalidDateMessage = "Fecha no valida"
-												maxDate={new Date()} 
-												InputAdornmentProps={{ position: "end"}}
-												edge = "end"
-												value={this.state.birthdate}
-												onChange={this.handleDateChange}
-												KeyboardButtonProps={{
-													'aria-label': 'change date',
-												}}
-											/>
-										</MuiPickersUtilsProvider>
-								</Grid>
-								< Grid item xs={5}>
-									<FormControl 
-										variant="outlined"
-										fullWidth>
-										<InputLabel htmlFor="outlined-age-simple">
-											Genero
-										</InputLabel>
-										<Select
-												fullWidth
-												value={this.state.gender}
-												onChange={this.handleGenderChange}
-												labelWidth={54}
-												inputProps={{
-													gender: 'age',
-													id: 'outlined-age-simple',
-												}}
-												>
-												<MenuItem value="Men">Hombre</MenuItem>
-												<MenuItem value="Women">Mujer</MenuItem>
-												<MenuItem value="Undefined">Indefinido</MenuItem>
-										</Select>
-									</FormControl>
-								</Grid>
-							</Grid>
-							</div>
-						</ThemeProvider>
-						
-            <this.StyledButton onClick={() => {
-								
-								axios.post('http://localhost:3001/users', {
-									email: this.state.email,
-									password: this.state.password,
-									username: this.state.username,
-									birthDate: this.state.birthdate,
-									gender:this.state.gender,
-								
-								}).then((response) => {
-									//añadir logica
-									console.log(response.data);
-									}, (error) => {
-									console.log(error);
-								});
-							}}
-							href="/PrefAssistant" 
-							fullWidth
-							focusRipple
+				<div className="social_icons">
+				<ThemeProvider theme={this.theme}>
+					< Grid container>
+					< Grid item xs={12} sm={6}>
+						< div className="social_media_btn" >
+						< this.SocialMedia
+							type="submit"
 							variant="contained"
 							size="medium"
-							text="bold"
-            > Registrate </this.StyledButton>
-            </form>
-          </div>
-        </div>
+							text="bold" >
+							<IconContext.Provider value={{ size: "1.9em", className: 'react-icons' }}>
+							<div>
+								<FaFacebookF />
+							</div>
+							</IconContext.Provider>
+						</this.SocialMedia>
+						</div>
+					</Grid>
+					<Grid item xs={12} sm={6}>
+						< div className="social_media_btn" >
+						< this.SocialMedia
+							type="submit"
+							variant="contained"
+							size="medium"
+							text="bold" >
+							<IconContext.Provider value={{ size: "1.9em ", className: 'react-icons' }}>
+							<div>
+								<FaGoogle />
+							</div>
+							</IconContext.Provider>
+						</this.SocialMedia>
+						</div>
+					</Grid>
+					</Grid>
+				</ThemeProvider>
+				</div>
 
-        <Box mt={5}>
-          < div className="login_link" >
-            <p className="login_text">
-              ¿Ya tienes una cuenta? <a href="/SignIn" > Inicia sesion </a>
-            </p>
-          </div>
-        </Box>
-      </Container>
+				<div id="or">O</div>
+
+				<form className="form" noValidate>
+
+				< this.StyledTextField
+								variant="outlined"
+								margin="normal"
+								fullWidth
+								id="email"
+								label="Correo electronico"
+								name="email"
+								autoComplete="email"
+								onChange={this.handleChange}
+				/>
+				
+				< this.StyledTextField
+								variant="outlined"
+								margin="normal"
+								fullWidth
+								id = "username"
+								label="Nombre de Usuario"
+								name = "username"
+								autoComplete = "username"
+								onChange={this.handleChange}
+				/>
+
+							< this.StyledTextField
+								variant="outlined"
+								margin="normal"
+								fullWidth
+								name="password"
+								label="Contraseña"
+								id="password"
+								autoComplete="current-password"
+								type={this.state.showPassword ? 'text' : 'password'}
+								value={this.state.password}
+								onChange={this.handleChange}
+								InputProps={{
+										endAdornment: (
+										<InputAdornment position="end">
+												<IconButton
+													aria-label="toggle password visibility"
+													onClick={this.handleClickShowPassword}
+													onMouseDown={this.handleMouseDownPassword}>
+													{(this.state.showPassword) ? (<VisibilityOff />) : (<Visibility />)}
+												</IconButton>
+										</InputAdornment>
+										),
+								}}
+							/>
+
+							< this.StyledTextField
+								variant="outlined"
+								margin="normal"
+								fullWidth
+								name = "confirmPassword"
+								label="Confirmar contraseña"
+								id = "confirmPassword"
+								autoComplete = "confirm password"
+								type={this.state.showConfirmPassword ? 'text' : 'password'}
+								value={this.state.confirmPassword}
+								onChange={this.handleChange}
+								InputProps={{
+										endAdornment: (
+										<InputAdornment position="end">
+												<IconButton
+													aria-label="toggle password visibility"
+													onClick={this.handleClickShowConfirmPassword}
+													onMouseDown={this.handleMouseDownConfirmPassword}>
+													{(this.state.showConfirmPassword) ? (<VisibilityOff />) : (<Visibility />)}
+												</IconButton>
+										</InputAdornment>
+										),
+								}}
+							/>
+
+							<ThemeProvider theme={this.theme}>
+								<div className = "columns_container">
+									<Grid container 
+									spacing={2}
+									direction = "row"
+									justify = "flex-end"
+									alignItems = "flex-end"
+									wrap = "nowrap" >
+									<Grid item xs={7}>
+											<MuiPickersUtilsProvider utils={DateFnsUtils}>
+												<KeyboardDatePicker
+													fullWidth
+													variant = "inline"
+													inputVariant = "outlined"
+													format="MM/dd/yyyy"
+													id="date-picker-inline"
+													label="Fecha de nacimiento"
+													maxDateMessage = "Fecha no valida"
+													minDateMessage = "Fecha no valida"
+													invalidDateMessage = "Fecha no valida"
+													maxDate={new Date()} 
+													InputAdornmentProps={{ position: "end"}}
+													edge = "end"
+													value={this.state.birthdate}
+													onChange={this.handleDateChange}
+													KeyboardButtonProps={{
+														'aria-label': 'change date',
+													}}
+												/>
+											</MuiPickersUtilsProvider>
+									</Grid>
+									< Grid item xs={5}>
+										<FormControl 
+											variant="outlined"
+											fullWidth>
+											<InputLabel htmlFor="outlined-age-simple">
+												Genero
+											</InputLabel>
+											<Select
+													fullWidth
+													value={this.state.gender}
+													onChange={this.handleGenderChange}
+													labelWidth={54}
+													inputProps={{
+														gender: 'age',
+														id: 'outlined-age-simple',
+													}}
+													>
+													<MenuItem value="Men">Hombre</MenuItem>
+													<MenuItem value="Women">Mujer</MenuItem>
+													<MenuItem value="Undefined">Indefinido</MenuItem>
+											</Select>
+										</FormControl>
+									</Grid>
+								</Grid>
+								</div>
+							</ThemeProvider>
+							
+				<this.StyledButton onClick={() => {
+									
+									axios.post('http://localhost:3001/users', {
+										email: this.state.email,
+										password: this.state.password,
+										username: this.state.username,
+										birthDate: this.state.birthdate,
+										gender:this.state.gender,
+									
+									}).then((response) => {
+										//añadir logica
+										console.log(response.data);
+										}, (error) => {
+										console.log(error);
+									});
+								}}
+								href="/PrefAssistant" 
+								fullWidth
+								focusRipple
+								variant="contained"
+								size="medium"
+								text="bold"
+				> Registrate </this.StyledButton>
+				</form>
+			</div>
+			</div>
+
+			<Box mt={5}>
+			< div className="login_link" >
+				<p className="login_text">
+				¿Ya tienes una cuenta? <a href="/SignIn" > Inicia sesion </a>
+				</p>
+			</div>
+			</Box>
+		</Container>
     );
   }
 }

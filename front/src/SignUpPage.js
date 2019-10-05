@@ -7,7 +7,7 @@ import SliderSignUp from './components/signUp/SliderSignUp.js';
 
 function SignUpPage() {
   return (
-    <div className="App" >
+    <div className="sign_up" >
       <div className="slider_container">
         <Grid container 
           spacing={4}
