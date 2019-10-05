@@ -5,20 +5,28 @@
 .Slide-mediaBackground-449 {
     border-radius: 0.5vw !important;
 }
-.Slider a.previousButton {
+.slider a.previousButton {
     display: show !important;
+    z-index: 6;
 }
-.Slider a.nextButton {
+.slider a.nextButton {
     display: show !important;
+    z-index: 6;
 }   
-.carousel-overlay{
+.slider * {
+    box-sizing: border-box;
+    padding: 0;
+    fill: white;
+}
+
+.sliderContent .carousel-overlay{
     position:absolute;
     left:0;
     right:0;
     width: inherit;
     height: inherit;
     background-image: linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,1));
-    z-index: 5;
+    z-index: 2;
     border-radius: 0.5vw;
   }
 .TextCarouselContent{

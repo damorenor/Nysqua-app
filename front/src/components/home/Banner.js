@@ -55,28 +55,31 @@ class Banner extends Component {
                     key={index}
                     style={{ background: `url('${item.image}') no-repeat center center` }}
                     >
-                        <div className ="TextCarousel">
-                            <Grid 
-                                container spacing={3}
-                                direction = "row"
-                                className ="TextCarousel"
-                                alignItems = "flex-end"
-                                wrap = "nowrap" >
-                                <Grid item xs={8}
-                                >
-                                <div className= "TextCarouselContent">
-                                    <h1>{item.title}</h1>
-                                    <p>{item.description}</p>
-                                </div>
-                                </Grid>
-                                <Grid item xs={4}>
-                                    {/* <button>{item.button}</button> */}
+                        <div className="carousel-overlay"> 
+                            <div className ="TextCarousel">
+                                <Grid 
+                                    container spacing={3}
+                                    direction = "row"   
+                                    className ="TextCarousel"
+                                    alignItems = "flex-end"
+                                    wrap = "nowrap" >
+                                    <Grid item xs={8}
+                                    >
+                                    <div className= "TextCarouselContent">
+                                        <h1>{item.title}</h1>
+                                        <p>{item.description}</p>
+                                    </div>
+                                    </Grid>
+                                    <Grid item xs={4}>
+                                        {/* <button>{item.button}</button> */}
 
-                                    {/* boton */}
-                                </Grid>
+                                        {/* boton */}
+                                    </Grid>
 
-                            </Grid>
+                                </Grid>
+                            </div>
                         </div>
+
                     </div>
 
                

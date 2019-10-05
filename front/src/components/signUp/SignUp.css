@@ -29,11 +29,11 @@
 
 
 }
-.slider a.previousButton {
+.slider_container .slider a.previousButton {
     
     display:none !important;
 }
-.slider a.nextButton {
+.slider_container .slider a.nextButton {
     
     display:none !important;
 }

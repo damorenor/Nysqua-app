@@ -6,7 +6,7 @@ import './Navbar.css';
 
 const  StyledButton = withStyles({
     root: {
-      backgroundImage: 'linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)',
+      backgroundImage: 'linear-gradient(136deg, rgb(242, 113, 33) 0%, rgb(233, 64, 87) 50%, rgb(138, 35, 135) 100%)',
       borderRadius: 3,
       border: 0,
       color: 'white',
@@ -39,22 +39,23 @@ function Navbar() {
                     direction = "row"
                     justify = "center"
                     alignItems = "center" >
-
                     <Grid item xs={2}>
                         <div className="logo">
-                            <img src="https://cdn4.iconfinder.com/data/icons/logos-3/600/React.js_logo-512.png"></img>
+                            <img src="https://raw.githubusercontent.com/nsaavedraa/imgs/master/nysqua.png"></img>
                         </div>
                     </Grid>
-                    <Grid item xs={6}>
+                    <Grid item xs={7}>
                         <form className="search-container">
                             <input type="text" id="search-bar" placeholder="What can I help you with today?">
                             </input>
                         </form>
                     </Grid>
                     <Grid item xs={3}>
-                        <StyledButton>
-                            Proponer proyecto
-                        </StyledButton>
+                        <div className="nav_bar_buttons_container">
+                            <StyledButton>
+                                Proponer proyecto
+                            </StyledButton>
+                        </div>
                     </Grid>
                 </Grid>
             </div>

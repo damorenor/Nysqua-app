@@ -22,6 +22,8 @@ class Home extends Component {
                             <Banner />       
                     </div>
                     <InfoCards />
+                    <h1 className="heading-1">Recomendado para ti</h1>
+                    <div className="divider-1"> <span></span></div>
                 </div>
             </div>
         );
