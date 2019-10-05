@@ -50,12 +50,14 @@ class SignIn extends Component {
         primary: {
           main: this.primaryColor
         },
+        fontFamily: '"Product Sans"',
       },
     });
 
     this.StyledTextField = withStyles({
       root: {
         marginTop: '1.2vh',
+        fontFamily: 'Product Sans !important',
         '& label.Mui-focused': {
           color: this.primaryColor,
         },
@@ -79,6 +81,7 @@ class SignIn extends Component {
     this.StyledButton = withStyles({
       root: {
         backgroundImage: this.gradient,
+        fontFamily: 'Product Sans',
         borderRadius: 3,
         border: 0,
         color: 'white',

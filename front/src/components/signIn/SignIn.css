@@ -106,3 +106,9 @@
 .react-icons {
     vertical-align: middle;
   }
+
+.MuiTypography-body1 {
+    font-family: 'Product Sans' !important;
+    font-size: 1.2em !important;
+}
+

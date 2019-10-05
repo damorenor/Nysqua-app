@@ -65,9 +65,11 @@ class PrefAssistant extends Component {
         this.colorlibConnector = withStyles({
             root:{
                 width: '100%',
+                fontFamily: 'Product Sans',
             },
             alternativeLabel: {
                 top: 27,
+                fontFamily: 'Product Sans',
             },
             active: {
                 '& $line': {
@@ -90,6 +92,7 @@ class PrefAssistant extends Component {
         this.StyledButton = withStyles({
             root: {
                 backgroundImage: this.gradient,
+                fontFamily: 'Product Sans',
                 borderRadius: 3,
                 border: 0,
                 color: 'white',
@@ -115,6 +118,7 @@ class PrefAssistant extends Component {
                 backgroundColor: 'transparent',
                 fontWeight: 'bold',
                 color: this.primaryColor,
+                fontFamily: 'Product Sans',
                 height: 48,
                 padding: '0',
                 fontSize: '1.05rem',
@@ -130,6 +134,7 @@ class PrefAssistant extends Component {
         
         this.StyledTextField = withStyles({
             root: {
+                fontFamily: 'Product Sans',
                 '& label.Mui-focused': {
                     color: this.primaryColor,
                 },

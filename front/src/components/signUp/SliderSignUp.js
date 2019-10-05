@@ -6,33 +6,29 @@ class SliderSignUp extends Component {
     constructor(props) {    
       super(props);
       this.content = [
+
         {
-          title: 'Vulputate Mollis Ultricies Fermentum Parturient',
-          description:
-          'Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Cras justo odio, dapibus ac facilisis.',
-          button: 'Read More',
-          image: 'https://i.imgur.com/ZXBtVw7.jpg',
-          user: 'Luan Gjokaj',
-          userProfile: 'https://i.imgur.com/JSW6mEk.png'
+          image:'https://i.pinimg.com/564x/21/e7/08/21e7083828c82f4192c02d1200d52c7f.jpg',
         },
         {
-          title: 'Tortor Dapibus Commodo Aenean Quam',
-          description:
-          'Nullam id dolor id nibh ultricies vehicula ut id elit. Cras mattis consectetur purus sit amet fermentum. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Donec sed odio dui.',
-          button: 'Discover',
-          image: 'https://i.imgur.com/DCdBXcq.jpg',
-          user: 'Erich Behrens',
-          userProfile: 'https://i.imgur.com/0Clfnu7.png'
+          image:'https://i.pinimg.com/564x/15/79/e3/1579e3d5ac97980f165ab29ad0629620.jpg',
         },
         {
-          title: 'Phasellus volutpat metus',
-          description:
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Duis mollis, est non commodo luctus, nisi erat porttitor ligula.',
-          button: 'Buy now',
-          image: 'https://i.imgur.com/DvmN8Hx.jpg',
-          user: 'Bruno Vizovskyy',
-          userProfile: 'https://i.imgur.com/4KeKvtH.png'
-        }
+          image:'https://i.pinimg.com/564x/03/7c/77/037c7710e895aab8e8affa0340b2fea6.jpg',
+        },
+        {
+          image:'https://i.pinimg.com/564x/1f/23/80/1f23806884be7158e391f84eea82497e.jpg',
+        },
+        {
+          image:'https://i.pinimg.com/564x/d9/2c/80/d92c80cb5cc338ff20e61c0fb59426a6.jpg',
+        },
+        {
+          image:'https://i.pinimg.com/564x/28/bb/c3/28bbc36cbf189e1fb8b9441c9269cac8.jpg',
+        },
+        {
+          image:'https://i.pinimg.com/564x/28/88/f3/2888f3822f05d3705fede9d57173b63c.jpg',
+        },
+        
       ]
 
     };
@@ -40,13 +36,19 @@ class SliderSignUp extends Component {
     render(){
   
         return(
-          <Slider autoplay={2000}>
-            {this.content.map((article, index) => <div key={index}>
-              <img src= {article.image}/>
-              <h2>{article.title}</h2>
-              <div>{article.description}</div>
-            </div>)}
-          </Slider>
+          < div className = "slider_container" >
+            <div className="slider_overlay">
+            <img  
+              className= "Logoimg" 
+              src= 'https://raw.githubusercontent.com/nsaavedraa/imgs/master/nysqualetter.png'/>
+            </div>
+            <Slider autoplay={2000}>
+              {this.content.map((article, index) => <div key={index}>
+                <img className ="imageSlider" src= {article.image}/>
+
+              </div>)}
+            </Slider>
+          </div>
         );
     };
 };

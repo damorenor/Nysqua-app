@@ -75,7 +75,8 @@ class SignUp extends Component {
 
     this.StyledTextField = withStyles({
       root: {
-        marginTop: '1.2vh',
+		marginTop: '1.2vh',
+		fontFamily: 'Product Sans',
         '& label.Mui-focused': {
           color: this.primaryColor,
         },
@@ -98,7 +99,8 @@ class SignUp extends Component {
 
     this.StyledButton = withStyles({
       root: {
-        backgroundImage: this.gradient,
+		backgroundImage: this.gradient,
+		fontFamily: 'Product Sans !important',
         borderRadius: 3,
         border: 0,
         color: 'white',

@@ -1,3 +1,5 @@
+
+
 :root {
     --primary: #E94057;
     --shadow: 0 3px 6px rgba(0, 0, 0, 0.16),
@@ -8,7 +10,13 @@
     height: 5vh;
 
 }
+.imageSlider{
+    object-fit: cover;
+    object-position: top right;
+    transform: scale(1.2)
 
+
+}
 .slider a.previousButton {
     
     display:none !important;
@@ -64,6 +72,7 @@
     text-align: center;
     margin-top: 0.5vh;
     color: rgba(0, 0, 0, 0.6);
+    font-size: 1.1em;
 }
 
 .login_link a {
@@ -125,6 +134,16 @@
     vertical-align: middle;
 }
 
+.slider_container{
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: stretch;
+    flex-flow: row wrap;
+    position: relative;
+}
+
 .slider {
     position: relative;
     width: 100%;
@@ -132,6 +151,7 @@
     overflow: hidden;
     border-radius: 0.5vw !important;
     box-shadow: var(--shadow) !important;
+    z-index: 0;
 }
 
 .Slide-media-446 {
@@ -140,4 +160,27 @@
 
 .Slide-mediaBackground-449 {
     border-radius: 0.5vh !important;
+}
+.Logoimg{
+    max-width: 50%;
+   min-width: 50%;
+   margin: 0vh 6vh 4vh 0vh;
+    
+}
+
+
+
+.slider_overlay{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 1));
+    border-radius: 0.5vh;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: flex-end;
+    z-index: 10;
 }
