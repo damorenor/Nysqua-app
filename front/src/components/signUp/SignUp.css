@@ -10,7 +10,13 @@
     height: 5vh;
 
 }
+.imageSlider{
+    object-fit: cover;
+    object-position: top right;
+    transform: scale(1.2)
 
+
+}
 .slider a.previousButton {
     
     display:none !important;
@@ -155,6 +161,14 @@
 .Slide-mediaBackground-449 {
     border-radius: 0.5vh !important;
 }
+.Logoimg{
+    max-width: 50%;
+   min-width: 50%;
+   margin: 0vh 6vh 4vh 0vh;
+    
+}
+
+
 
 .slider_overlay{
     position: absolute;
@@ -166,7 +180,7 @@
     border-radius: 0.5vh;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    align-items: flex-end;
+    justify-content: flex-end;
     z-index: 10;
 }
