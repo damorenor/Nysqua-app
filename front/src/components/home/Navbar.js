@@ -2,6 +2,12 @@ import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import { withStyles } from '@material-ui/styles';
 import Button from '@material-ui/core/Button';
+import { FaBell } from 'react-icons/fa';
+import { FaUser } from 'react-icons/fa';
+import { FaUserCircle } from 'react-icons/fa';
+import { FaComments} from 'react-icons/fa';
+import { IconContext } from "react-icons";
+
 import './Navbar.css';
 
 const  StyledButton = withStyles({
@@ -41,7 +47,7 @@ function Navbar() {
                     alignItems = "center" >
                     <Grid item xs={2}>
                         <div className="logo">
-                            <img src="https://raw.githubusercontent.com/nsaavedraa/imgs/master/nysqua.png"></img>
+                           <a href="/Home"><img src="https://raw.githubusercontent.com/nsaavedraa/imgs/master/nysqua.png"></img></a> 
                         </div>
                     </Grid>
                     <Grid item xs={7}>
@@ -51,11 +57,13 @@ function Navbar() {
                         </form>
                     </Grid>
                     <Grid item xs={3}>
+                    <IconContext.Provider value={{ size: "1.9em ", className: 'Nav-icons' }}>
                         <div className="nav_bar_buttons_container">
-                            <StyledButton>
-                                Proponer proyecto
-                            </StyledButton>
+                            <FaBell/>
+                            <FaComments/> 
+                            <FaUser/>
                         </div>
+                        </IconContext.Provider>
                     </Grid>
                 </Grid>
             </div>

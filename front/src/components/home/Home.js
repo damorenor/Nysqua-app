@@ -4,6 +4,7 @@ import './Home.css';
 import Navbar from './Navbar';
 import ProductCards from './ProductCards';
 import Banner from './Banner';
+import CategoriesBar from './CategoriesBar';
 
 
 class Home extends Component {
@@ -18,6 +19,10 @@ class Home extends Component {
             <div className="home_container">
                 <Navbar />
                 <div className="home">
+                    <div className="categories-container">
+                    <CategoriesBar/>
+                    </div>
+                    
                     <div className="carouselcontainer">
                             <Banner />       
                     </div>

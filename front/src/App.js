@@ -15,6 +15,7 @@ function App() {
           <Route exact path="/SignIn" component={SingInPage}/>
           <Route exact path="/SignUp" component={SignUpPage}/>
           <Route exact path="/PrefAssistant" component={PrefAssistant}/>
+          <Route exact path="/Home" component={Home}/>
         </Switch>
       )}>
       </Route>

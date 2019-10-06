@@ -94,3 +94,8 @@ input#search-bar:focus::-moz-placeholder {
     align-items: flex-end;
     justify-content: flex-end;
 }
+.Nav-icons {
+    margin-left: 4vh;
+    vertical-align: middle;
+
+}

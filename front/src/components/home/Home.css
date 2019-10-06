@@ -38,6 +38,13 @@
     border-radius: 0.5vw;
 }
 
+.categories-container{
+    width: 100%;
+    border-radius: 0.5vw;
+    background-color: white;
+    margin-bottom: 4vh;
+}
+
 .heading-1 {
     font-size: 1.4em;
     letter-spacing: 0.08em;
