@@ -33,7 +33,7 @@ router.post('/login', async (req, res) => {
       const token = await user.newAuthToken()
       res.send({ user, token})
   } catch (error) {
-      res.status(400).send()        
+      res.status(400).send()
   }
 })
 
@@ -51,8 +51,8 @@ router.patch('/me',authenticate ,async (req,res) => {
       return res.status(404).send();
   }
 
-  try {        
-      updates.forEach((update) => req.user[update] = req.body[update]) 
+  try {
+      updates.forEach((update) => req.user[update] = req.body[update])
       await req.user.save()
       res.send(req.user);
   } catch (error) {
@@ -83,7 +83,7 @@ router.delete('/me', authenticate, async (req,res) => {
 router.post('/logout', authenticate, async (req, res) => {
   try {
       req.user.tokens = req.user.tokens.filter((token) =>{
-       return token.token !== req.token 
+       return token.token !== req.token
       })
       await req.user.save()
       res.send()
@@ -103,6 +103,26 @@ router.post('/ogoutall', authenticate, async (req, res) => {
   }
 })
 
+router.put('/rating/:id', authenticate, async (req, res) =>{
+  const id = req.params.id;
+  if (!ObjectID.isValid(id)) {
+      return res.status(404).send("Id does not valid");
+  }
+  const user = await User.findOne({id})
+  if (!user){
+    res.status(404).send("User does not exist")
+  }
+  try {
+    const rati = parseInt(req.body.rating, 10);
+    user.rating = rati;
+    await user.save()
+    res.status(200).send("Rating updated")
+  } catch (error) {
+    res.status(500).send()
+  }
+
+})
+
+
+
 module.exports = router
-
-
