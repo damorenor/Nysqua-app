@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 mongoose.set('useCreateIndex', true);
 const jwt = require('jsonwebtoken');
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 
 
 var UserSchema = new Schema({
@@ -26,7 +26,7 @@ var UserSchema = new Schema({
     },
     gender: {
         type: String,
-       // require: true
+        // require: true
     },
     biography: {
         type: String
@@ -49,9 +49,9 @@ var UserSchema = new Schema({
         type: [{ type: Schema.ObjectId, ref: 'Magazine' }]
     },
 
-    tokens:[{
-        token:{
-            type:String,
+    tokens: [{
+        token: {
+            type: String,
             required: true
         }
     }],
@@ -62,14 +62,14 @@ var UserSchema = new Schema({
 
 
 UserSchema.statics.checkValidCredentials = async (email, password) => {
-    const user = await User.findOne({email})
+    const user = await User.findOne({ email })
 
-    if(!user){
+    if (!user) {
         throw new Error('Unable to login 2')
     }
-    const isMatch = await bcrypt.compare(password,user.password)
+    const isMatch = await bcrypt.compare(password, user.password)
 
-    if(!isMatch){
+    if (!isMatch) {
         throw new Error('Unable to login 2')
     }
 
@@ -77,29 +77,29 @@ UserSchema.statics.checkValidCredentials = async (email, password) => {
 }
 
 //custom method to generate authToken 
-UserSchema.methods.newAuthToken = async function(){
-    const user  = this
-    const token =  jwt.sign({ _id: user.id.toString() },'thisismynewblog', {expiresIn: "7 days"})
+UserSchema.methods.newAuthToken = async function () {
+    const user = this
+    const token = jwt.sign({ _id: user.id.toString() }, 'thisismynewblog', { expiresIn: "7 days" })
     user.tokens = user.tokens.concat({ token })
     await user.save()
     return token
 }
 
 //hash the plain text password before saving
-UserSchema.pre('save', async function(next){
+UserSchema.pre('save', async function (next) {
     const user = this
-    if(user.isModified('password')){
+    if (user.isModified('password')) {
         user.password = await bcrypt.hash(user.password, 8)
     }
     next()
 })
 
-UserSchema.pre('remove', async function(next){
+UserSchema.pre('remove', async function (next) {
     const user = this
-    await Post.deleteMany({author: user._id})
+    await Post.deleteMany({ author: user._id })
     next()
 })
-  
+
 
 var User = mongoose.model('User', UserSchema);
 

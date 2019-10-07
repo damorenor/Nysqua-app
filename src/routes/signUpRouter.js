@@ -1,28 +1,28 @@
 var express = require('express');
 var bodyParser = require('body-parser');
-var mongoose = require('mongoose');
 var cors = require('./cors');
+var mongoose = require('mongoose');
+
 var Users = require('../models/users');
 
-var signInRouter = express.Router();
+var signUpRouter = express.Router();
 
-signInRouter.use(bodyParser.json());
-signInRouter.route('/')
+signUpRouter.use(bodyParser.json());
+signUpRouter.route('/')
     .options(cors.corsWithOptions, (req, res) => { res.sendStatus(200); })
     .get(cors.cors, (req, res, next) => {
+        res.end('Welcome, add new User');
         res.statusCode = 200;
-        res.setHeader('Content-Type', 'text/plain');
-        Users.find({ username: req.body.userId, password: req.body.pass })
+        res.setHeader('Content-type', 'application/json');
+    }).post(cors.cors, (req, res, next) => {
+        Users.create(req.body)
             .then((user) => {
-                console.log('User Find', user);
+                console.log('User Created', user);
                 res.statusCode = 200;
                 res.setHeader('Content-type', 'application/json');
                 res.json(user);
             }, (err) => next(err))
             .catch((err) => next(err));
-    }).post(cors.cors, (req, res, next) => {
-        res.statusCode = 403;
-        res.end('POST operation not support');
     }).put(cors.cors, (req, res, next) => {
         res.statusCode = 403;
         res.end('PUT operation not support');
@@ -31,4 +31,4 @@ signInRouter.route('/')
         res.end('DELETE operation not support');
     });
 
-module.exports = signInRouter;
+module.exports = signUpRouter;
