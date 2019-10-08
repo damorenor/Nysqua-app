@@ -48,6 +48,7 @@ var garmentSchema = new Schema({
         require: true
     }
 });
+
 var Garments = mongoose.model('Garment', garmentSchema);
 
 module.exports = Garments;
