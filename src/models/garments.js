@@ -43,6 +43,10 @@ var garmentSchema = new Schema({
         type: [String],
         require: true
     },
+    tags: {
+        type: [String],
+        required: true
+    },
     postDate: {
         type: Date,
         require: true
