@@ -8,6 +8,18 @@ var magazineSchema = new Schema({
         type: String,
         required: true
     },
+    name: {
+        type: String,
+        required: true
+    },
+    description: {
+        type: String,
+        required: true
+    },
+    categories: {
+        type: [String],
+        required: true
+    },
     tags: {
         type: [String],
         required: true

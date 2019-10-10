@@ -43,11 +43,16 @@ var garmentSchema = new Schema({
         type: [String],
         require: true
     },
+    tags: {
+        type: [String],
+        required: true
+    },
     postDate: {
         type: Date,
         require: true
     }
 });
+
 var Garments = mongoose.model('Garment', garmentSchema);
 
 module.exports = Garments;
