@@ -4,6 +4,7 @@ const app = express();
 var usersRouter = require('./routes/user.route');
 var signInRouter = require('./routes/signInRouter');
 var signUpRouter = require('./routes/signUpRouter');
+var oauth = require('./routes/oauth');
 
 //settings
 var port = process.env.PORT || "3001"
@@ -16,5 +17,6 @@ app.use(express.json());
 app.use('/users', usersRouter);
 app.use('/signIn', signInRouter);
 app.use('/signUp', signUpRouter);
+app.use('/authentication', oauth)
 
 module.exports = app;
