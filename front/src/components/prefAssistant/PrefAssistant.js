@@ -22,6 +22,7 @@ class PrefAssistant extends Component {
         super(props);
 
         this.state = {
+            token:"",
             activeStep: 0,
             bio: "",
             file: null,
@@ -49,7 +50,7 @@ class PrefAssistant extends Component {
 
         this.gradient = 'linear-gradient(136deg, rgb(242, 113, 33) 0%, rgb(233, 64, 87) 50%, rgb(138, 35, 135) 100%)';
         this.primaryColor = '#E94057';
-
+        this.token = this.props.location.state;
         this.steps = this.getSteps();
         this.onFormSubmit = this.onFormSubmit.bind(this);
         this.onImageChange = this.onImageChange.bind(this);
@@ -259,6 +260,8 @@ class PrefAssistant extends Component {
 
 
     render(){
+        console.log("datos de usuario");
+        console.log(this.props.location.state);
         
         const handleCheckChangeSub = (event) => {
             console.log("llego");

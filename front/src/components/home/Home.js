@@ -14,6 +14,8 @@ class Home extends Component {
     }
 
     render(){
+        console.log("datos de usuario");
+        console.log(this.props.location.state);
         return(
             
             <div className="home_container">

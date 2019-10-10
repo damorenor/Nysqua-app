@@ -17,6 +17,7 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import axios from 'axios';
+import { Link} from 'react-router-dom'; 
 
 import './SignIn.css';
 
@@ -28,6 +29,7 @@ class SignIn extends Component {
     super(props);
 
     this.state = {
+      userData: '',
       email: '',
       showPassword: false,
       password: ''
@@ -37,7 +39,7 @@ class SignIn extends Component {
     this.primaryColor = '#E94057';
 
     this.handleChange = this.handleChange.bind(this);
-
+    this.handleClick = this.handleClick.bind(this);
     this.handleClickShowPassword = this.handleClickShowPassword.bind(this);
 
     this.handleMouseDownPassword = event => {
@@ -136,6 +138,12 @@ class SignIn extends Component {
   handleClickShowPassword() {
     this.setState({ showPassword: !this.state.showPassword });
   }
+  handleClick (udata) {
+    this.setState({
+      userData: udata
+    });
+      this.LinkElement.click();
+  }
 
   render() {
     return (
@@ -233,27 +241,41 @@ class SignIn extends Component {
                 label="Recuerdame"
                 />
             </ThemeProvider>
+            <div>
+              < this.StyledButton onClick={() => {
+                  axios.post('http://localhost:3001/users/login', {
+                  email: this.state.email,
+                  password: this.state.password,
+                  })
+                  .then((response) => {
+                      //añadir logica
+                      var data ="";
+                      console.log(response.data);
+                      data= response.data;
+                      this.handleClick(data);
+                  }, (error) => {
+                      console.log(error);
+                  });
 
-            < this.StyledButton onClick={() => {
-                axios.post('http://localhost:3001/users/login', {
-                email: this.state.email,
-                password: this.state.password,
-                })
-                .then((response) => {
-                    //añadir logica
-                    console.log(response.data.token);
-                }, (error) => {
-                    console.log(error);
-                });
+              }}
+              /* href="/PrefAssistant" */  
+                  fullWidth
+                  focusRipple
+                  variant="contained"
+                  size="medium"
+                  text="bold"
+              > Inicia sesion </this.StyledButton>
+              <Link  to={{
+									pathname: '/Home',
+									state: {
+										token: this.state.userData
+									}}} 
+									ref={
+										Link => this.LinkElement = Link
+										}>		
+							</Link>
+            </div>    
 
-            }}
-            href="/PrefAssistant"  
-                fullWidth
-                focusRipple
-                variant="contained"
-                size="medium"
-                text="bold"
-            > Inicia sesion </this.StyledButton>
 
             <div className="login_link">
                 < a href="#"> Olvidaste tu contraseña? </a>

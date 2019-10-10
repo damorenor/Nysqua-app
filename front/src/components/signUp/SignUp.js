@@ -24,6 +24,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import axios from 'axios';
+import { Link} from 'react-router-dom'; 
 
 import './SignUp.css';
 
@@ -33,6 +34,7 @@ class SignUp extends Component {
     super(props);
 
     this.state = {
+		userData: '',
 		email: '',
 		username: '',
 		showPassword: false,
@@ -48,6 +50,7 @@ class SignUp extends Component {
 
     this.handleChange = this.handleChange.bind(this);
 		this.handleGenderChange = this.handleGenderChange.bind(this);
+		this.handleClick = this.handleClick.bind(this);
 		
     this.handleClickShowPassword = this.handleClickShowPassword.bind(this);
 
@@ -179,8 +182,17 @@ class SignUp extends Component {
 				gender: event.target.value
 		 });
   }
+  handleClick (udata) {
+	this.setState({
+		userData: udata
+});
+    this.LinkElement.click();
+  }
+
+
 
   render() {
+
     return (
 		<Container component="main" maxWidth="xs">
 			<CssBaseline />
@@ -362,30 +374,43 @@ class SignUp extends Component {
 								</Grid>
 								</div>
 							</ThemeProvider>
-							
-				<this.StyledButton onClick={() => {
-									
-									axios.post('http://localhost:3001/users', {
-										email: this.state.email,
-										password: this.state.password,
-										username: this.state.username,
-										birthDate: this.state.birthdate,
-										gender:this.state.gender,
-									
-									}).then((response) => {
-										//añadir logica
-										console.log(response.data);
-										}, (error) => {
-										console.log(error);
-									});
-								}}
-								href="/PrefAssistant" 
-								fullWidth
-								focusRipple
-								variant="contained"
-								size="medium"
-								text="bold"
-				> Registrate </this.StyledButton>
+							<div>		
+								<this.StyledButton onClick={() => {
+												
+												axios.post('http://localhost:3001/users', {
+													email: this.state.email,
+													password: this.state.password,
+													username: this.state.username,
+													birthDate: this.state.birthdate,
+													gender:this.state.gender,
+												
+												}).then((response) => {
+													//añadir logica
+													var data ="";
+													console.log(response.data);
+													data= response.data;
+													this.handleClick(data);
+												}, (error) => {
+													console.log(error);
+												});
+											}}
+											fullWidth
+											focusRipple	
+											variant="contained"
+											size="medium"
+											text="bold"
+											> Registrate 
+								</this.StyledButton>				
+								<Link  to={{
+									pathname: '/PrefAssistant',
+									state: {
+										token: this.state.userData
+									}}} 
+									ref={
+										Link => this.LinkElement = Link
+										}>		
+								</Link>
+					</div>
 				</form>
 			</div>
 			</div>
