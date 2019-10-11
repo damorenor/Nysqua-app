@@ -322,7 +322,7 @@ class PrefAssistant extends Component {
                                         justify = "center"
                                         alignItems = "center"
                                         wrap = "nowrap">
-                                        <Grid item xs={6} sm={12} fullWidth>
+                                        <Grid item xs={6} sm={12}>
                                             
                                         <div className="image-upload">
                                             < label htmlFor = "file-input" >
@@ -336,10 +336,10 @@ class PrefAssistant extends Component {
                                         </div>
 
                                         </Grid>
-                                        <Grid item xs={6} sm={12} fullWidth>
+                                        <Grid item xs={6} sm={12}>
                                             <h2>Agrega una breve descripcion para quienes verán tu perfil</h2>
                                         </Grid>
-                                        <Grid item xs={6} sm={12} fullWidth>
+                                        <Grid item xs={6} sm={12}>
                                             < this.StyledTextField
                                                 variant = "outlined"
                                                 margin = "normal"

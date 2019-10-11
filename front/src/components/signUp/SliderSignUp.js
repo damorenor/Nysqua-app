@@ -45,7 +45,6 @@ class SliderSignUp extends Component {
             <Slider autoplay={2000}>
               {this.content.map((article, index) => <div key={index}>
                 <img className ="imageSlider" src= {article.image}/>
-
               </div>)}
             </Slider>
           </div>

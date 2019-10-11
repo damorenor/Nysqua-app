@@ -2,9 +2,10 @@ import React, { Component } from "react";
 import InfoCards from './InfoCards';
 import './Home.css';
 import Navbar from './Navbar';
-import ProductCards from './ProductCards';
 import Banner from './Banner';
 import CategoriesBar from './CategoriesBar';
+import { Grid } from "@material-ui/core";
+import ProductCard from './../productCard';
 
 
 class Home extends Component {
@@ -31,6 +32,47 @@ class Home extends Component {
                     <InfoCards />
                     <h1 className="heading-1">Recomendado para ti</h1>
                     <div className="divider-1"> <span></span></div>
+                    <Grid container 
+                        spacing={4}
+                        direction = "row"
+                        justify = "center"
+                        alignItems = "stretch"
+                        wrap = "nowrap" >
+
+                        <Grid item xs={3}>
+                            <ProductCard/>
+                        </Grid>
+                        <Grid item xs={3}>
+                            <ProductCard/>
+                        </Grid>
+                        <Grid item xs={3}>
+                            <ProductCard/>
+                        </Grid>
+                        <Grid item xs={3}>
+                            <ProductCard/>
+                        </Grid>
+                    </Grid>
+                    <Grid container 
+                        spacing={4}
+                        direction = "row"
+                        justify = "center"
+                        alignItems = "stretch"
+                        wrap = "nowrap" 
+                        className = "products_margin">
+
+                        <Grid item xs={3}>
+                            <ProductCard/>
+                        </Grid>
+                        <Grid item xs={3}>
+                            <ProductCard/>
+                        </Grid>
+                        <Grid item xs={3}>
+                            <ProductCard/>
+                        </Grid>
+                        <Grid item xs={3}>
+                            <ProductCard/>
+                        </Grid>
+                    </Grid>
                 </div>
             </div>
         );

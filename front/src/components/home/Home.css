@@ -2,7 +2,7 @@
     --step_size: 55px;
     --primary: #E94057;
     --shadow: 0 3px 6px rgba(0, 0, 0, 0.16),
-        0 3px 6px rgba(0, 0, 0, 0.23);
+        0 3px 6px rgba(0, 0, 0, 0.16);
     --carousel-height: 55vh;
     --gradient: linear-gradient(136deg, rgb(242, 113, 33) 0%, rgb(233, 64, 87) 50%, rgb(138, 35, 135) 100%);
 }
@@ -43,6 +43,7 @@
     border-radius: 0.5vw;
     background-color: white;
     margin-bottom: 4vh;
+    box-shadow: var(--shadow);
 }
 
 .heading-1 {
@@ -71,4 +72,8 @@
     width: 50px;
     height: 1.2px;
     background-color: var(--primary);
+}
+
+.home .products_margin{
+    margin-top: 24px;
 }

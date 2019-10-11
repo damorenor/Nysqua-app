@@ -11,6 +11,7 @@ import { ThemeProvider } from '@material-ui/styles';
 import Container from '@material-ui/core/Container';
 import { FaFacebookF } from 'react-icons/fa';
 import { FaGoogle } from 'react-icons/fa';
+import { FaQuestionCircle } from 'react-icons/fa';
 import { IconContext } from "react-icons";
 import IconButton from '@material-ui/core/IconButton';
 import InputAdornment from '@material-ui/core/InputAdornment';
@@ -18,6 +19,10 @@ import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import axios from 'axios';
 import { Link} from 'react-router-dom'; 
+import Dialog from '@material-ui/core/Dialog';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogActions from '@material-ui/core/DialogActions';
 
 import './SignIn.css';
 
@@ -32,7 +37,9 @@ class SignIn extends Component {
       userData: '',
       email: '',
       showPassword: false,
-      password: ''
+      password: '',
+      error: false,
+      dialogOpen: false
     };
 
     this.gradient = 'linear-gradient(136deg, rgb(242, 113, 33) 0%, rgb(233, 64, 87) 50%, rgb(138, 35, 135) 100%)';
@@ -41,6 +48,8 @@ class SignIn extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.handleClickShowPassword = this.handleClickShowPassword.bind(this);
+    this.handleDialogOpen = this.handleDialogOpen.bind(this);
+    this.handleDialogClose = this.handleDialogClose.bind(this);
 
     this.handleMouseDownPassword = event => {
       event.preventDefault();
@@ -138,11 +147,20 @@ class SignIn extends Component {
   handleClickShowPassword() {
     this.setState({ showPassword: !this.state.showPassword });
   }
+
   handleClick (udata) {
     this.setState({
       userData: udata
     });
       this.LinkElement.click();
+  }
+
+  handleDialogOpen(){
+      this.setState({ dialogOpen: true});
+  }
+
+  handleDialogClose(){
+      this.setState({ dialogOpen: false});
   }
 
   render() {
@@ -153,7 +171,7 @@ class SignIn extends Component {
         <div className="internal_paper_in">
 
             <div className="title">
-            <h1>Inicia sesion con</h1>
+                <h1>Inicia sesion con</h1>
             </div>
 
 
@@ -195,6 +213,40 @@ class SignIn extends Component {
             </div>
 
             <div id="or">O</div>
+
+            <div className="error_msg" style={this.state.error ? {} : { display: 'none' }}>
+                <div className="help">
+                    <IconContext.Provider value={{ size: "2.2em ", className: 'help_icon'}}>
+                        <div>
+                            <FaQuestionCircle onClick={this.handleDialogOpen}/>
+                        </div>
+                    </IconContext.Provider>
+                </div>
+                <span>Correo electronico o contraseña incorrectos. Por favor intentalo nuevamente</span>
+            </div>
+
+            <Dialog onClose={this.handleDialogClose} aria-labelledby="customized-dialog-title" open={this.state.dialogOpen} fullWidth={true}>
+                <DialogTitle className="dialog_title" id="customized-dialog-title" onClose={this.handleDialogClose}>
+                Problemas con tu inicio de sesion?
+                </DialogTitle>
+                <DialogContent dividers>
+                    <div className="dialog_content">
+                        <p>Recuerda escribir una direccion de correo valida (nombre@dominio.com) y ten cuidado con las mayusculas al
+                            momento de escribir tu contraseña.
+                        </p>
+                        <p>
+                            Si aun no tienes una cuenta, <a href="/SignUp" > Registrate aqui </a>
+                        </p>
+                    </div>
+                </DialogContent>
+                <DialogActions>
+                <ThemeProvider theme={this.theme}>
+                    <Button onClick={this.handleDialogClose}>
+                        cerrar
+                    </Button>
+                </ThemeProvider>
+                </DialogActions>
+            </Dialog>
 
             <form className="form" noValidate>
 
@@ -252,9 +304,15 @@ class SignIn extends Component {
                       var data ="";
                       console.log(response.data);
                       data= response.data;
+                      this.setState({
+                          error: false
+                      });
                       this.handleClick(data);
                   }, (error) => {
                       console.log(error);
+                      this.setState({
+                          error: true
+                      });
                   });
 
               }}
@@ -266,14 +324,14 @@ class SignIn extends Component {
                   text="bold"
               > Inicia sesion </this.StyledButton>
               <Link  to={{
-									pathname: '/Home',
-									state: {
-										token: this.state.userData
-									}}} 
-									ref={
-										Link => this.LinkElement = Link
-										}>		
-							</Link>
+                    pathname: '/Home',
+                    state: {
+                        token: this.state.userData
+                    }}} 
+                    ref={
+                        Link => this.LinkElement = Link
+                        }>		
+                </Link>
             </div>    
 
 

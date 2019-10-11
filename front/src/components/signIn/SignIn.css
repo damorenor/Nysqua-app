@@ -130,3 +130,62 @@
     font-size: 1.2em !important;
 }
 
+.error_msg{
+    width: 100%;
+    height: auto;
+    padding: 4px 12px 4px 12px;
+    background-color: #B71C1C;
+    border-radius: 0.5vw;
+    color: white;
+    margin-bottom: 2.3vh;
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    justify-content: center;
+}
+
+.error_msg span{
+    color: white;
+    font-size: 1.05em;
+    margin: 0% !important;
+}
+
+.error_msg .help{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 12px;
+}
+
+.error_msg .help_icon{
+    cursor: pointer;
+}
+
+.dialog_title {
+    font-family: 'Product Sans';
+}
+
+.dialog_content{
+    width: inherit;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    font-family: 'Product Sans';
+    font-size: 1.1em;
+}
+
+.dialog_content a{
+    color: var(--primary);
+    text-decoration-line: underline;
+    text-decoration-color: white;
+}
+
+.dialog_content a:hover {
+    text-decoration-color: var(--primary);
+}
+
+.MuiDialogActions-root .MuiButton-label {
+    color: var(--primary);
+}

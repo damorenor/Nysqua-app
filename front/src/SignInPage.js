@@ -7,7 +7,7 @@ import SingIn from './components/signIn/SignIn.js';
 function SingInPage() {
     return (
         <div className="sign_in" >
-          <div class= "card">
+          <div className= "card">
                 <SingIn/>
           </div>
       </div>

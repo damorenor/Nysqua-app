@@ -93,6 +93,7 @@ input#search-bar:focus::-moz-placeholder {
     flex-direction: row;
     align-items: flex-end;
     justify-content: flex-end;
+    padding-right: 0.5vw;
 }
 .Nav-icons {
     margin-left: 4vh;
