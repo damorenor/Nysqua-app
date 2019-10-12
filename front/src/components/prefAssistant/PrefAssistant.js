@@ -16,6 +16,7 @@ import './PrefAssistant.css';
 import ReactSwipe from 'react-swipe';
 import 'react-animated-slider/build/horizontal.css';
 import Grid from '@material-ui/core/Grid';
+import axios from 'axios';
 
 class PrefAssistant extends Component {
     constructor(props) {
@@ -194,11 +195,37 @@ class PrefAssistant extends Component {
     handleNext(){
         this.setState({activeStep: this.state.activeStep + 1});
         this.reactSwipeEl.next();
-        console.log(this.state.checked1);
-        console.log(this.state.checked2);
-        console.log(this.state.checked3);
-        console.log(this.state.checked4);
-        console.log(this.state.checked5);
+
+        if (this.state.activeStep == 1){
+            console.log(this.token); 
+
+            axios.post('http://localhost:3001/assistant/categories', {
+                checked1: this.state.checked1,
+                checked2: this.state.checked2,
+                checked3: this.state.checked3,
+                checked4: this.state.checked4,
+                checked5: this.state.checked5,
+            })
+            .then((response) => {
+                var serverResponse = response.data.categories_out; 
+                var serverSubCategories = [];
+                var subCategories = [];
+
+                serverResponse.map((e, i) => !serverSubCategories.includes(e) && serverSubCategories.push(e))
+                
+                for (var i = 0; i < serverSubCategories.length; i++){
+                    subCategories.push({ name: serverSubCategories[i], checked: false});
+                }
+
+                console.log(subCategories);
+                this.setState({ subcategories: subCategories});
+
+            }, (error) => {
+                console.log(error);
+            });
+        }else if(this.state.activeStep == 2){
+            //Aqui va la logica del request de los demas datos
+        }
     }
 
     handleBack(){
@@ -211,7 +238,6 @@ class PrefAssistant extends Component {
     }
 
     colorlibStepIcon(props) {
-        console.log(props);
 
         var iconClass = "";
 
