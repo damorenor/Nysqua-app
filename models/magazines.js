@@ -18,6 +18,7 @@ var magazineSchema = new Schema({
     }
 });
 
+
 var Magazines = mongoose.model('Magazine', magazineSchema);
 
 module.exports = Magazines;

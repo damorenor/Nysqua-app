@@ -37,7 +37,7 @@ var UserSchema = new Schema({
         max: 10
     },
     preferences: {
-        type: String
+        type: String[]
     },
     exchangeList: {
         type: [{ type: Schema.ObjectId, ref: 'Exchange' }]
@@ -76,7 +76,7 @@ UserSchema.statics.checkValidCredentials = async (email, password) => {
     return user
 }
 
-//custom method to generate authToken 
+//custom method to generate authToken
 UserSchema.methods.newAuthToken = async function(){
     const user  = this
     const token =  jwt.sign({ _id: user.id.toString() },'thisismynewblog', {expiresIn: "7 days"})
@@ -99,7 +99,7 @@ UserSchema.pre('remove', async function(next){
     await Post.deleteMany({author: user._id})
     next()
 })
-  
+
 
 var User = mongoose.model('User', UserSchema);
 
