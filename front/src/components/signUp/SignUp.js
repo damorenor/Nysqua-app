@@ -30,6 +30,8 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
 import { FaQuestionCircle } from 'react-icons/fa';
+import FacebookLogin from 'react-facebook-login';
+import GoogleLogin from 'react-google-login';
 
 import './SignUp.css';
 
@@ -266,7 +268,26 @@ class SignUp extends Component {
 
 
   render() {
+	const responseGoogle = (response) => {
+		console.log(response);
+	  }
+	const responseFacebook = (response) => {
+		console.log(response);
+		axios.post('http://localhost:3001/authentication/oauth/facebook', {
+			access_token: response.accessToken
 
+		}).then((resp) => {
+			//añadir logica
+
+			console.log(resp.data);
+
+		}, (error) => {
+			console.log(error);
+
+		});	
+	
+		
+	  }
     return (
 		<Container component="main" maxWidth="xs">
 			<CssBaseline />
@@ -546,7 +567,21 @@ class SignUp extends Component {
 								}>		
 						</Link>
 				</div>
+				<FacebookLogin
+    appId="974527812899696"
+    autoLoad={true}
+		fields="name,email,picture,id"
+    /* onClick={componentClicked} */
+    callback={responseFacebook} />,
+	  <GoogleLogin
+    clientId="568886817959-8j3mo86mfato65k3qdj65jjlmemih428.apps.googleusercontent.com"
+    buttonText="Login"
+    onSuccess={responseGoogle}
+    onFailure={responseGoogle}
+    cookiePolicy={'single_host_origin'}
+  />
 				</form>
+
 			</div>
 			</div>
 
