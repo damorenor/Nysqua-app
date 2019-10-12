@@ -85,6 +85,15 @@ UserSchema.statics.checkValidCredentials = async (email, password) => {
     return user
 }
 
+// add preferences 
+UserSchema.methods.addPreferences= async function (req) {
+    const user = this
+    user.biography = req.body.bio
+    user.preferences = 
+    await user.save()
+    return token
+}
+
 //custom method to generate authToken 
 UserSchema.methods.newAuthToken = async function () {
     const user = this
