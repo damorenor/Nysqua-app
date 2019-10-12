@@ -43,7 +43,10 @@ var UserSchema = new Schema({
         max: 10
     },
     preferences: {
-        type: String
+        type: [String]
+    },
+    categories: {
+        type: [String]
     },
     exchangeList: {
         type: [{ type: Schema.ObjectId, ref: 'Exchange' }]
