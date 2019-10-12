@@ -8,17 +8,17 @@ module.exports = {
         //console.log('got here');
 
         const token = await req.user.newAuthToken()
-        console.log("______________", req.user)
-        console.log("t--------------------- ", token)
+        //console.log("______________", req.user)
+        //console.log("t--------------------- ", token)
         res.status(201).send({ user: req.user, token: token })
     },
     facebookOAuth: async (req, res, next) => {
         // Generate token
-        console.log('got here');
+        //console.log('got here');
 
         const token = await req.user.newAuthToken()
-        console.log("______________", req.user)
-        console.log("t--------------------- ", token)
+        //console.log("______________", req.user)
+        //console.log("t--------------------- ", token)
         res.status(201).send({ user: req.user, token: token })
     }
 }

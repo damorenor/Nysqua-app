@@ -17,12 +17,14 @@ passport.use('facebookToken', new FacebookTokenStrategy({
     clientSecret: "01e1ff33fe84285678138984e8744f9a"
 }, async (accessToken, refreshToken, profile, done) => {
     try {
-        console.log('profile', profile);
-        console.log('accessToken', accessToken);
-        console.log('refreshToken', refreshToken);
+        //console.log('profile', profile);
+        //console.log('accessToken', accessToken);
+        //console.log('refreshToken', refreshToken);
 
-        const existingUser = await User.findOne({ "methodID": profile.id });
+        const existingUser = await User.findOne({ "email": profile.emails[0].value });
+        //console.log(existingUser);
         if (existingUser) {
+            console.log("Existe");
             return done(null, existingUser);
         }
 
@@ -46,12 +48,13 @@ passport.use('googleToken', new GooglePlusTokenStrategy({
 }, async (accessToken, refreshToken, profile, done) => {
     try {
         // Should have full user profile over here
-        console.log('profile', profile);
-        console.log('accessToken', accessToken);
-        console.log('refreshToken', refreshToken);
+        //console.log('profile', profile);
+        //console.log('accessToken', accessToken);
+        //console.log('refreshToken', refreshToken);
 
-        const existingUser = await User.findOne({ "methodID": profile.id });
+        const existingUser = await User.findOne({ "email": profile.emails[0].value });
         if (existingUser) {
+            console.log("Existe");
             return done(null, existingUser);
         }
 
