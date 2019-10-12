@@ -94,6 +94,7 @@ UserSchema.methods.addPreferences= async function (req) {
     user.biography = req.body.bio
     user.categories = rer.body.categories 
     user.subCategories = rer.body.subCategories 
+    user.profilePhoto = rer.body.profilePhoto 
     await user.save()
 }
 
