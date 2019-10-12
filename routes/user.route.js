@@ -70,7 +70,7 @@ router.post('/upload',upload.single('fileData'), (req, res,next) => {
 
 router.patch('/me',authenticate ,async (req,res) => {
   const updates  = Object.keys(req.body)
-  const allowedUpdates = ["name", "email", "password", "age", "garmentList"]
+  const allowedUpdates = ["name", "email", "password", "age", "garmentList", "preferences", "biography"]
   const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
   const _id =  req.user._id
 
