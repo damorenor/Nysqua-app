@@ -14,6 +14,20 @@
     padding: 0;
 }
 
+.preferences_assistant_container{
+    min-width: 70vw;
+    max-width: 70vw;
+    width: 70vw;
+    margin-left: 15vw !important;
+    margin-right: 15vw !important;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+}
+
 .preferences_assistant {
     height: auto;
     width: 70%;

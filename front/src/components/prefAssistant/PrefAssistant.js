@@ -22,6 +22,7 @@ class PrefAssistant extends Component {
         super(props);
 
         this.state = {
+            token:"",
             activeStep: 0,
             bio: "",
             file: null,
@@ -49,7 +50,7 @@ class PrefAssistant extends Component {
 
         this.gradient = 'linear-gradient(136deg, rgb(242, 113, 33) 0%, rgb(233, 64, 87) 50%, rgb(138, 35, 135) 100%)';
         this.primaryColor = '#E94057';
-
+        this.token = this.props.location.state;
         this.steps = this.getSteps();
         this.onFormSubmit = this.onFormSubmit.bind(this);
         this.onImageChange = this.onImageChange.bind(this);
@@ -259,6 +260,8 @@ class PrefAssistant extends Component {
 
 
     render(){
+        console.log("datos de usuario");
+        console.log(this.props.location.state);
         
         const handleCheckChangeSub = (event) => {
             console.log("llego");
@@ -294,235 +297,237 @@ class PrefAssistant extends Component {
 								}); */
         
         return(
-            < div className = "preferences_assistant" >
-                <Stepper alternativeLabel activeStep={this.state.activeStep} connector={<this.colorlibConnector />}>
-                        {this.steps.map(label => (
-                        <Step key={label}>
-                            <StepLabel StepIconComponent={this.colorlibStepIcon}>{label}</StepLabel>
-                        </Step> 
-                        ))}
-                </Stepper>
-                < div className = "card" >
-                    <div className="content">
-                       <ReactSwipe
-                            className="carousel"
-                            swipeOptions={{ continuous: false }}
-                            ref={el => (this.reactSwipeEl = el)}>
-                            <div className="carousel_content">
-                                <div className="title_container">
-                                    <h1 className="title"> Cuentanos un poco sobre ti</h1>
-                                </div>
-                                <Grid container 
-                                    spacing={0}
-                                    direction = "column"
-                                    justify = "center"
-                                    alignItems = "center"
-                                    wrap = "nowrap">
-                                    <Grid item xs={6} sm={12} fullWidth>
-                                        
-                                    <div className="image-upload">
-                                        < label htmlFor = "file-input" >
-                                            <div className = "profilepic">
-                                            <img  id ="target" className ="crop"  src ={this.state.profilephoto} ></img>
-                                            </div>
-                                            
-                                        </label>
-                                        <input id="file-input" name="myImage" type="file" onChange= {this.onImageChange} />
-                                           {/*  <Button onClick={this.onFormSubmit}>mandelo</Button> */}
+            <div className="preferences_assistant_container">
+                < div className = "preferences_assistant" >
+                    <Stepper alternativeLabel activeStep={this.state.activeStep} connector={<this.colorlibConnector />}>
+                            {this.steps.map(label => (
+                            <Step key={label}>
+                                <StepLabel StepIconComponent={this.colorlibStepIcon}>{label}</StepLabel>
+                            </Step> 
+                            ))}
+                    </Stepper>
+                    < div className = "card" >
+                        <div className="content">
+                        <ReactSwipe
+                                className="carousel"
+                                swipeOptions={{ continuous: false }}
+                                ref={el => (this.reactSwipeEl = el)}>
+                                <div className="carousel_content">
+                                    <div className="title_container">
+                                        <h1 className="title"> Cuentanos un poco sobre ti</h1>
                                     </div>
-
-                                    </Grid>
-                                    <Grid item xs={6} sm={12} fullWidth>
-                                        <h2>Agrega una breve descripcion para quienes verán tu perfil</h2>
-                                    </Grid>
-                                    <Grid item xs={6} sm={12} fullWidth>
-                                        < this.StyledTextField
-                                            variant = "outlined"
-                                            margin = "normal"
-                                            fullWidth
-                                            id = "bio"
-                                            label = "Tu biografia"
-                                            name = "bio"
-                                            autoComplete = "Bio"
-                                            color = {this.primaryColor}
-                                            multiline
-                                            rows = "4"
-                                            rowsMax = "10"
-                                            onChange = {this.handleChange}
-                                        />
-                                    </Grid>
-                                </Grid>
-                            </div>
-                            <div className="carousel_content">
-                                <div className="title_container">
-                                    <h1 className="title"> ¿Qué ropa estas buscando?</h1>
-                                </div>
-                                <div className="second_container">
                                     <Grid container 
-                                    spacing={1}
-                                    direction = "row"
-                                    justify = "center"
-                                    alignItems = "center">
-                                        <Grid item xs={4} sm={4}>
-                                            <div className="type1">
-                                                <div>
-                                                    <div className="img_overlay">
-                                                        <a className="tm-link left">Hombre</a>
-                                                    </div>
-                                                    <img 
-                                                        src="http://assets.myntassets.com/assets/images/1862801/2018/2/9/11518155061506-Roadster-Men-Maroon--Navy-Blue-Regular-Fit-Checked-Casual-Shirt-8861518155061131-1.jpg">
-                                                    </img>
+                                        spacing={0}
+                                        direction = "column"
+                                        justify = "center"
+                                        alignItems = "center"
+                                        wrap = "nowrap">
+                                        <Grid item xs={6} sm={12}>
+                                            
+                                        <div className="image-upload">
+                                            < label htmlFor = "file-input" >
+                                                <div className = "profilepic">
+                                                <img  id ="target" className ="crop"  src ={this.state.profilephoto} ></img>
                                                 </div>
-                                                <div>
-                                                    <input type="radio" name="yrdo_1" id="yes_1" 
-                                                        value = {1}
-                                                        checked={this.state.checked1}
-                                                        onChange={this.handleCheckChange}></input>
-                                                    <input type="radio" name="nrdo_1" id="no_1"
-                                                        value = {1}
-                                                        checked={!this.state.checked1}
-                                                        onChange={this.handleCheckChange}></input>
-                                                    <div id="switch_1">
-                                                        <label htmlFor="yes_1">Si</label>
-                                                        <label htmlFor="no_1">No</label>
-                                                        <span></span>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                                
+                                            </label>
+                                            <input id="file-input" name="myImage" type="file" onChange= {this.onImageChange} />
+                                            {/*  <Button onClick={this.onFormSubmit}>mandelo</Button> */}
+                                        </div>
+
                                         </Grid>
-                                        <Grid item xs={4} sm={4}>
-                                            <div className="type1">
-                                                <div>
-                                                    <div className="img_overlay">
-                                                        <a className="tm-link left">Mujer</a>
-                                                    </div>
-                                                    <img
-                                                        src="http://image27.choichic.com/o_img/2018/03/04/252822-10530412/women-s-fashion-front-zip-mesh-jacket.jpg">    
-                                                    </img>
-                                                </div>
-                                                <div>
-                                                    <input type="radio" name="yrdo_2" id="yes_2"
-                                                        value = {2}
-                                                        checked={this.state.checked2}
-                                                        onChange={this.handleCheckChange}></input>
-                                                    <input type="radio" name="nrdo_2" id="no_2"
-                                                        value = {2}
-                                                        checked={!this.state.checked2}
-                                                        onChange={this.handleCheckChange}></input>
-                                                    <div id="switch_2">
-                                                        <label htmlFor="yes_2">Si</label>
-                                                        <label htmlFor="no_2">No</label>
-                                                        <span></span>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                        <Grid item xs={6} sm={12}>
+                                            <h2>Agrega una breve descripcion para quienes verán tu perfil</h2>
                                         </Grid>
-                                        <Grid item xs={4} sm={4}>
-                                            <div className="type1">
-                                                <div>
-                                                    <div className="img_overlay">
-                                                        <a className="tm-link left">Niño</a>
-                                                    </div>
-                                                    <img
-                                                        src="https://imagena1.lacoste.com/dw/image/v2/AAUP_PRD/on/demandware.static/-/Sites-master/default/dw26b0e681/AJ8064_W9D_20.jpg">    
-                                                    </img>
-                                                </div>
-                                                <div>
-                                                    <input type="radio" name="yrdo_3" id="yes_3"
-                                                        value = {3}
-                                                        checked={this.state.checked3}
-                                                        onChange={this.handleCheckChange}></input>
-                                                    <input type="radio" name="nrdo_3" id="no_3"
-                                                        value = {3}
-                                                        checked={!this.state.checked3}
-                                                        onChange={this.handleCheckChange}></input>
-                                                    <div id="switch_3">
-                                                        <label htmlFor="yes_3">Si</label>
-                                                        <label htmlFor="no_3">No</label>
-                                                        <span></span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </Grid>
-                                        <Grid item xs={4} sm={4}>
-                                            <div className="type2">
-                                                <div>
-                                                    <div className="img_overlay">
-                                                        <a className="tm-link left">Niña</a>
-                                                    </div>
-                                                    <img
-                                                        src="https://cdn.shopify.com/s/files/1/1017/0329/products/isla-dress-ghosty-raspberry-socks-websized_2000x.jpg?v=1567646051">    
-                                                    </img>
-                                                </div>
-                                                <div>
-                                                    <input type="radio" name="yrdo_4" id="yes_4"
-                                                        value = {4}
-                                                        checked={this.state.checked4}
-                                                        onChange={this.handleCheckChange}></input>
-                                                    <input type="radio" name="nrdo_4" id="no_4"
-                                                        value = {4}
-                                                        checked={!this.state.checked4}
-                                                        onChange={this.handleCheckChange}></input>
-                                                    <div id="switch_4">
-                                                        <label htmlFor="yes_4">Si</label>
-                                                        <label htmlFor="no_4">No</label>
-                                                        <span></span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </Grid>
-                                        <Grid item xs={4} sm={4}>
-                                            <div className="type2">
-                                                <div>
-                                                    <div className="img_overlay">
-                                                        <a className="tm-link left">Bebes</a>
-                                                    </div>
-                                                    <img
-                                                        src="http://www.babyfashions.us/wp-content/uploads/2018/09/Baby-Fashion-Buying-the-Trendiest-Infant-Clothes.jpeg">    
-                                                    </img>
-                                                </div>
-                                                <div>
-                                                    <input type="radio" name="yrdo_5" id="yes_5"
-                                                        value = {5}
-                                                        checked={this.state.checked5}
-                                                        onChange={this.handleCheckChange}></input>
-                                                    <input type="radio" name="nrdo_5" id="no_5"
-                                                        value = {5}
-                                                        checked={!this.state.checked5}
-                                                        onChange={this.handleCheckChange}></input>
-                                                    <div id="switch_5">
-                                                        <label htmlFor="yes_5">Si</label>
-                                                        <label htmlFor="no_5">No</label>
-                                                        <span></span>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                        <Grid item xs={6} sm={12}>
+                                            < this.StyledTextField
+                                                variant = "outlined"
+                                                margin = "normal"
+                                                fullWidth
+                                                id = "bio"
+                                                label = "Tu biografia"
+                                                name = "bio"
+                                                autoComplete = "Bio"
+                                                color = {this.primaryColor}
+                                                multiline
+                                                rows = "4"
+                                                rowsMax = "10"
+                                                onChange = {this.handleChange}
+                                            />
                                         </Grid>
                                     </Grid>
                                 </div>
-                            </div>
-                            <div className="carousel_content">
-                                <div className="title_container">
-                                    <h1 className="title">¿Te interesa algo en especifico?</h1>
+                                <div className="carousel_content">
+                                    <div className="title_container">
+                                        <h1 className="title"> ¿Qué ropa estas buscando?</h1>
+                                    </div>
+                                    <div className="second_container">
+                                        <Grid container 
+                                        spacing={1}
+                                        direction = "row"
+                                        justify = "center"
+                                        alignItems = "center">
+                                            <Grid item xs={4} sm={4}>
+                                                <div className="type1">
+                                                    <div>
+                                                        <div className="img_overlay">
+                                                            <a className="tm-link left">Hombre</a>
+                                                        </div>
+                                                        <img 
+                                                            src="http://assets.myntassets.com/assets/images/1862801/2018/2/9/11518155061506-Roadster-Men-Maroon--Navy-Blue-Regular-Fit-Checked-Casual-Shirt-8861518155061131-1.jpg">
+                                                        </img>
+                                                    </div>
+                                                    <div>
+                                                        <input type="radio" name="yrdo_1" id="yes_1" 
+                                                            value = {1}
+                                                            checked={this.state.checked1}
+                                                            onChange={this.handleCheckChange}></input>
+                                                        <input type="radio" name="nrdo_1" id="no_1"
+                                                            value = {1}
+                                                            checked={!this.state.checked1}
+                                                            onChange={this.handleCheckChange}></input>
+                                                        <div id="switch_1">
+                                                            <label htmlFor="yes_1">Si</label>
+                                                            <label htmlFor="no_1">No</label>
+                                                            <span></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </Grid>
+                                            <Grid item xs={4} sm={4}>
+                                                <div className="type1">
+                                                    <div>
+                                                        <div className="img_overlay">
+                                                            <a className="tm-link left">Mujer</a>
+                                                        </div>
+                                                        <img
+                                                            src="http://image27.choichic.com/o_img/2018/03/04/252822-10530412/women-s-fashion-front-zip-mesh-jacket.jpg">    
+                                                        </img>
+                                                    </div>
+                                                    <div>
+                                                        <input type="radio" name="yrdo_2" id="yes_2"
+                                                            value = {2}
+                                                            checked={this.state.checked2}
+                                                            onChange={this.handleCheckChange}></input>
+                                                        <input type="radio" name="nrdo_2" id="no_2"
+                                                            value = {2}
+                                                            checked={!this.state.checked2}
+                                                            onChange={this.handleCheckChange}></input>
+                                                        <div id="switch_2">
+                                                            <label htmlFor="yes_2">Si</label>
+                                                            <label htmlFor="no_2">No</label>
+                                                            <span></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </Grid>
+                                            <Grid item xs={4} sm={4}>
+                                                <div className="type1">
+                                                    <div>
+                                                        <div className="img_overlay">
+                                                            <a className="tm-link left">Niño</a>
+                                                        </div>
+                                                        <img
+                                                            src="https://imagena1.lacoste.com/dw/image/v2/AAUP_PRD/on/demandware.static/-/Sites-master/default/dw26b0e681/AJ8064_W9D_20.jpg">    
+                                                        </img>
+                                                    </div>
+                                                    <div>
+                                                        <input type="radio" name="yrdo_3" id="yes_3"
+                                                            value = {3}
+                                                            checked={this.state.checked3}
+                                                            onChange={this.handleCheckChange}></input>
+                                                        <input type="radio" name="nrdo_3" id="no_3"
+                                                            value = {3}
+                                                            checked={!this.state.checked3}
+                                                            onChange={this.handleCheckChange}></input>
+                                                        <div id="switch_3">
+                                                            <label htmlFor="yes_3">Si</label>
+                                                            <label htmlFor="no_3">No</label>
+                                                            <span></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </Grid>
+                                            <Grid item xs={4} sm={4}>
+                                                <div className="type2">
+                                                    <div>
+                                                        <div className="img_overlay">
+                                                            <a className="tm-link left">Niña</a>
+                                                        </div>
+                                                        <img
+                                                            src="https://cdn.shopify.com/s/files/1/1017/0329/products/isla-dress-ghosty-raspberry-socks-websized_2000x.jpg?v=1567646051">    
+                                                        </img>
+                                                    </div>
+                                                    <div>
+                                                        <input type="radio" name="yrdo_4" id="yes_4"
+                                                            value = {4}
+                                                            checked={this.state.checked4}
+                                                            onChange={this.handleCheckChange}></input>
+                                                        <input type="radio" name="nrdo_4" id="no_4"
+                                                            value = {4}
+                                                            checked={!this.state.checked4}
+                                                            onChange={this.handleCheckChange}></input>
+                                                        <div id="switch_4">
+                                                            <label htmlFor="yes_4">Si</label>
+                                                            <label htmlFor="no_4">No</label>
+                                                            <span></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </Grid>
+                                            <Grid item xs={4} sm={4}>
+                                                <div className="type2">
+                                                    <div>
+                                                        <div className="img_overlay">
+                                                            <a className="tm-link left">Bebes</a>
+                                                        </div>
+                                                        <img
+                                                            src="http://www.babyfashions.us/wp-content/uploads/2018/09/Baby-Fashion-Buying-the-Trendiest-Infant-Clothes.jpeg">    
+                                                        </img>
+                                                    </div>
+                                                    <div>
+                                                        <input type="radio" name="yrdo_5" id="yes_5"
+                                                            value = {5}
+                                                            checked={this.state.checked5}
+                                                            onChange={this.handleCheckChange}></input>
+                                                        <input type="radio" name="nrdo_5" id="no_5"
+                                                            value = {5}
+                                                            checked={!this.state.checked5}
+                                                            onChange={this.handleCheckChange}></input>
+                                                        <div id="switch_5">
+                                                            <label htmlFor="yes_5">Si</label>
+                                                            <label htmlFor="no_5">No</label>
+                                                            <span></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </Grid>
+                                        </Grid>
+                                    </div>
                                 </div>
-                                <div className="subcategories_container">
-                                    {listItems}
-                                </div>              
-                            </div>
-                        </ReactSwipe>
-                    </div>
-                    < div className = "buttons_container" >
-                        < this.BackButton disableRipple = {true}
-                            disabled={this.state.activeStep === 0}
-                            onClick={this.handleBack}>
-                            Back
-                        </this.BackButton>
-                        <this.StyledButton onClick={this.handleNext}>
-                            {this.state.activeStep === this.steps.length - 1 ? 'Finish' : 'Next'}
-                        </this.StyledButton>
+                                <div className="carousel_content">
+                                    <div className="title_container">
+                                        <h1 className="title">¿Te interesa algo en especifico?</h1>
+                                    </div>
+                                    <div className="subcategories_container">
+                                        {listItems}
+                                    </div>              
+                                </div>
+                            </ReactSwipe>
+                        </div>
+                        < div className = "buttons_container" >
+                            < this.BackButton disableRipple = {true}
+                                disabled={this.state.activeStep === 0}
+                                onClick={this.handleBack}>
+                                Back
+                            </this.BackButton>
+                            <this.StyledButton onClick={this.handleNext}>
+                                {this.state.activeStep === this.steps.length - 1 ? 'Finish' : 'Next'}
+                            </this.StyledButton>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </div>                 
         );
     }
 

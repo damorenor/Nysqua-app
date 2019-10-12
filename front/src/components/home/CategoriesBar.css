@@ -1,0 +1,20 @@
+:root{
+    --primary: #E94057;
+    --shadow: 0 3px 6px rgba(0, 0, 0, 0.16),
+    0 3px 6px rgba(0, 0, 0, 0.23);
+}
+.container-cat .MuiGrid-item {
+    justify-content: center;
+    padding: 8px;
+    display: flex;
+    font-weight: bold;
+}
+
+
+.container-cat p{
+    color: black;
+}
+
+.container-cat p:hover{
+    color: var(--primary);
+}

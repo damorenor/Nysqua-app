@@ -11,12 +11,18 @@ import { ThemeProvider } from '@material-ui/styles';
 import Container from '@material-ui/core/Container';
 import { FaFacebookF } from 'react-icons/fa';
 import { FaGoogle } from 'react-icons/fa';
+import { FaQuestionCircle } from 'react-icons/fa';
 import { IconContext } from "react-icons";
 import IconButton from '@material-ui/core/IconButton';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import axios from 'axios';
+import { Link} from 'react-router-dom'; 
+import Dialog from '@material-ui/core/Dialog';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogActions from '@material-ui/core/DialogActions';
 
 import './SignIn.css';
 
@@ -28,17 +34,22 @@ class SignIn extends Component {
     super(props);
 
     this.state = {
+      userData: '',
       email: '',
       showPassword: false,
-      password: ''
+      password: '',
+      error: false,
+      dialogOpen: false
     };
 
     this.gradient = 'linear-gradient(136deg, rgb(242, 113, 33) 0%, rgb(233, 64, 87) 50%, rgb(138, 35, 135) 100%)';
     this.primaryColor = '#E94057';
 
     this.handleChange = this.handleChange.bind(this);
-
+    this.handleClick = this.handleClick.bind(this);
     this.handleClickShowPassword = this.handleClickShowPassword.bind(this);
+    this.handleDialogOpen = this.handleDialogOpen.bind(this);
+    this.handleDialogClose = this.handleDialogClose.bind(this);
 
     this.handleMouseDownPassword = event => {
       event.preventDefault();
@@ -137,60 +148,109 @@ class SignIn extends Component {
     this.setState({ showPassword: !this.state.showPassword });
   }
 
+  handleClick (udata) {
+    this.setState({
+      userData: udata
+    });
+      this.LinkElement.click();
+  }
+
+  handleDialogOpen(){
+      this.setState({ dialogOpen: true});
+  }
+
+  handleDialogClose(){
+      this.setState({ dialogOpen: false});
+  }
+
   render() {
     return (
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <div className="paper">
-          <div className="internal_paper_in">
+        <div className="internal_paper_in">
 
             <div className="title">
-              <h1>Inicia sesion con</h1>
+                <h1>Inicia sesion con</h1>
             </div>
 
 
             <div className="social_icons">
-              <ThemeProvider theme={this.theme}>
+            <ThemeProvider theme={this.theme}>
                 < Grid container>
-                  < Grid item xs={12} sm={6}>
+                < Grid item xs={12} sm={6}>
                     < div className="social_media_btn" >
-                      < this.SocialMedia
+                    < this.SocialMedia
                         type="submit"
                         variant="contained"
                         size="medium"
                         text="bold" >
                         <IconContext.Provider value={{ size: "1.9em", className: 'react-icons' }}>
-                          <div>
+                        <div>
                             <FaFacebookF />
-                          </div>
+                        </div>
                         </IconContext.Provider>
-                      </this.SocialMedia>
+                    </this.SocialMedia>
                     </div>
-                  </Grid>
-                  <Grid item xs={12} sm={6}>
+                </Grid>
+                <Grid item xs={12} sm={6}>
                     < div className="social_media_btn" >
-                      < this.SocialMedia
+                    < this.SocialMedia
                         type="submit"
                         variant="contained"
                         size="medium"
                         text="bold" >
                         <IconContext.Provider value={{ size: "1.9em ", className: 'react-icons' }}>
-                          <div>
+                        <div>
                             <FaGoogle />
-                          </div>
+                        </div>
                         </IconContext.Provider>
-                      </this.SocialMedia>
+                    </this.SocialMedia>
                     </div>
-                  </Grid>
                 </Grid>
-              </ThemeProvider>
+                </Grid>
+            </ThemeProvider>
             </div>
 
             <div id="or">O</div>
 
+            <div className="error_msg" style={this.state.error ? {} : { display: 'none' }}>
+                <div className="help">
+                    <IconContext.Provider value={{ size: "2.2em ", className: 'help_icon'}}>
+                        <div>
+                            <FaQuestionCircle onClick={this.handleDialogOpen}/>
+                        </div>
+                    </IconContext.Provider>
+                </div>
+                <span>Correo electronico o contraseña incorrectos. Por favor intentalo nuevamente</span>
+            </div>
+
+            <Dialog onClose={this.handleDialogClose} aria-labelledby="customized-dialog-title" open={this.state.dialogOpen} fullWidth={true}>
+                <DialogTitle className="dialog_title" id="customized-dialog-title" onClose={this.handleDialogClose}>
+                Problemas con tu inicio de sesion?
+                </DialogTitle>
+                <DialogContent dividers>
+                    <div className="dialog_content">
+                        <p>Recuerda escribir una direccion de correo valida (nombre@dominio.com) y ten cuidado con las mayusculas al
+                            momento de escribir tu contraseña.
+                        </p>
+                        <p>
+                            Si aun no tienes una cuenta, <a href="/SignUp" > Registrate aqui </a>
+                        </p>
+                    </div>
+                </DialogContent>
+                <DialogActions>
+                <ThemeProvider theme={this.theme}>
+                    <Button onClick={this.handleDialogClose}>
+                        cerrar
+                    </Button>
+                </ThemeProvider>
+                </DialogActions>
+            </Dialog>
+
             <form className="form" noValidate>
 
-              < this.StyledTextField
+            < this.StyledTextField
                 variant="outlined"
                 margin="normal"
                 fullWidth
@@ -199,9 +259,9 @@ class SignIn extends Component {
                 name="email"
                 autoComplete="email"
                 onChange={this.handleChange}
-              />
+            />
 
-              < this.StyledTextField
+            < this.StyledTextField
                 variant="outlined"
                 margin="normal"
                 fullWidth
@@ -213,64 +273,84 @@ class SignIn extends Component {
                 //value={this.state.password}
                 onChange={this.handleChange}
                 InputProps={{
-                  endAdornment: (
+                endAdornment: (
                     <InputAdornment position="end">
-                      <IconButton
-
+                    <IconButton
+                    
                         aria-label="toggle password visibility"
                         onClick={this.handleClickShowPassword}
                         onMouseDown={this.handleMouseDownPassword}>
                         {(this.state.showPassword) ? (<VisibilityOff />) : (<Visibility />)}
-                      </IconButton>
+                    </IconButton>
                     </InputAdornment>
-                  ),
+                ),
                 }}
-              />
+            />
 
-              <ThemeProvider theme={this.theme}>
+            <ThemeProvider theme={this.theme}>
                 <FormControlLabel
-                  control={<Checkbox value="remember" color="primary" />}
-                  label="Recuerdame"
+                control={<Checkbox value="remember" color="primary" />}
+                label="Recuerdame"
                 />
-              </ThemeProvider>
-
+            </ThemeProvider>
+            <div>
               < this.StyledButton onClick={() => {
                 axios.post('https://nysqua-integration.herokuapp.com/users/login', {
                   email: this.state.email,
                   password: this.state.password,
-                })
+                  })
                   .then((response) => {
-                    //añadir logica
-                    console.log(response.data.token);
+                      //añadir logica
+                      var data ="";
+                      console.log(response.data);
+                      data= response.data;
+                      this.setState({
+                          error: false
+                      });
+                      this.handleClick(data);
                   }, (error) => {
-                    console.log(error);
+                      console.log(error);
+                      this.setState({
+                          error: true
+                      });
                   });
 
               }}
-                href="/PrefAssistant"
-                fullWidth
-                focusRipple
-                variant="contained"
-                size="medium"
-                text="bold"
+              /* href="/PrefAssistant" */  
+                  fullWidth
+                  focusRipple
+                  variant="contained"
+                  size="medium"
+                  text="bold"
               > Inicia sesion </this.StyledButton>
+              <Link  to={{
+                    pathname: '/Home',
+                    state: {
+                        token: this.state.userData
+                    }}} 
+                    ref={
+                        Link => this.LinkElement = Link
+                        }>		
+                </Link>
+            </div>    
 
-              <div className="login_link">
+
+            <div className="login_link">
                 < a href="#"> Olvidaste tu contraseña? </a>
-              </div>
+            </div>
 
             </form>
-          </div>
+        </div>
         </div>
 
         <Box mt={5}>
-          < div className="login_link" >
-            <p className="login_text">
-              No tienes una cuenta? <a href="/SignUp" > Registrate </a>
+        < div className="login_link" >
+            <p>
+                No tienes una cuenta?  <a href="/SignUp" > Registrate </a>
             </p>
-          </div>
+        </div>
         </Box>
-      </Container>
+    </Container>
     );
   }
 }
