@@ -13,6 +13,7 @@ router.post('/', async (req, res) => {
     if (user) return res.status(400).send("User already registered.");
 
     user = new User({
+        method: 'local',
         username: req.body.username,
         password: req.body.password,
         email: req.body.email,
@@ -36,6 +37,8 @@ router.post('/login', async (req, res) => {
         res.status(400).send()
     }
 })
+
+//router.post('/oauth/google', passport.authenticate('googleToken', { session: false }));
 
 router.patch('/me', authenticate, async (req, res) => {
     const updates = Object.keys(req.body)

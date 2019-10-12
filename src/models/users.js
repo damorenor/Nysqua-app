@@ -6,6 +6,14 @@ const bcrypt = require("bcryptjs");
 
 
 var UserSchema = new Schema({
+    method: {
+        type: String,
+        enum: ['local', 'google', 'facebook']
+    },
+    methodID: {
+        type: String
+
+    },
     email: {
         type: String,
         require: true,
@@ -16,9 +24,7 @@ var UserSchema = new Schema({
         require: true
     },
     username: {
-        type: String,
-        require: true,
-        unique: true
+        type: String
     },
     birthDate: {
         type: Date,
