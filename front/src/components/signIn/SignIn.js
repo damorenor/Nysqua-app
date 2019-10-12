@@ -23,6 +23,8 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
+import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
+import GoogleLogin from 'react-google-login';
 
 import './SignIn.css';
 
@@ -179,34 +181,88 @@ class SignIn extends Component {
             <ThemeProvider theme={this.theme}>
                 < Grid container>
                 < Grid item xs={12} sm={6}>
-                    < div className="social_media_btn" >
-                    < this.SocialMedia
-                        type="submit"
-                        variant="contained"
-                        size="medium"
-                        text="bold" >
-                        <IconContext.Provider value={{ size: "1.9em", className: 'react-icons' }}>
-                        <div>
-                            <FaFacebookF />
+                  <FacebookLogin
+                      appId="974527812899696"
+                      autoLoad={false}
+                      fields="name,email,picture,id"
+                        callback={(response) => {
+                          console.log(response.accessToken);
+                          axios.post('http://localhost:3001/authentication/oauth/facebook', {
+                            access_token: response.accessToken
+                    
+                          }).then((resp) => {
+                            //añadir logica
+                            var data = "";
+                            console.log(resp.data);
+                            data = resp.data;
+                            this.handleClick(data);
+                            
+                    
+                          }, (error) => {
+                            console.log(error);
+                    
+                          });
+                    
+                    
+                        }}
+                        render={renderProps => (
+                          < div className="social_media_btn" onClick={renderProps.onClick} >
+                          < this.SocialMedia
+                            type="submit"
+                            variant="contained"
+                            size="medium"
+                            text="bold" >
+                            <IconContext.Provider value={{ size: "1.9em", className: 'react-icons' }}>
+                              <div>
+                                <FaFacebookF />
+                              </div>
+                            </IconContext.Provider>
+                          </this.SocialMedia>
                         </div>
-                        </IconContext.Provider>
-                    </this.SocialMedia>
-                    </div>
+
+                        )}
+                      />
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                    < div className="social_media_btn" >
-                    < this.SocialMedia
-                        type="submit"
-                        variant="contained"
-                        size="medium"
-                        text="bold" >
-                        <IconContext.Provider value={{ size: "1.9em ", className: 'react-icons' }}>
-                        <div>
-                            <FaGoogle />
-                        </div>
-                        </IconContext.Provider>
-                    </this.SocialMedia>
-                    </div>
+                  <GoogleLogin
+                        clientId="568886817959-8j3mo86mfato65k3qdj65jjlmemih428.apps.googleusercontent.com"
+                        render={renderProps => (
+                          < div className="social_media_btn" onClick={renderProps.onClick}>
+                          < this.SocialMedia
+                            type="submit"
+                            variant="contained"
+                            size="medium"
+                            text="bold" >
+                            <IconContext.Provider value={{ size: "1.9em ", className: 'react-icons' }}>
+                              <div>
+                                <FaGoogle />
+                              </div>
+                            </IconContext.Provider>
+                          </this.SocialMedia>
+                          </div>
+                          
+                          
+                          )}
+                        onSuccess={(response) => {
+                          console.log(response.Zi.access_token);
+                          axios.post('http://localhost:3001/authentication/oauth/google', {
+                            access_token: response.Zi.access_token
+                          }).then((resp) => {
+                            var data = "";
+                            console.log(resp.data);
+                            data = resp.data;
+                            this.handleClick(data);
+                          }, (error) => {
+                            console.log(error);
+                    
+                          });
+                        }}
+                        onFailure={(response) => {
+                          console.log("Google Error");
+                          console.log(response);
+                        }}
+                        cookiePolicy={'single_host_origin'}
+                      />
                 </Grid>
                 </Grid>
             </ThemeProvider>

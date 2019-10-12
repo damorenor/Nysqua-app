@@ -30,7 +30,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
 import { FaQuestionCircle } from 'react-icons/fa';
-import FacebookLogin from 'react-facebook-login';
+import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
 import GoogleLogin from 'react-google-login';
 
 import './SignUp.css';
@@ -61,11 +61,10 @@ class SignUp extends Component {
 
 		this.gradient = 'linear-gradient(136deg, rgb(242, 113, 33) 0%, rgb(233, 64, 87) 50%, rgb(138, 35, 135) 100%)';
 		this.primaryColor = '#E94057';
-
 		this.handleChange = this.handleChange.bind(this);
 		this.handleGenderChange = this.handleGenderChange.bind(this);
 		this.handleClick = this.handleClick.bind(this);
-
+		this.handleClickFacebook = this.handleClickFacebook.bind(this);
 		this.handleClickShowPassword = this.handleClickShowPassword.bind(this);
 		this.handleDialogOpen = this.handleDialogOpen.bind(this);
 		this.handleDialogClose = this.handleDialogClose.bind(this);
@@ -215,6 +214,11 @@ class SignUp extends Component {
 		});
 		this.LinkElement.click();
 	}
+	handleClickFacebook() {
+
+		this.FacebookLoginElement.click();
+	}
+	
 
 	handleDialogOpen() {
 		this.setState({ dialogOpen: true });
@@ -223,6 +227,7 @@ class SignUp extends Component {
 	handleDialogClose() {
 		this.setState({ dialogOpen: false });
 	}
+
 
 	validateData() {
 		var flag = true;
@@ -268,20 +273,7 @@ class SignUp extends Component {
 
 
 	render() {
-		const responseGoogle = (response) => {
-			console.log(response.Zi.access_token);
-			axios.post('http://localhost:3001/authentication/oauth/google', {
-				access_token: response.Zi.access_token
-			}).then((resp) => {
-				//añadir logica
 
-				console.log(resp.data);
-
-			}, (error) => {
-				console.log(error);
-
-			});
-		}
 		const responseFacebook = (response) => {
 			console.log(response.accessToken);
 			axios.post('http://localhost:3001/authentication/oauth/facebook', {
@@ -314,34 +306,88 @@ class SignUp extends Component {
 							<ThemeProvider theme={this.theme}>
 								< Grid container>
 									< Grid item xs={12} sm={6}>
-										< div className="social_media_btn" >
-											< this.SocialMedia
-												type="submit"
-												variant="contained"
-												size="medium"
-												text="bold" >
-												<IconContext.Provider value={{ size: "1.9em", className: 'react-icons' }}>
-													<div>
-														<FaFacebookF />
-													</div>
-												</IconContext.Provider>
-											</this.SocialMedia>
-										</div>
+										<FacebookLogin
+										appId="974527812899696"
+										autoLoad={false}
+										fields="name,email,picture,id"
+											callback={(response) => {
+												console.log(response.accessToken);
+												axios.post('http://localhost:3001/authentication/oauth/facebook', {
+													access_token: response.accessToken
+									
+												}).then((resp) => {
+													//añadir logica
+													var data = "";
+													console.log(resp.data);
+													data = resp.data;
+													this.handleClick(data);
+													
+									
+												}, (error) => {
+													console.log(error);
+									
+												});
+									
+									
+											}}
+											render={renderProps => (
+												< div className="social_media_btn" onClick={renderProps.onClick} >
+												< this.SocialMedia
+													type="submit"
+													variant="contained"
+													size="medium"
+													text="bold" >
+													<IconContext.Provider value={{ size: "1.9em", className: 'react-icons' }}>
+														<div>
+															<FaFacebookF />
+														</div>
+													</IconContext.Provider>
+												</this.SocialMedia>
+											</div>
+
+											)}
+										/>
 									</Grid>
 									<Grid item xs={12} sm={6}>
-										< div className="social_media_btn" >
-											< this.SocialMedia
-												type="submit"
-												variant="contained"
-												size="medium"
-												text="bold" >
-												<IconContext.Provider value={{ size: "1.9em ", className: 'react-icons' }}>
-													<div>
-														<FaGoogle />
-													</div>
-												</IconContext.Provider>
-											</this.SocialMedia>
-										</div>
+										<GoogleLogin
+											clientId="568886817959-8j3mo86mfato65k3qdj65jjlmemih428.apps.googleusercontent.com"
+											render={renderProps => (
+												< div className="social_media_btn" onClick={renderProps.onClick}>
+												< this.SocialMedia
+													type="submit"
+													variant="contained"
+													size="medium"
+													text="bold" >
+													<IconContext.Provider value={{ size: "1.9em ", className: 'react-icons' }}>
+														<div>
+															<FaGoogle />
+														</div>
+													</IconContext.Provider>
+												</this.SocialMedia>
+												</div>
+												
+												
+											  )}
+											onSuccess={(response) => {
+												console.log(response.Zi.access_token);
+												axios.post('http://localhost:3001/authentication/oauth/google', {
+													access_token: response.Zi.access_token
+												}).then((resp) => {
+													var data = "";
+													console.log(resp.data);
+													data = resp.data;
+													this.handleClick(data);
+												}, (error) => {
+													console.log(error);
+									
+												});
+											}}
+											onFailure={(response) => {
+												console.log("Google Error");
+												console.log(response);
+											}}
+											cookiePolicy={'single_host_origin'}
+										/>
 									</Grid>
 								</Grid>
 							</ThemeProvider>
@@ -579,19 +625,11 @@ class SignUp extends Component {
 									}>
 								</Link>
 							</div>
-							<FacebookLogin
-								appId="974527812899696"
-								autoLoad={true}
-								fields="name,email,picture,id"
-								/* onClick={componentClicked} */
-								callback={responseFacebook} />,
-	  <GoogleLogin
-								clientId="568886817959-8j3mo86mfato65k3qdj65jjlmemih428.apps.googleusercontent.com"
-								buttonText="Login"
-								onSuccess={responseGoogle}
-								onFailure={responseGoogle}
-								cookiePolicy={'single_host_origin'}
-							/>
+			
+
+						
+							
+
 						</form>
 
 					</div>
