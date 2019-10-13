@@ -2,6 +2,7 @@ const express = require('express');
 const router = new express.Router();
 const path = require("path");
 const multer = require("multer");
+const authenticate = require("../middleware/auth");
 var fs = require('fs');
 
 const User = require('../models/users');
@@ -42,7 +43,7 @@ router.post('/upload',upload.single('profilePhoto'), (req, res,next) => {
    });
   });
  
-router.post('/prefAssistant', async (req, res) => {
+router.post('/prefAssistant', authenticate ,async (req, res) => {
     //find an existing user
     var user = req.user
     console.log(user)
@@ -64,7 +65,7 @@ router.post('/prefAssistant', async (req, res) => {
     }
 })
 
-router.post('/categories', async (req, res) => {
+router.post('/categories', authenticate ,async (req, res) => {
     var user = req.user
     try {
         user.tokens = user.tokens.filter((token) => {
