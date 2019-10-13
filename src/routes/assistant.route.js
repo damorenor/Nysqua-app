@@ -76,7 +76,7 @@ router.post('/categories' ,async (req, res) => {
         if (Boolean(req.body.checked3)) {categories_out =  categories_out.concat(Categories["Ninos"]) }
         if (Boolean(req.body.checked4)) {categories_out =  categories_out.concat(Categories["Ninas"]) }
         if (Boolean(req.body.checked5)) {categories_out =  categories_out.concat(Categories["Bebes"]) }
-        var out = new Array.from(Set(categories_out))
+        var out = Array.from( new Set(categories_out))
         console.log(out)
         res.status(201).send({ out })
 

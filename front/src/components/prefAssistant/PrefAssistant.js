@@ -212,7 +212,7 @@ class PrefAssistant extends Component {
             })
             .then((response) => {
                
-                var serverResponse = response.data.categories_out; 
+                var serverResponse = response.data.out; 
                 var serverSubCategories = [];
                 var subCategories = [];
 
