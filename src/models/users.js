@@ -92,9 +92,9 @@ UserSchema.statics.checkValidCredentials = async (email, password) => {
 UserSchema.methods.addPreferences= async function (req) {
     const user = this
     user.biography = req.body.bio
-    user.categories = rer.body.categories 
-    user.subCategories = rer.body.subCategories 
-    user.profilePhoto = rer.body.profilePhoto 
+    user.categories = req.body.categories 
+    user.subCategories = req.body.subCategories 
+    user.profilePhoto = req.body.profilePhoto 
     await user.save()
 }
 

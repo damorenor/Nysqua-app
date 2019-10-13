@@ -53,7 +53,7 @@ class PrefAssistant extends Component {
         this.primaryColor = '#E94057';
         this.token = this.props.location.state;
         this.steps = this.getSteps();
-        this.onFormSubmit = this.onFormSubmit.bind(this);
+        this.onImageSubmit = this.onImageSubmit.bind(this);
         this.onImageChange = this.onImageChange.bind(this);
         this.handleNext = this.handleNext.bind(this);
         this.handleBack = this.handleBack.bind(this);
@@ -159,26 +159,29 @@ class PrefAssistant extends Component {
     }
     
 
-    onFormSubmit(event){
+    onImageSubmit(event){    
         event.preventDefault();
-        const formData = new FormData();
-        formData.append('myImage',this.state.file);
+        const profilePhot = new FormData();
+        console.log(this.state.file);
+        
+        profilePhot.append('profilePhoto',this.state.file);
+        console.log(profilePhot.get('profilePhoto'));
         const config = {
             headers: {  
-                'content-type': 'multipart/form-data'
+                'content-type': 'multipart/form-data',
             }
         };
-        console.log(formData);
-       
-        /*axios.post("/upload",formData,config)
+        console.log(profilePhot);
+         axios.post("http://localhost:3001/assistant/upload",profilePhot,config)
             .then((response) => {
-                alert("The file is successfully uploaded");
+               
+                console.log(response);
             }).catch((error) => {
-        }); */
+        }); 
     }
 
     onImageChange = (event) => {
-        this.setState({file:event.target.files[0]});
+        
         if (event.target.files && event.target.files[0]) {
           let reader = new FileReader();
           reader.onload = (e) => {
@@ -186,6 +189,7 @@ class PrefAssistant extends Component {
           };
           reader.readAsDataURL(event.target.files[0]);
         }
+         this.setState({file:event.target.files[0]}); 
       }
       
     getSteps() {
@@ -197,7 +201,7 @@ class PrefAssistant extends Component {
         this.reactSwipeEl.next();
 
         if (this.state.activeStep == 1){
-            console.log(this.token); 
+            
 
             axios.post('http://localhost:3001/assistant/categories', {
                 checked1: this.state.checked1,
@@ -207,6 +211,7 @@ class PrefAssistant extends Component {
                 checked5: this.state.checked5,
             })
             .then((response) => {
+               
                 var serverResponse = response.data.categories_out; 
                 var serverSubCategories = [];
                 var subCategories = [];
@@ -225,6 +230,7 @@ class PrefAssistant extends Component {
             });
         }else if(this.state.activeStep == 2){
             //Aqui va la logica del request de los demas datos
+          
         }
     }
 
@@ -287,7 +293,7 @@ class PrefAssistant extends Component {
 
     render(){
         console.log("datos de usuario");
-        console.log(this.props.location.state);
+        console.log(this.props.location.state.token.token);
         
         const handleCheckChangeSub = (event) => {
             console.log("llego");
@@ -357,8 +363,11 @@ class PrefAssistant extends Component {
                                                 </div>
                                                 
                                             </label>
-                                            <input id="file-input" name="myImage" type="file" onChange= {this.onImageChange} />
-                                            {/*  <Button onClick={this.onFormSubmit}>mandelo</Button> */}
+
+                                                <input id="file-input" name="profilePhoto" type="file" onChange= {this.onImageChange} />
+                                                   <Button onClick={this.onImageSubmit}>Enviar Test</Button> 
+                                       
+
                                         </div>
 
                                         </Grid>
