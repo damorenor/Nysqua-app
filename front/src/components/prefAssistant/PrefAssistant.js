@@ -159,8 +159,8 @@ class PrefAssistant extends Component {
     }
     
 
-    onImageSubmit(event){    
-        event.preventDefault();
+    onImageSubmit(){    
+       
         const profilePhot = new FormData();
         console.log(this.state.file);
         
@@ -230,6 +230,44 @@ class PrefAssistant extends Component {
             });
         }else if(this.state.activeStep == 2){
             //Aqui va la logica del request de los demas datos
+            this.onImageSubmit();
+            var subcategoriesChecked = [];
+            var categoriesChecked = [];
+            var categories = ['Hombre','Mujer','Niño','Niña','Bebes'];
+            for (var j = 0; j < categories.length; j++){
+                var checkAux = "checked" + (j+1);
+                if(this.state[checkAux] == true){
+                    categoriesChecked.push(categories[j]);
+                }
+            }
+            for (var z = 0; z < this.state.subcategories.length; z++){
+                if(this.state.subcategories[z].checked == true){
+                    subcategoriesChecked.push(this.state.subcategories[z].name);
+                }
+            }
+
+            const config = {
+                headers: {  
+                    'authorization': this.props.location.state.token.token,
+                }
+            };
+            
+            axios.post('http://localhost:3001/assistant/prefAssistant', {
+                bio: this.state.bio,
+                categories : categoriesChecked,
+                subCategories : subcategoriesChecked,
+               
+                },config)
+                .then((response) => {
+                    //añadir logica
+                    
+                    console.log(response.data);
+                    console.log(this.state.subcategories)
+
+                }, (error) => {
+                    console.log(error);
+
+                });
           
         }
     }
@@ -318,15 +356,7 @@ class PrefAssistant extends Component {
                         </li>   
                     </ul>
         });
-/*         axios.get('http://localhost:3001/users/me', {
-									Autorization: ''
-								
-								}).then((response) => {
-									//añadir logica
-									console.log(response.data);
-									}, (error) => {
-									console.log(error);
-								}); */
+
         
         return(
             <div className="preferences_assistant_container">
@@ -365,7 +395,7 @@ class PrefAssistant extends Component {
                                             </label>
 
                                                 <input id="file-input" name="profilePhoto" type="file" onChange= {this.onImageChange} />
-                                                   <Button onClick={this.onImageSubmit}>Enviar Test</Button> 
+                                                   {/* <Button onClick={this.onImageSubmit}>Enviar Test</Button> */} 
                                        
 
                                         </div>
