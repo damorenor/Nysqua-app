@@ -42,8 +42,11 @@ var UserSchema = new Schema({
         min: 1,
         max: 10
     },
-    preferences: {
-        type: String
+    categories: {
+        type: [String]
+    },
+    subCategories: {
+        type: [String]
     },
     exchangeList: {
         type: [{ type: Schema.ObjectId, ref: 'Exchange' }]
@@ -55,6 +58,9 @@ var UserSchema = new Schema({
         type: [{ type: Schema.ObjectId, ref: 'Magazine' }]
     },
 
+    profilePhoto: {
+        type: String
+    },
     tokens: [{
         token: {
             type: String,
@@ -80,6 +86,16 @@ UserSchema.statics.checkValidCredentials = async (email, password) => {
     }
 
     return user
+}
+
+// add preferences 
+UserSchema.methods.addPreferences= async function (req) {
+    const user = this
+    user.biography = req.body.bio
+    user.categories = req.body.categories 
+    user.subCategories = req.body.subCategories 
+    user.profilePhoto = req.body.profilePhoto 
+    await user.save()
 }
 
 //custom method to generate authToken 
