@@ -1,0 +1,80 @@
+.profile_container {
+    width: 100%;
+    max-width: 100%;
+    min-width: 100%;
+    height: 100%;
+    flex-direction: column;
+    align-items: center !important;
+    justify-content: flex-start;
+}
+
+.MuiTabs-flexContainer {
+    display: flex;
+    justify-content: space-around;
+    background-color: #FAFAFA;
+}
+
+.userProfile{
+    min-width: 70vw;
+    max-width: 70vw;
+    width: 70vw;
+    margin-left: 15vw !important;
+    margin-right: 15vw !important;
+    margin-top: 4vh !important;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+}
+.info_container{
+    width: 100%;
+    height: 36vh;
+
+}
+.tabs_container{
+    width : 100%;
+}
+
+.profilephoto{
+    width: 25vh;
+    height: 25vh;
+    border-radius: 50%;
+    max-width: 100%;
+    overflow: hidden;
+    margin: 0 auto;
+    padding: 0;
+    position: relative;
+   
+}
+
+.profilephoto > .adjust_photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top right;
+}
+.text_info{
+    font-weight: bold;
+}
+
+.text_info p{
+    color: black;
+}
+
+.tab_garment{
+    background-color: #FAFAFA;
+}
+
+.MuiTabs-root {
+    margin-bottom: 4vh;
+}
+
+.PrivateTabIndicator-colorSecondary-130 {
+    background-color: #f50057;
+}
+
+.PrivateTabIndicator-root-128 {
+    height: 4px !important  ;
+}
