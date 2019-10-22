@@ -42,11 +42,11 @@ router.post('/login', async (req, res) => {
 
 router.patch('/me', authenticate, async (req, res) => {
     const updates = Object.keys(req.body)
-    const allowedUpdates = ["name", "email", "password", "age"]
+    const allowedUpdates = ["name", "password", "age", "birthDate", "gender", "biography", "rating", "categories", "subCategories", "profilePhoto"]
     const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
     const _id = req.user._id
 
-    if (!isValidOperation) {
+    if (!isValidOperation) {transmilenio tiempo de ingreso al sistema
         res.status(400).send({ error: 'Invalid request' })
     }
 
