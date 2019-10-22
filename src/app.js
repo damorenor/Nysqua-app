@@ -7,6 +7,7 @@ var signInRouter = require('./routes/signInRouter');
 var signUpRouter = require('./routes/signUpRouter');
 var oauth = require('./routes/oauth');
 var assistantRouter = require('./routes/assistant.route');
+var garmentRouter = require('./routes/garment.route');
 const bodyParser = require('body-parser');
 
 //settings
@@ -32,5 +33,6 @@ app.use('/signIn', signInRouter);
 app.use('/signUp', signUpRouter);
 app.use('/authentication', oauth)
 app.use('/assistant', assistantRouter)
+app.use('/garment', garmentRouter)
 
 module.exports = app;

@@ -46,7 +46,7 @@ router.patch('/me', authenticate, async (req, res) => {
     const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
     const _id = req.user._id
 
-    if (!isValidOperation) {transmilenio tiempo de ingreso al sistema
+    if (!isValidOperation) {
         res.status(400).send({ error: 'Invalid request' })
     }
 
