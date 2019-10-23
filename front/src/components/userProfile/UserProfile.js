@@ -24,7 +24,7 @@ class UserProfile extends Component {
       this.state={
           index : 0,    
           userData : {
-              biography: "Texto de biografia",
+              biography: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliquased do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
               username: "Nombre de Usuario",
               rating : 3,
               exchangeList :[],
@@ -61,19 +61,20 @@ class UserProfile extends Component {
     })(Button);
      
     }
+
     handleChange = (event, value) => {
         console.log(this.state.index);
 
         this.setState({
-          index: value,
+            index: value,
         });
-      };
+    };
     
-      handleChangeIndex = index => {
+    handleChangeIndex = index => {
         this.setState({
-          index,
+            index,
         });
-      };
+    };
  
     render(){
         var myElements = [];
@@ -83,23 +84,20 @@ class UserProfile extends Component {
                 <Grid container 
                         spacing={4}
                         direction = "row"
-                        justify = "center"
-                        alignItems = "stretch"
-                        wrap = "nowrap" 
-                        className = "products_margin">
+                        justify = "center">
 
-                            <Grid item xs={3}>
-                                <ProductCard/>
-                            </Grid>
-                            <Grid item xs={3}>
-                                <ProductCard/>
-                            </Grid>
-                            <Grid item xs={3}>
-                                <ProductCard/>
-                            </Grid>
-                            <Grid item xs={3}>
-                                <ProductCard/>
-                            </Grid>
+                        <Grid item xs={3}>
+                            <ProductCard/>
+                        </Grid>
+                        <Grid item xs={3}>
+                            <ProductCard/>
+                        </Grid>
+                        <Grid item xs={3}>
+                            <ProductCard/>
+                        </Grid>
+                        <Grid item xs={3}>
+                            <ProductCard/>
+                        </Grid>
                 </Grid>
             );
         };
@@ -111,31 +109,60 @@ class UserProfile extends Component {
                  <Navbar />
                  <div className = "userProfile">
                      <div className = "info_container">
-                        <Grid container 
-                        direction="row"
-                        justify="center"
-                        alignItems="center">
-                            <Grid item xs={4}>
-                                <div className = "profilephoto">
-                                <img  className ="adjust_photo"  src ={this.state.userData.profilePhoto} ></img>
-                                </div>
+                         <div className = "profilephoto">
+                            <img  className ="adjust_photo"  src ={this.state.userData.profilePhoto} ></img>
+                        </div>
+                        <div className = "text_info">
+                            <p className="user_name_text">{this.state.userData.username}</p>
+                            <p className="user_bio_text">{this.state.userData.biography}</p>
+                            <Grid container 
+                                direction = "row"
+                                justify = "center"
+                                alignItems = "center"
+                                wrap = "nowrap"
+                                spacing={6}>
+
+                                <Grid item xs={6}>
+                                    <div className="user_rating_container_container">
+                                        <div className="user_rating_container">
+                                            <p>Confiabilidad</p>
+                                            <StarRatings
+                                            rating={this.state.userData.rating}
+                                            starRatedColor="black"
+                                            numberOfStars={5}
+                                            name='rating'
+                                            starDimension ="25px"/>
+                                            <p className="user_rate_text">Super confiable!</p>
+                                        </div>
+                                    </div>
+                                </Grid>
+                                <Grid item xs={6}>
+                                    <div className="swap_rating_container_container">
+                                        <div className="swap_rating_container_margin">
+                                            <div className="swap_rating_container">
+                                                <p>Intercambios</p>
+                                                <div className="swap_rating">
+                                                    <div className="swap_rate_content">
+                                                        <p className="number">100</p>
+                                                        <p>Completados exitosamente</p>
+                                                    </div>
+                                                    <span className="swap_rating_divider"></span>
+                                                    <div className="swap_rate_content">
+                                                        <p className="number">15</p>
+                                                        <p>Cancelados por el usuario</p>
+                                                    </div>
+                                                    <span className="swap_rating_divider"></span>
+                                                    <div className="swap_rate_content">
+                                                        <p className="number">9</p>
+                                                        <p>Cancelados por otros usuarios</p>
+                                                    </div>
+                                                </div>
+                                            </div> 
+                                        </div>
+                                    </div>
+                                </Grid>
                             </Grid>
-                            <Grid item xs={8}>
-                                <div className = "text_info">
-                                    <p>{this.state.userData.username}</p>
-                                    <StarRatings
-                                    rating={this.state.userData.rating}
-                                    starRatedColor="black"
-                                    numberOfStars={5}
-                                    name='rating'
-                                    starDimension ="25px"
-                                    />
-                                    <p>{this.state.userData.biography}</p>
-                                 
-                                    <p>Intercambios</p> 
-                                </div>
-                            </Grid>
-                        </Grid>
+                        </div>
                      </div>
                      <div className = "tabs_container">       
                         <Tabs value={this.state.index} fullWidth onChange={this.handleChange} >
@@ -145,44 +172,20 @@ class UserProfile extends Component {
                         </Tabs>
                         <SwipeableViews index={this.state.index} onChangeIndex={this.handleChangeIndex}>
                             <div className= "tab_garment">
-                                <Grid
-                                container 
-                                direction = "column"
-                                justify = "center"
-                                alignItems = "center"
-                                wrap = "nowrap">
-                                <Grid item xs={4}>
-                                <this.StyledButton 
-									fullWidth
-									focusRipple
-									variant="contained"
-									size="medium"
-									text="bold"
-								>
-                                <IconContext.Provider value={{ className: 'button_icon' }}>
-                                    <div>
-                                    <FaPlus/> 
-                                    </div>
-                                </IconContext.Provider>
-                                  Añadir prenda
-							</this.StyledButton>    
-                                </Grid>
-                                </Grid>
-
-                                <div>
-                                {myElements}
+                                <div className="add_clothes_btn_container">
+                                    <button className="icon-btn add_clothes-btn">
+                                        <div className="add_clothes-icon"></div>
+                                        <div className="add_clothes_btn-txt">Nueva Prenda</div>
+                                    </button>
+                                </div>
+                                <div className="wardrobe_container">
+                                    {myElements}
+                                </div>
                             </div>
-                                
-                                
-                            </div>
-
                             <div className= "tab_garment">Aca estaran los catalogos del usuario</div>
-
                             <div className= "tab_garment">Aca estaran los intercambios del usuario</div>
                         </SwipeableViews>
-               
                      </div>
-
                  </div>
             </div>
         )

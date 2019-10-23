@@ -36,7 +36,7 @@ function Navbar() {
                             <FiMessageSquare/> 
                             <FiUser/>
                         </div>
-                        </IconContext.Provider>
+                    </IconContext.Provider>
                     </Grid>
                 </Grid>
             </div>

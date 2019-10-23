@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import InfoCards from './InfoCards';
+import HomeButtons from './HomeButtons';
 import './Home.css';
 import Navbar from './Navbar';
 import Banner from './Banner';
@@ -29,7 +29,7 @@ class Home extends Component {
                     <div className="carouselcontainer">
                             <Banner />       
                     </div>
-                    <InfoCards />
+                    <HomeButtons />
                     <h1 className="heading-1">Recomendado para ti</h1>
                     <div className="divider-1"> <span></span></div>
                     <Grid container 
