@@ -125,7 +125,7 @@
     right:0;
     width: inherit;
     height: inherit;
-    background-image: radial-gradient(circle, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%);
+    background-image: radial-gradient(circle, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.6) 70%);
     z-index: 2;
 }
 
@@ -138,6 +138,7 @@
     margin: 10px;
     z-index: 13;
     background-color: white;
+    box-shadow: none;
     color: black;
     border-radius: 0.5vw;
     font-size: 0.95em;

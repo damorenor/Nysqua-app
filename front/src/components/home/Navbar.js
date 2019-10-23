@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from "react";
 import Grid from '@material-ui/core/Grid';
 import { withStyles } from '@material-ui/styles';
 import Button from '@material-ui/core/Button';
@@ -6,12 +6,30 @@ import { FiBell } from 'react-icons/fi';
 import { FiUser } from 'react-icons/fi';
 import { FiMessageSquare} from 'react-icons/fi';
 import { IconContext } from "react-icons";
+import { Link } from 'react-router-dom';
 
 import './Navbar.css';
+class Navbar extends Component {
 
-function Navbar() {
-  return (
-      <div className="nav_bar">
+    constructor(props) {
+
+        super(props);
+        this.state={
+          userData: this.props.userData,
+          token: this.props.token
+          }
+          this.handleClick = this.handleClick.bind(this);
+          this.handleToUser = this.handleToUser.bind(this);
+
+      }
+      handleClick() {
+		this.LinkElement.click();
+    }
+    handleToUser(){
+        this.handleClick();
+    }
+      render(){
+          return(      <div className="nav_bar">
           <div className="nav_bar_container">
             <Grid container 
                     spacing={5}
@@ -34,14 +52,29 @@ function Navbar() {
                         <div className="nav_bar_buttons_container">
                             <FiBell/>
                             <FiMessageSquare/> 
-                            <FiUser/>
+                            <div onClick={this.handleClick}>
+                                <FiUser/>
+                            </div>
+                            <Link to={{
+									pathname: '/UserProfile',
+									state: {
+                                        token: this.state.token,
+                                        userData: this.state.userData
+									}
+								}}
+									ref={
+										Link => this.LinkElement = Link
+									}>
+							</Link>
+                            
                         </div>
                     </IconContext.Provider>
                     </Grid>
                 </Grid>
             </div>
       </div>
-  );
+      );
+      }
 }
+export default Navbar;  
 
-export default Navbar;

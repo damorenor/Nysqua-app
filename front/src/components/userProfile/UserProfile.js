@@ -22,7 +22,9 @@ class UserProfile extends Component {
     constructor(props) {
       super(props);
       this.state={
-          index : 0,    
+          index : 0,
+          token:this.props.location.state.token,
+          userDataR:this.props.location.state.userData,    
           userData : {
               biography: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliquased do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
               username: "Nombre de Usuario",
@@ -106,7 +108,7 @@ class UserProfile extends Component {
 
         return(
             <div className = "profile_container">
-                 <Navbar />
+                 <Navbar token = {this.state.token} userData ={this.state.userDataR} />
                  <div className = "userProfile">
                      <div className = "info_container">
                          <div className = "profilephoto">
