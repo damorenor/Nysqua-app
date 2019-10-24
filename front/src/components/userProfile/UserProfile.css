@@ -2,7 +2,7 @@
     --step_size: 55px;
     --primary: #E94057;
     --shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-    --carousel-height: 55vh;
+    --transition-duration: 0.2s;
     --gradient: linear-gradient(136deg, rgb(242, 113, 33) 0%, rgb(233, 64, 87) 50%, rgb(138, 35, 135) 100%);
 }
 
@@ -10,7 +10,7 @@
     width: 100%;
     max-width: 100%;
     min-width: 100%;
-    height: 100%;
+    height: auto;
     flex-direction: column;
     align-items: center !important;
     justify-content: flex-start;
@@ -29,6 +29,7 @@
     margin-left: 15vw !important;
     margin-right: 15vw !important;
     margin-top: 4vh !important;
+    margin-bottom: 4vh !important;
     height: auto;
     display: flex;
     flex-direction: column;
@@ -278,7 +279,7 @@
     border-radius: 35px;
     overflow: hidden;
     position: relative;
-    transition: width 0.2s ease-in-out;
+    transition: width var(--transition-duration) ease-in-out;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -291,7 +292,7 @@
 
 .add_clothes-btn::before,
 .add_clothes-btn::after {
-    transition: width 0.2s ease-in-out, border-radius 0.2s ease-in-out;
+    transition: width var(--transition-duration) ease-in-out, border-radius var(--transition-duration) ease-in-out;
     content: "";
     position: absolute;
     height: 6px;
@@ -323,7 +324,7 @@
     min-width: 120px;
     max-width: 120px;
     opacity: 0;
-    transition: opacity 0.2s;
+    transition: opacity 0.15s;
     color: white;
     font-size: 1.4em;
     letter-spacing: 0;
@@ -341,7 +342,7 @@
 
 .add_clothes-icon::after,
 .add_clothes-icon::before {
-    transition: all 0.2s ease-in-out;
+    transition: all var(--transition-duration) ease-in-out;
     content: "";
     position: absolute;
     height: 28px;
@@ -378,9 +379,69 @@
     top: calc(50% - 2px);
 }
 
-
 .wardrobe_container{
     margin-top: 32px;
     width: 100%;
     height: auto;
+}
+
+.user_name_container{
+    width: auto;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    padding-left: 120px;
+}
+
+.user_edit_btn_container{
+    width: 130px;
+    height: auto;
+    margin-left: 12px;
+}
+.user_edit_btn {
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0;
+    border-radius: 18px;
+    border: solid 1px rgba(0, 0, 0, 0.75);
+    cursor: pointer;
+    background-color: transparent;
+    color: rgba(0, 0, 0, 0.75);
+    transition: all 0.13s linear;
+    margin-top: 5px;
+    cursor: pointer;
+}
+
+.user_edit_btn_label{
+    width: 110px;
+    min-width: 110px;
+    max-width: 110px;
+    position: absolute;
+    color: rgba(0, 0, 0, 0.75);
+    font-size: 0.85em;
+    padding-left: 24px !important;
+    opacity: 0;
+    margin: 0;
+    padding: 0;
+    transition: all 0.05s linear;
+    content: "";
+    pointer-events: none;
+}
+
+.user_edit_icon{
+    vertical-align: middle;
+    margin-left: 8px;
+    padding: 0;
+}
+
+.user_edit_btn:hover {
+    width: 120px;
+}
+
+.user_edit_btn:hover .user_edit_btn_label {
+    opacity: 1;
+    content: "Editar perfil";
 }

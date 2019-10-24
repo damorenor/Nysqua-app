@@ -8,7 +8,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import { IconContext } from "react-icons";
 import StarRatings from 'react-star-ratings';
-import { FaPlus } from 'react-icons/fa';
+import { FiEdit2 } from 'react-icons/fi';
 import SwipeableViews from 'react-swipeable-views';
 import ProductCard from './../productCard';
 
@@ -113,7 +113,17 @@ class UserProfile extends Component {
                             <img  className ="adjust_photo"  src ={this.state.userData.profilePhoto} ></img>
                         </div>
                         <div className = "text_info">
-                            <p className="user_name_text">{this.state.userData.username}</p>
+                            <div className="user_name_container">
+                                <p className="user_name_text">{this.state.userData.username}</p>
+                                <div className="user_edit_btn_container">
+                                    <div className="user_edit_btn">
+                                        <IconContext.Provider value={{ size: "1em", className: 'user_edit_icon'}}>
+                                            <FiEdit2 />
+                                        </IconContext.Provider>
+                                        <p className="user_edit_btn_label">Editar perfil</p>
+                                    </div>
+                                </div>
+                            </div>
                             <p className="user_bio_text">{this.state.userData.biography}</p>
                             <Grid container 
                                 direction = "row"
