@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import HomeButtons from './HomeButtons';
 import './Home.css';
 import Navbar from './Navbar';
+import Footer from './Footer';
 import Banner from './Banner';
 import CategoriesBar from './CategoriesBar';
 import { Grid } from "@material-ui/core";
@@ -18,7 +19,6 @@ class Home extends Component {
         console.log("datos de usuario");
         console.log(this.props.location.state);
         return(
-            
             <div className="home_container">
                 <Navbar />
                 <div className="home">
@@ -74,6 +74,7 @@ class Home extends Component {
                         </Grid>
                     </Grid>
                 </div>
+                <Footer />
             </div>
         );
     }
