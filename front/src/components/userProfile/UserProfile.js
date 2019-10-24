@@ -11,6 +11,7 @@ import StarRatings from 'react-star-ratings';
 import { FiEdit2 } from 'react-icons/fi';
 import SwipeableViews from 'react-swipeable-views';
 import ProductCard from './../productCard';
+import { Link } from 'react-router-dom';
 
 import Navbar from '../home/Navbar';
 import './UserProfile.css';
@@ -35,6 +36,7 @@ class UserProfile extends Component {
           }
 
       }
+      this.handleToEdit = this.handleToEdit.bind(this);
       this.gradient = 'linear-gradient(136deg, rgb(242, 113, 33) 0%, rgb(233, 64, 87) 50%, rgb(138, 35, 135) 100%)';
       this.StyledButton = withStyles({
         root: {
@@ -77,6 +79,9 @@ class UserProfile extends Component {
             index,
         });
     };
+    handleToEdit(){
+        this.LinkToEditElement.click();
+    }
  
     render(){
         console.log(this.state.userData);
@@ -118,13 +123,24 @@ class UserProfile extends Component {
                         <div className = "text_info">
                             <div className="user_name_container">
                                 <p className="user_name_text">{this.state.userData.username}</p>
-                                <div className="user_edit_btn_container">
+                                <div className="user_edit_btn_container" onClick={this.handleToEdit}>
                                     <div className="user_edit_btn">
                                         <IconContext.Provider value={{ size: "1em", className: 'user_edit_icon'}}>
                                             <FiEdit2 />
                                         </IconContext.Provider>
                                         <p className="user_edit_btn_label">Editar perfil</p>
                                     </div>
+                                    <Link to={{
+                                        pathname: '/UserEdit',
+                                        state: {
+                                            token: this.state.token,
+                                            userData: this.state.userData
+                                        }
+                                        }}
+                                        ref={
+                                            LinkToEdit => this.LinkToEditElement = LinkToEdit
+                                        }>
+                                    </Link>
                                 </div>
                             </div>
                             <p className="user_bio_text">{this.state.userData.biography}</p>
