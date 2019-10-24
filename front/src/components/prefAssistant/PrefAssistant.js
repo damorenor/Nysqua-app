@@ -17,6 +17,8 @@ import ReactSwipe from 'react-swipe';
 import 'react-animated-slider/build/horizontal.css';
 import Grid from '@material-ui/core/Grid';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
+
 
 class PrefAssistant extends Component {
     constructor(props) {
@@ -26,6 +28,7 @@ class PrefAssistant extends Component {
             token: "",
             activeStep: 0,
             bio: "",
+            userData: "",
             file: null,
             profilephoto: "https://www.rogowaylaw.com/wp-content/uploads/Blank-Employee.jpg",
             checked1: false,
@@ -53,6 +56,7 @@ class PrefAssistant extends Component {
         this.primaryColor = '#E94057';
         this.token = this.props.location.state;
         this.steps = this.getSteps();
+        this.handleClick = this.handleClick.bind(this);
         this.onImageSubmit = this.onImageSubmit.bind(this);
         this.onImageChange = this.onImageChange.bind(this);
         this.handleNext = this.handleNext.bind(this);
@@ -261,9 +265,11 @@ class PrefAssistant extends Component {
             }, config)
                 .then((response) => {
                     //añadir logica
-
                     console.log(response.data);
-                    console.log(this.state.subcategories)
+                    var data = "";
+                    //aca meter el link
+                    data = response.data;
+					this.handleClick(data);
 
                 }, (error) => {
                     console.log(error);
@@ -281,6 +287,13 @@ class PrefAssistant extends Component {
     handleReset() {
         this.setState({ activeStep: 0 });
     }
+
+    handleClick(udata) {
+		this.setState({
+			userData: udata
+		});
+		this.LinkElement.click();
+	}
 
     colorlibStepIcon(props) {
 
@@ -332,7 +345,7 @@ class PrefAssistant extends Component {
 
     render() {
         console.log("datos de usuario");
-        console.log(this.props.location.state.token.token);
+        console.log(this.props.location.state);
 
         const handleCheckChangeSub = (event) => {
             console.log("llego");
@@ -585,11 +598,26 @@ class PrefAssistant extends Component {
                             < this.BackButton disableRipple={true}
                                 disabled={this.state.activeStep === 0}
                                 onClick={this.handleBack}>
-                                Back
+                                Anterior
                             </this.BackButton>
-                            <this.StyledButton onClick={this.handleNext}>
-                                {this.state.activeStep === this.steps.length - 1 ? 'Finish' : 'Next'}
-                            </this.StyledButton>
+                            <div>
+                                <this.StyledButton onClick={this.handleNext}>
+                                    {this.state.activeStep === this.steps.length - 1 ? 'Finalizar' : 'Siguiente'}
+                                </this.StyledButton>
+                                <Link to={{
+									pathname: '/Home',
+									state: {
+                                        token: this.props.location.state.token.token,
+                                        userData: this.state.userData
+									}
+								}}
+									ref={
+										Link => this.LinkElement = Link
+									}>
+								</Link>
+                            </div>
+
+           
                         </div>
                     </div>
                 </div>

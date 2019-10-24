@@ -382,7 +382,8 @@ class SignIn extends Component {
               <Link  to={{
                     pathname: '/Home',
                     state: {
-                        token: this.state.userData
+                        token: this.state.userData.token,
+                        userData: this.state.userData.user
                     }}} 
                     ref={
                         Link => this.LinkElement = Link
