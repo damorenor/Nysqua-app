@@ -20,7 +20,13 @@ class Home extends Component {
         userData: this.props.location.state.userData,
         token: this.props.location.state.token
         }
+        this.handleToUser = this.handleToUser.bind(this);
     }
+    handleToUser(){
+        this.LinkToUserElement.click();
+
+    }
+    
 
     render(){
         console.log("datos que llegan");
@@ -37,7 +43,7 @@ class Home extends Component {
                     <div className="carouselcontainer">
                             <Banner />       
                     </div>
-                    <HomeButtons />
+                    <HomeButtons token = {this.state.token} userData ={this.state.userData} />
                     <h1 className="heading-1">Recomendado para ti</h1>
                     <div className="divider-1"> <span></span></div>
                     <Grid container 

@@ -20,13 +20,17 @@ class Navbar extends Component {
           }
           this.handleClick = this.handleClick.bind(this);
           this.handleToUser = this.handleToUser.bind(this);
+          this.handleToHome = this.handleToHome.bind(this);
 
-      }
-      handleClick() {
-		this.LinkElement.click();
+    }
+    handleClick() {
+	    this.LinkElement.click();
     }
     handleToUser(){
         this.handleClick();
+    }
+    handleToHome(){
+        this.LinkHomeElement.click();
     }
       render(){
           return(      <div className="nav_bar">
@@ -37,8 +41,8 @@ class Navbar extends Component {
                     justify = "center"
                     alignItems = "center" >
                     <Grid item xs={2}>
-                        <div className="logo">
-                           <a href="/Home"><img src="https://raw.githubusercontent.com/nsaavedraa/imgs/master/nysqua.png"></img></a> 
+                        <div className="logo" onClick={this.handleToHome}>
+                           <a ><img src="https://raw.githubusercontent.com/nsaavedraa/imgs/master/nysqua.png"></img></a> 
                         </div>
                     </Grid>
                     <Grid item xs={7}>
@@ -64,6 +68,17 @@ class Navbar extends Component {
 								}}
 									ref={
 										Link => this.LinkElement = Link
+									}>
+							</Link>
+                            <Link to={{
+									pathname: '/Home',
+									state: {
+                                        token: this.state.token,
+                                        userData: this.state.userData
+									}
+								}}
+									ref={
+										LinkHome => this.LinkHomeElement = LinkHome
 									}>
 							</Link>
                             

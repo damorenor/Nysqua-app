@@ -24,8 +24,8 @@ class UserProfile extends Component {
       this.state={
           index : 0,
           token:this.props.location.state.token,
-          userDataR:this.props.location.state.userData,    
-          userData : {
+          userData:this.props.location.state.userData,    
+          userDataC : {
               biography: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliquased do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
               username: "Nombre de Usuario",
               rating : 3,
@@ -79,6 +79,7 @@ class UserProfile extends Component {
     };
  
     render(){
+        console.log(this.state.userData);
         var myElements = [];
         var completes= this.state.userData.garmentList.length - (this.state.userData.garmentList.length %  4);
         for(var i = 0; i < Math.floor(this.state.userData.garmentList.length/4) ; i++) {
@@ -108,7 +109,7 @@ class UserProfile extends Component {
 
         return(
             <div className = "profile_container">
-                 <Navbar token = {this.state.token} userData ={this.state.userDataR} />
+                 <Navbar token = {this.state.token} userData ={this.state.userData} />
                  <div className = "userProfile">
                      <div className = "info_container">
                          <div className = "profilephoto">
@@ -129,7 +130,7 @@ class UserProfile extends Component {
                                         <div className="user_rating_container">
                                             <p>Confiabilidad</p>
                                             <StarRatings
-                                            rating={this.state.userData.rating}
+                                            rating={4}
                                             starRatedColor="black"
                                             numberOfStars={5}
                                             name='rating'
