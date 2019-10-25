@@ -9,12 +9,12 @@ const Garment = require('../models/garments');
 const { ObjectID } = require('mongodb');
 
 
-router.post('/add', authenticate ,async (req, res) => {
+router.post('/add', authenticate, async (req, res) => {
     req.user
 
     garment = new Garment({
         idUser: req.user._id,
-        section: req.body.section,
+        section: req.body.section, //ME WO KB KG BA
         type: req.body.type,
         size: req.body.size,
         userperiod: req.body.userperiod,
