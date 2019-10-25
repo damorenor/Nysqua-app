@@ -3,7 +3,7 @@ import Navbar from '../home/Navbar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import TextField from '@material-ui/core/TextField';
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles, createMuiTheme } from '@material-ui/core/styles';
 import StepConnector from '@material-ui/core/StepConnector';
 import IconButton from '@material-ui/core/IconButton';
 import InputAdornment from '@material-ui/core/InputAdornment';
@@ -13,6 +13,8 @@ import Select from '@material-ui/core/Select';
 import SwipeableViews from 'react-swipeable-views';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
+import { ThemeProvider } from '@material-ui/styles';
+import { Link } from 'react-router-dom';
 import FormControl from '@material-ui/core/FormControl';
 import Button from '@material-ui/core/Button';
 import axios from 'axios';
@@ -20,8 +22,10 @@ import Grid from '@material-ui/core/Grid';
 
 import './UserEdit.css';
 
+var stateCategories=[];
 
 class UserEdit extends Component {
+
     constructor(props) {
         super(props);
         this.state={
@@ -33,15 +37,18 @@ class UserEdit extends Component {
             checked5: false,
             token: this.props.location.state.token,
             userData: this.props.location.state.userData, 
-            profilePhoto: "https://www.rogowaylaw.com/wp-content/uploads/Blank-Employee.jpg",
-            bio:"",
+            profilePhoto: this.props.location.state.userData.profilePhoto,
+            bio: this.props.location.state.userData.biography,
             password:"",
             passwordPrev:"",
             showPassword: false,
             showPasswordPrev: false,
             passwordError: false,
-            gender: '',
-            subcategories: []
+            gender: this.props.location.state.userData.gender,
+            subcategories: [],
+            categories: [],
+            initialCategories:this.props.location.state.userData.categories,
+            initialSubCategories:this.props.location.state.userData.subCategories   
 
         }
         this.gradient = 'linear-gradient(136deg, rgb(242, 113, 33) 0%, rgb(233, 64, 87) 50%, rgb(138, 35, 135) 100%)';
@@ -50,15 +57,25 @@ class UserEdit extends Component {
         this.handleChangeBio = this.handleChangeBio.bind(this);
         this.handleChangeForm = this.handleChangeForm.bind(this);
         this.handleGenderChange = this.handleGenderChange.bind(this);
+        this.initializeCategories = this.initializeCategories.bind(this);
         this.handleClickShowPassword = this.handleClickShowPassword.bind(this);
         this.handleClickShowPasswordPrev = this.handleClickShowPasswordPrev.bind(this);
+        this.handleClickToUser = this.handleClickToUser.bind(this);
         this.handleCheckChange = this.handleCheckChange.bind(this);
         this.handleMouseDownPassword = event => {
 			event.preventDefault();
         };
         this.handleMouseDownPasswordPrev = event => {
 			event.preventDefault();
-		};
+        };
+        this.theme = createMuiTheme({
+			palette: {
+				primary: {
+					main: this.primaryColor,
+					contrastText: '#FFF',
+				},
+			},
+		});
         this.colorlibConnector = withStyles({
             root: {
                 width: '100%',
@@ -135,39 +152,68 @@ class UserEdit extends Component {
 			},
 		})(Button);
     }
+    initializeCategories(){
+        //1 Hombre 2 Mujer 3 Niño 4 Niñas 5 Bebes
+        var cat = ['Hombre', 'Mujer', 'Niño', 'Niña', 'Bebes'];
+        for (var i = 0; i < cat.length; i++){
+            if(this.state.initialCategories.includes(cat[i])){
+                var add = i+1;
+                var idcheck = "checked"+add;
+                this.setState({
+                    [idcheck]: true
+                });
+
+            }
+        }
+    }
+    handleClickToUser() {
+
+		this.LinkToUserElement.click();
+	}
     handleChange = (event, value) => {
         
 
         this.setState({
             index: value,
         });
+        this.initializeCategories();
         
-        if(this.state.index ==1){
-            axios.post('http://localhost:3001/assistant/categories', {
-                checked1: this.state.checked1,
-                checked2: this.state.checked2,
-                checked3: this.state.checked3,
-                checked4: this.state.checked4,
-                checked5: this.state.checked5,
-            })
-                .then((response) => {
+        axios.post('http://localhost:3001/assistant/categories', {
+            checked1: this.state.checked1,
+            checked2: this.state.checked2,
+            checked3: this.state.checked3,
+            checked4: this.state.checked4,
+            checked5: this.state.checked5,
+        })
+            .then((response) => {
 
-                    var serverResponse = response.data.out;
-                    var serverSubCategories = [];
-                    var subCategories = [];
+                var serverResponse = response.data.out;
+                var serverSubCategories = [];
+                var subCategories = [];
 
-                    serverResponse.map((e, i) => !serverSubCategories.includes(e) && serverSubCategories.push(e))
+                serverResponse.map((e, i) => !serverSubCategories.includes(e) && serverSubCategories.push(e))
 
-                    for (var i = 0; i < serverSubCategories.length; i++) {
+                for (var i = 0; i < serverSubCategories.length; i++) {
+                    if(this.state.initialSubCategories.includes(serverSubCategories[i])){
+                        console.log(serverSubCategories[i]);
+                        subCategories.push({ name: serverSubCategories[i], checked: true });
+                    } 
+                    else{
                         subCategories.push({ name: serverSubCategories[i], checked: false });
                     }
-                    console.log(subCategories);
-                    this.setState({ subcategories: subCategories });
+                    
+                    
+                }
+                console.log(subCategories);
+                this.setState({ subcategories: subCategories });
 
-                }, (error) => {
-                    console.log(error);
-                });
-        }
+            }, (error) => {
+                console.log(error);
+            });
+       
+        
+            
+      
     };
     handleGenderChange(event) {
 		this.setState({
@@ -197,7 +243,107 @@ class UserEdit extends Component {
         }
     }
     handleCheckChange(event) {
+        //aca toca 
         var changedProp = "checked" + event.currentTarget.value.toString();
+        if(event.currentTarget.value.toString() == "1"){
+            if(this.state[changedProp]){
+                var aux = this.state.initialCategories;
+                var i = aux.indexOf("Hombre");
+                aux.splice( i, 1 );
+                this.setState({
+                    initialCategories: aux
+                });
+            }
+            else{
+                var aux = this.state.initialCategories;
+                aux.push("Hombre");
+                this.setState({
+                    initialCategories: aux
+                });
+              
+            }
+   
+
+        }
+        if(event.currentTarget.value.toString() == "2"){
+            if(this.state[changedProp]){
+
+                var aux = this.state.initialCategories;
+                var i = aux.indexOf("Mujer");
+                aux.splice( i, 1 );
+                this.setState({
+                    initialCategories: aux
+                });
+            }
+            else{
+                var aux = this.state.initialCategories;
+                aux.push("Mujer");
+                this.setState({
+                    initialCategories: aux
+                });
+              
+            }
+            
+        }
+        if(event.currentTarget.value.toString() == "3"){
+            if(this.state[changedProp]){
+                var aux = this.state.initialCategories;
+                var i = aux.indexOf("Niño");
+                aux.splice( i, 1 );
+                this.setState({
+                    initialCategories: aux
+                });
+            }
+            else{
+                var aux = this.state.initialCategories;
+                aux.push("Niño");
+                this.setState({
+                    initialCategories: aux
+                });
+              
+            }
+            
+        }
+        if(event.currentTarget.value.toString() == "4"){
+            if(this.state[changedProp]){
+              
+                var aux = this.state.initialCategories;
+                var i = aux.indexOf("Niña");
+                aux.splice( i, 1 );
+                this.setState({
+                    initialCategories: aux
+                });
+            }
+            else{
+                var aux = this.state.initialCategories;
+                aux.push("Niña");
+                this.setState({
+                    initialCategories: aux
+                });
+              
+            }
+            
+        }
+        if(event.currentTarget.value.toString() == "5"){
+            if(this.state[changedProp]){
+                var aux = this.state.initialCategories;
+                var i = aux.indexOf("Bebes");
+                aux.splice( i, 1 );
+                this.setState({
+                    initialCategories: aux
+                });
+            }
+            else{
+                var aux = this.state.initialCategories;
+                aux.push("Bebes");
+                this.setState({
+                    initialCategories: aux
+                });
+              
+            }
+            
+        }
+        
         this.setState({
             [changedProp]: !this.state[changedProp]
         });
@@ -219,10 +365,10 @@ class UserEdit extends Component {
             bio: event.target.value
         });
     }
+  
     render(){
-
+        
         const handleCheckChangeSub = (event) => {
-            console.log("llego");
             for (var i = 0; i < this.state.subcategories.length; i++) {
                 if (this.state.subcategories[i].name == event.currentTarget.value.toString()) {
                     this.state.subcategories[i].checked = !this.state.subcategories[i].checked;
@@ -230,11 +376,23 @@ class UserEdit extends Component {
                 }
             };
         };
-
+        const checkeditems = this.state.initialSubCategories;
         const listItems = this.state.subcategories.map(function (d) {
             var idstr = "checkbox" + d.name;
-
-            return <ul className="ks-cboxtags">
+            
+            if(checkeditems.includes(d.name)){
+                return <ul className="ks-cboxtags-checked">
+                <li>
+                    <input type="checkbox" id={idstr}
+                        value={d.name}
+                        onChange={handleCheckChangeSub}
+                    />
+                    <label htmlFor={idstr}>{d.name}</label>
+                </li>
+             </ul>
+            }
+            else{
+                return <ul className="ks-cboxtags">
                 <li>
                     <input type="checkbox" id={idstr}
                         value={d.name}
@@ -243,8 +401,12 @@ class UserEdit extends Component {
                     <label htmlFor={idstr}>{d.name}</label>
                 </li>
             </ul>
-        });
+            }
 
+            
+        });
+        console.log(this.state.userData);
+        
         return(
     <div className ="editProfile_container">
         <Navbar token = {this.state.token} userData ={this.state.userData} />
@@ -257,7 +419,7 @@ class UserEdit extends Component {
                     <Tab label="Subcategorias Preferidas" />
                 </Tabs>
                 <SwipeableViews index={this.state.index} onChangeIndex={this.handleChangeIndex}>
-                    <div className= "tab_garment">
+                    <div className= "tab_info">
                         <div className="image-upload">
                             < label htmlFor="file-input" >
                                 <div className="profilepic">
@@ -265,98 +427,109 @@ class UserEdit extends Component {
                                 </div>
                             </label>
                             <input id="file-input" name="profilePhoto" type="file" onChange={this.onImageChange} />
-                            {/* <Button onClick={this.onImageSubmit}>Enviar Test</Button> */}
+                            <p className="user_name_text">{this.state.userData.username}</p>
                         </div>
+                            
                         < this.StyledTextField
-                            variant="outlined"
-                            margin="normal"
-                            fullWidth
-                            id="bio"
-                            label="Tu biografia"
-                            name="bio"
-                            autoComplete="Bio"
-                            color={this.primaryColor}
-                            multiline
-                            rows="4"
-                            rowsMax="10"
-                            onChange={this.handleChange}
-                        />
-                        < this.StyledTextField
-								variant="outlined"
-								margin="normal"
-								fullWidth
-								name="passwordPrev"
-								label="Contraseña Actual"
-								id="passwordPrev"
-								autoComplete="current-password"
-								type={this.state.showPasswordPrev ? 'text' : 'password'}
-								value={this.state.passwordPrev}
-								onChange={this.handleChangeForm}
-								error={this.state.passwordError && this.state.passwordPrev.length < 7}
-								helperText={this.state.passwordError && this.state.passwordPrev.length < 7 ? "La contraseña debe tener minimo 7 caracteres" : ""}
-								InputProps={{
-									endAdornment: (
-										<InputAdornment position="end">
-											<IconButton
-												aria-label="toggle password visibility"
-												onClick={this.handleClickShowPasswordPrev}
-												onMouseDown={this.handleMouseDownPasswordPrev}>
-												{(this.state.showPasswordPrev) ? (<VisibilityOff />) : (<Visibility />)}
-											</IconButton>
-										</InputAdornment>
-									),
-								}}
-							/>
-                        < this.StyledTextField
-								variant="outlined"
-								margin="normal"
-								fullWidth
-								name="password"
-								label="Nueva Contraseña"
-								id="password"
-								autoComplete="current-password"
-								type={this.state.showPassword ? 'text' : 'password'}
-								value={this.state.password}
-								onChange={this.handleChangeForm}
-								error={this.state.passwordError && this.state.password.length < 7}
-								helperText={this.state.passwordError && this.state.password.length < 7 ? "La contraseña debe tener minimo 7 caracteres" : ""}
-								InputProps={{
-									endAdornment: (
-										<InputAdornment position="end">
-											<IconButton
-												aria-label="toggle password visibility"
-												onClick={this.handleClickShowPassword}
-												onMouseDown={this.handleMouseDownPassword}>
-												{(this.state.showPassword) ? (<VisibilityOff />) : (<Visibility />)}
-											</IconButton>
-										</InputAdornment>
-									),
-								}}
-							/>
-                            <FormControl
-                            variant="outlined"
-                            fullWidth>
-                                <InputLabel htmlFor="outlined-age-simple">
-                                    Genero
-								</InputLabel>
-                                <Select
-                                    fullWidth
-                                    value={this.state.gender}
-                                    onChange={this.handleGenderChange}
-                                    labelWidth={54}
-                                    inputProps={{
-                                        gender: 'age',
-                                        id: 'outlined-age-simple',
-                                    }}
-                                >
-                                    <MenuItem value="Men">Hombre</MenuItem>
-                                    <MenuItem value="Women">Mujer</MenuItem>
-                                    <MenuItem value="Undefined">Indefinido</MenuItem>
-                                </Select>
-                            </FormControl>
+                                variant="outlined"
+                                margin="normal"
+                                fullWidth
+                                id="bio"
+                                label="Tu biografia"
+                                name="bio"
+                                autoComplete="Bio"
+                                color={this.primaryColor}
+                                multiline
+                                rows="4"
+                                rowsMax="10"
+                                onChange={this.handleChange}
+                                value = {this.state.bio}
+                            />
+                            <div className="passwords-container">
+                                <div className= "password_item">
+                                    < this.StyledTextField
+                                            variant="outlined"
+                                            margin="normal"
+                                            fullWidth
+                                            name="passwordPrev"
+                                            label="Contraseña Actual"
+                                            id="passwordPrev"
+                                            autoComplete="current-password"
+                                            type={this.state.showPasswordPrev ? 'text' : 'password'}
+                                            value={this.state.passwordPrev}
+                                            onChange={this.handleChangeForm}
+                                            error={this.state.passwordError && this.state.passwordPrev.length < 7}
+                                            helperText={this.state.passwordError && this.state.passwordPrev.length < 7 ? "La contraseña debe tener minimo 7 caracteres" : ""}
+                                            InputProps={{
+                                                endAdornment: (
+                                                    <InputAdornment position="end">
+                                                        <IconButton
+                                                            aria-label="toggle password visibility"
+                                                            onClick={this.handleClickShowPasswordPrev}
+                                                            onMouseDown={this.handleMouseDownPasswordPrev}>
+                                                            {(this.state.showPasswordPrev) ? (<VisibilityOff />) : (<Visibility />)}
+                                                        </IconButton>
+                                                    </InputAdornment>
+                                                ),
+                                            }}
+                                    />
+                                </div>
 
+                                < this.StyledTextField
+                                        variant="outlined"
+                                        margin="normal"
+                                        fullWidth
+                                        name="password"
+                                        label="Nueva Contraseña"
+                                        id="password"
+                                        autoComplete="current-password"
+                                        type={this.state.showPassword ? 'text' : 'password'}
+                                        value={this.state.password}
+                                        onChange={this.handleChangeForm}
+                                        error={this.state.passwordError && this.state.password.length < 7}
+                                        helperText={this.state.passwordError && this.state.password.length < 7 ? "La contraseña debe tener minimo 7 caracteres" : ""}
+                                        InputProps={{
+                                            endAdornment: (
+                                                <InputAdornment position="end">
+                                                    <IconButton
+                                                        aria-label="toggle password visibility"
+                                                        onClick={this.handleClickShowPassword}
+                                                        onMouseDown={this.handleMouseDownPassword}>
+                                                        {(this.state.showPassword) ? (<VisibilityOff />) : (<Visibility />)}
+                                                    </IconButton>
+                                                </InputAdornment>
+                                            ),
+                                        }}
+                                />
+                            </div>
+                            
+                            <div className="gender_container">
+                                <ThemeProvider theme={this.theme}>
+                                    <FormControl
+                                    variant="outlined"
+                                    fullWidth>
+                                        <InputLabel htmlFor="outlined-age-simple">
+                                            Genero
+                                        </InputLabel>
+                                        <Select
+                                            fullWidth
+                                            value={this.state.gender}
+                                            onChange={this.handleGenderChange}
+                                            labelWidth={54}
+                                            inputProps={{
+                                                gender: 'age',
+                                                id: 'outlined-age-simple',
+                                            }}
+                                        >
+                                            <MenuItem value="Men">Hombre</MenuItem>
+                                            <MenuItem value="Women">Mujer</MenuItem>
+                                            <MenuItem value="Undefined">Indefinido</MenuItem>
+                                        </Select>
+                                    </FormControl>
+                                </ThemeProvider>
+                            </div>
                     </div>
-                    <div className= "tab_garment">
+                    <div className= "tab_categories">
                         <div className="second_container">
                     <Grid container
                         spacing={1}
@@ -501,21 +674,72 @@ class UserEdit extends Component {
                     </Grid>
                         </div>         
                     </div>
-                    <div className= "tab_garment">
+                    <div className= "tab_subcategories">
                         <div className="subcategories_container">
                             {listItems}
                         </div>
                     </div>
                 </SwipeableViews>
             </div>
-
-            <this.StyledButton 
-									focusRipple
-									variant="contained"
-									size="medium"
-									text="bold"
-								> Guardar Cambios
-						</this.StyledButton>
+            <div>
+                <this.StyledButton 
+                    focusRipple
+                    variant="contained"
+                    size="medium"
+                    text="bold"
+                    onClick ={()=>{
+                        var subcategoriesChecked = [];
+                        for (var z = 0; z < this.state.subcategories.length; z++) {
+                            if (this.state.subcategories[z].checked == true) {
+                                subcategoriesChecked.push(this.state.subcategories[z].name);
+                            }
+                        }
+                        const config = {
+                            headers: {
+                                'authorization': this.state.token,
+                            }
+                        };
+                        console.log("//////////////////////");
+                        console.log(subcategoriesChecked);
+                        console.log(this.state.subcategories);
+                        axios.patch('http://localhost:3001/users/me ', {
+                            profilePhoto: this.state.profilePhoto,
+                            biography: this.state.bio,
+                            categories: this.state.initialCategories,
+                            subCategories: subcategoriesChecked,
+                            password:this.state.password,
+                            gender:this.state.gender
+            
+                        }, config)
+                            .then((response) => {
+                                //añadir logica
+                                console.log(response.data);
+                                this.setState({
+                                    userData: response.data
+                                });
+                                this.handleClickToUser();
+                                
+            
+                            }, (error) => {
+                                console.log(error);
+            
+                            });
+                    }}
+                    > Guardar Cambios
+                </this.StyledButton>
+                <Link to={{
+									pathname: '/UserProfile',
+									state: {
+                                        token: this.state.token,
+                                        userData: this.state.userData
+									}
+								}}
+									ref={
+										Link => this.LinkToUserElement = Link
+									}>
+				</Link>
+            </div>
+            
         </div>
     </div>
         );

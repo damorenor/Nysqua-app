@@ -50,6 +50,20 @@
    
 }
 
+.profilepic{
+    width: 25vh;
+    height: 25vh;
+}
+
+.image-upload{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 2vh;
+}
+
+
 .profilephoto > .adjust_photo {
     width: 100%;
     height: 100%;
@@ -61,7 +75,8 @@
     width : 100%;
 }
 
-.tab_garment{
+
+.tab_info{
     background-color: #FAFAFA;
     overflow: hidden !important;
     width: 100%;
@@ -71,6 +86,67 @@
     align-items: center;
     justify-content: center;
     padding: 0;
+    padding-left: 25%;
+    padding-right: 25%;
+    padding-bottom: 5vh
+}
+.tab_info .MuiFormControl-marginNormal {
+    margin-top: 2vh;
+    margin-bottom: 0;
+ }
+.passwords-container{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+.gender_container{
+    width: 100%;
+    margin-top: 2vh;    
+}
+.password_item{
+    padding-right: 2vh;
+    width: 100%;
+}
+
+.image-upload .user_name_text{
+    color: black;
+    font-weight: bold;
+    font-size: 2em;
+    margin-top: 1vh;
+    margin-bottom: 0;
+}
+/* .tab_info .MuiFormControl-marginNormal {
+    margin-bottom: 0px;
+} */
+.tab_categories{
+    background-color: #FAFAFA;
+    overflow: hidden !important;
+    width: 100%;
+    height: 100% !important;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+
+}
+.tab_subcategories{
+    background-color: #FAFAFA;
+    overflow: hidden !important;
+    width: 100%;
+    height: 100% !important;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;    
+    justify-content: center;
+    padding: 0;
+    padding-left: 25%;
+    padding-right: 25%;
+
 }
 
 .MuiTabs-root {
@@ -190,6 +266,77 @@
 .tm-link.left:after {
     width: 17px;
 }
+
+
+ul.ks-cboxtags-checked  {
+    list-style: none;
+    display: inline-block !important;
+    width: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    padding-left: 5px !important;
+}
+
+ul.ks-cboxtags-checked li{
+  display: inline;
+  white-space:nowrap;
+}
+
+ul.ks-cboxtags-checked li label{
+    display: inline-block;
+    border: 2px solid var(--primary);
+    background: var(--primary);
+    color:white;
+    font-weight: 500;
+    border-radius: 25px;
+    white-space: nowrap;
+    margin: 3px 0px;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    transition: all .2s;
+}
+
+ul.ks-cboxtags-checked li label {
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: all .2s;
+}
+
+
+ul.ks-cboxtags-checked li input[type=checkbox]:checked + label {
+    background-color: rgba(255, 255, 255, .9);
+    border: 2px solid rgba(1, 1, 1, .3);
+    color: rgba(1, 1, 1, .5);
+
+    transition: all .2s;
+}
+
+ul.ks-cboxtags-checked li input[type="checkbox"] {
+  display: absolute;
+}
+
+ul.ks-cboxtags-checked li input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+}
+ul.ks-cboxtags-checked li label:hover {
+    color: white;
+    border: 2px solid var(--primary);
+    transition: all .2s;
+}
+ul.ks-cboxtags-checked li input[type=checkbox]:checked + label:hover {
+    color: var(--primary);
+    border: 2px solid var(--primary);
+    transition: all .2s;
+}
+
+
+
+
 
 ul.ks-cboxtags {
     list-style: none;
