@@ -48,6 +48,15 @@ var UserSchema = new Schema({
     subCategories: {
         type: [String]
     },
+    totalExchanges: {
+        type: Number
+    },
+    exchangesCanceled: {
+        type: Number
+    },
+    exchangesCanceledByOthers: {
+        type: Number
+    },
     exchangeList: {
         type: [{ type: Schema.ObjectId, ref: 'Exchange' }]
     },

@@ -32,7 +32,7 @@ router.post('/add', authenticate, async (req, res) => {
     } catch (error) {
         res.status(400).send()
     }
-})
+});
 
 router.get('/preferences', authenticate, async (req, res) => {
     req.user
@@ -40,14 +40,14 @@ router.get('/preferences', authenticate, async (req, res) => {
     var subcategorys = req.body.subcategorys
     console.log(categorys)
     console.log(subcategorys)
-    var r = await Garment.find({ $and: [{ category: { $in: categorys } }, { subcategory: { $in: subcategorys } }] });
+    var r = await Garment.find({ $and: [{ category: { categorys } }, { subcategory: { subcategorys } }] });
     console.log(r);
     try {
         res.send(r);
     } catch (error) {
         res.status(400).send()
     }
-})
+});
 
 router.delete('/delete', authenticate, async (req, res) => {
     var garmentId = req.body.garmentID
@@ -61,6 +61,22 @@ router.delete('/delete', authenticate, async (req, res) => {
     } catch (error) {
         res.status(400).send()
     }
+});
+
+router.get('/search', authenticate, async (req, res) => {
+    req.user
+    var categorys = req.body.categorys
+    var subcategorys = req.body.subcategorys
+    var size = req.body.size
+    var color = req.body.color
+    var r = await Garment.find({ $and: [{ category: categorys }, { subcategory: subcategorys }, { color: color }, { size: size }] });
+    console.log(r);
+    try {
+        res.send(r);
+    } catch (error) {
+        res.status(400).send()
+    }
+
 })
 
 
