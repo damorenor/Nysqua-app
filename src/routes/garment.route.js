@@ -34,13 +34,14 @@ router.post('/add', authenticate, async (req, res) => {
     }
 });
 
+//get all the garments that meet with categories, subcategories
 router.get('/preferences', authenticate, async (req, res) => {
     req.user
-    var categorys = req.body.categorys
-    var subcategorys = req.body.subcategorys
-    console.log(categorys)
-    console.log(subcategorys)
-    var r = await Garment.find({ $and: [{ category: { categorys } }, { subcategory: { subcategorys } }] });
+    var categories = req.body.categories
+    var subcategories = req.body.subcategories
+    console.log(categories)
+    console.log(subcategories)
+    var r = await Garment.find({ $and: [{ category: { categories } }, { subcategory: { subcategories } }] });
     console.log(r);
     try {
         res.send(r);
@@ -49,6 +50,7 @@ router.get('/preferences', authenticate, async (req, res) => {
     }
 });
 
+//delete the garment associated to garmentID
 router.delete('/delete', authenticate, async (req, res) => {
     var garmentId = req.body.garmentID
     var r = await Garment.deleteOne({ _id: garmentId }, function (error) {
@@ -63,13 +65,14 @@ router.delete('/delete', authenticate, async (req, res) => {
     }
 });
 
+//get all the garments that meet with categories, subcategories, size, color
 router.get('/search', authenticate, async (req, res) => {
     req.user
-    var categorys = req.body.categorys
-    var subcategorys = req.body.subcategorys
+    var categories = req.body.categories
+    var subcategories = req.body.subcategories
     var size = req.body.size
     var color = req.body.color
-    var r = await Garment.find({ $and: [{ category: categorys }, { subcategory: subcategorys }, { color: color }, { size: size }] });
+    var r = await Garment.find({ $and: [{ category: categories }, { subcategory: subcategories }, { color: color }, { size: size }] });
     console.log(r);
     try {
         res.send(r);
@@ -77,8 +80,19 @@ router.get('/search', authenticate, async (req, res) => {
         res.status(400).send()
     }
 
-})
+});
 
+//get the garment associated to garmentID
+router.get('/get', authenticate, async (req, res) => {
+    req.user
+    var id = req.body.garmentID
+    var r = await Garment.findOne({ _id: id });
+    try {
+        res.send(r);
+    } catch (error) {
+        res.status(400).send()
+    }
+});
 
 
 
