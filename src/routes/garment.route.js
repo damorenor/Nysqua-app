@@ -42,13 +42,27 @@ router.get('/preferences', authenticate, async (req, res) => {
     console.log(subcategorys)
     var r = await Garment.find({ $and: [{ category: { $in: categorys } }, { subcategory: { $in: subcategorys } }] });
     console.log(r);
-
     try {
         res.send(r);
     } catch (error) {
         res.status(400).send()
     }
 })
+
+router.delete('/delete', authenticate, async (req, res) => {
+    var garmentId = req.body.garmentID
+    var r = await Garment.deleteOne({ _id: garmentId }, function (error) {
+        if (error) return handleError(error)
+        return true
+    })
+    console.log(r)
+    try {
+        res.send(r)
+    } catch (error) {
+        res.status(400).send()
+    }
+})
+
 
 
 
