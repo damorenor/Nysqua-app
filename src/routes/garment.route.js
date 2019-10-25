@@ -14,18 +14,37 @@ router.post('/add', authenticate, async (req, res) => {
 
     garment = new Garment({
         idUser: req.user._id,
-        section: req.body.section, //ME WO KB KG BA
-        type: req.body.type,
+        category: req.body.category,
+        subcategory: req.body.subcategory,
+        title: req.body.title,
+        description: req.body.description,
         size: req.body.size,
         userperiod: req.body.userperiod,
         color: req.body.color,
         state: req.body.state,
         images: req.body.images,
         tags: req.body.tags
+        //postDate: req.boy.postDate
     });
     try {
         await garment.save()
         res.send(garment);
+    } catch (error) {
+        res.status(400).send()
+    }
+})
+
+router.get('/preferences', authenticate, async (req, res) => {
+    req.user
+    var categorys = req.body.categorys
+    var subcategorys = req.body.subcategorys
+    console.log(categorys)
+    console.log(subcategorys)
+    var r = await Garment.find({ $and: [{ category: { $in: categorys } }, { subcategory: { $in: subcategorys } }] });
+    console.log(r);
+
+    try {
+        res.send(r);
     } catch (error) {
         res.status(400).send()
     }
