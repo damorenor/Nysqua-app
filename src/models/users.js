@@ -40,13 +40,22 @@ var UserSchema = new Schema({
     rating: {
         type: Number,
         min: 1,
-        max: 10
+        max: 5
     },
     categories: {
         type: [String]
     },
     subCategories: {
         type: [String]
+    },
+    totalExchanges: {
+        type: Number
+    },
+    exchangesCanceled: {
+        type: Number
+    },
+    exchangesCanceledByOthers: {
+        type: Number
     },
     exchangeList: {
         type: [{ type: Schema.ObjectId, ref: 'Exchange' }]
@@ -87,6 +96,19 @@ UserSchema.statics.checkValidCredentials = async (email, password) => {
 
     return user
 }
+
+UserSchema.methods.checkPassword = async function (currentPassword) {
+    const user = this 
+    const isMatch = await bcrypt.compare(currentPassword, user.password)
+
+    if (!isMatch) {
+        return false 
+        
+    }
+
+    return true
+}
+
 
 // add preferences 
 UserSchema.methods.addPreferences = async function (req) {

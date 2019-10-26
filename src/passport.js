@@ -17,12 +17,9 @@ passport.use('facebookToken', new FacebookTokenStrategy({
     clientSecret: "01e1ff33fe84285678138984e8744f9a"
 }, async (accessToken, refreshToken, profile, done) => {
     try {
-        //console.log('profile', profile);
-        //console.log('accessToken', accessToken);
-        //console.log('refreshToken', refreshToken);
 
         const existingUser = await User.findOne({ "email": profile.emails[0].value });
-        //console.log(existingUser);
+
         if (existingUser) {
             console.log("Existe");
             return done(null, existingUser);
@@ -32,7 +29,12 @@ passport.use('facebookToken', new FacebookTokenStrategy({
             method: 'facebook',
             methodID: profile.id,
             email: profile.emails[0].value,
-            username: profile.displayName
+            username: profile.displayName,
+            rating: 5,
+            totalExchanges: 0,
+            exchangesCanceled: 0,
+            exchangesCanceledByOthers: 0,
+            profilePhoto: "undefined"
         });
         await newUser.save();
         done(null, newUser);
@@ -47,10 +49,6 @@ passport.use('googleToken', new GooglePlusTokenStrategy({
     clientSecret: "LJezw9NLB_jumt3fPQZFEsjS"
 }, async (accessToken, refreshToken, profile, done) => {
     try {
-        // Should have full user profile over here
-        //console.log('profile', profile);
-        //console.log('accessToken', accessToken);
-        //console.log('refreshToken', refreshToken);
 
         const existingUser = await User.findOne({ "email": profile.emails[0].value });
         if (existingUser) {
@@ -62,7 +60,12 @@ passport.use('googleToken', new GooglePlusTokenStrategy({
             method: 'google',
             methodID: profile.id,
             email: profile.emails[0].value,
-            username: profile.displayName
+            username: profile.displayName,
+            rating: 5,
+            totalExchanges: 0,
+            exchangesCanceled: 0,
+            exchangesCanceledByOthers: 0,
+            profilePhoto: "undefined"
         });
 
         await newUser.save();

@@ -11,9 +11,15 @@ import StarRatings from 'react-star-ratings';
 import { FiEdit2 } from 'react-icons/fi';
 import SwipeableViews from 'react-swipeable-views';
 import ProductCard from './../productCard';
-import { Link } from 'react-router-dom';
 
+import { Link } from 'react-router-dom';
+import Dialog from '@material-ui/core/Dialog';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogActions from '@material-ui/core/DialogActions';
+import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
 import Navbar from '../home/Navbar';
+import ClothesAssistant from '../ClothesAssistant/ClothesAssistant';
 import './UserProfile.css';
 
 
@@ -33,10 +39,16 @@ class UserProfile extends Component {
               exchangeList :[],
               garmentList: ["prenda1","prenda2","prenda3","prenda4","prenda5","prenda6","prenda7","prenda8" ,"prenda9","prenda10","prenda11"     ],
               profilePhoto : "https://www.rogowaylaw.com/wp-content/uploads/Blank-Employee.jpg",
-          }
-
+          },
+          clothesAssistantDialogOpen: false
       }
+
       this.handleToEdit = this.handleToEdit.bind(this);
+
+
+      this.handleDialogOpen = this.handleDialogOpen.bind(this);
+      this.handleDialogClose = this.handleDialogClose.bind(this);
+
       this.gradient = 'linear-gradient(136deg, rgb(242, 113, 33) 0%, rgb(233, 64, 87) 50%, rgb(138, 35, 135) 100%)';
       this.StyledButton = withStyles({
         root: {
@@ -79,8 +91,18 @@ class UserProfile extends Component {
             index,
         });
     };
+
     handleToEdit(){
         this.LinkToEditElement.click();
+
+
+    handleDialogOpen(){
+        this.setState({ clothesAssistantDialogOpen: true});
+    }
+
+    handleDialogClose(){
+        this.setState({ clothesAssistantDialogOpen: false});
+
     }
  
     render(){
@@ -202,7 +224,7 @@ class UserProfile extends Component {
                         <SwipeableViews index={this.state.index} onChangeIndex={this.handleChangeIndex}>
                             <div className= "tab_garment">
                                 <div className="add_clothes_btn_container">
-                                    <button className="icon-btn add_clothes-btn">
+                                    <button className="icon-btn add_clothes-btn" onClick={this.handleDialogOpen}>
                                         <div className="add_clothes-icon"></div>
                                         <div className="add_clothes_btn-txt">Nueva Prenda</div>
                                     </button>
@@ -214,6 +236,11 @@ class UserProfile extends Component {
                             <div className= "tab_garment">Aca estaran los catalogos del usuario</div>
                             <div className= "tab_garment">Aca estaran los intercambios del usuario</div>
                         </SwipeableViews>
+                        <Dialog onClose={this.handleDialogClose} aria-labelledby="customized-dialog-title" open={this.state.clothesAssistantDialogOpen} fullWidth={true}>
+                            <DialogContent dividers>
+                                <ClothesAssistant/>
+                            </DialogContent>
+                        </Dialog>
                      </div>
                  </div>
             </div>

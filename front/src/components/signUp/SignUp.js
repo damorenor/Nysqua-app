@@ -202,12 +202,6 @@ class SignUp extends Component {
 		});
 	}
 
-	handleGenderChange(event) {
-		this.setState({
-			gender: event.target.value
-		});
-	}
-
 	handleClick(udata) {
 		this.setState({
 			userData: udata
@@ -556,7 +550,7 @@ class SignUp extends Component {
 												fullWidth>
 												<InputLabel htmlFor="outlined-age-simple">
 													Genero
-								</InputLabel>
+												</InputLabel>
 												<Select
 													fullWidth
 													value={this.state.gender}

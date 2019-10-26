@@ -4,9 +4,6 @@ const router = new express.Router();
 const User = require('../models/users');
 const { ObjectID } = require('mongodb');
 
-
-
-
 router.post('/', async (req, res) => {
     //find an existing user
     let user = await User.findOne({ email: req.body.email });
@@ -18,7 +15,12 @@ router.post('/', async (req, res) => {
         password: req.body.password,
         email: req.body.email,
         birthDate: req.body.birthdate,
-        gender: req.body.gender
+        gender: req.body.gender,
+        rating: 5,
+        totalExchanges: 0,
+        exchangesCanceled: 0,
+        exchangesCanceledByOthers: 0,
+        profilePhoto: "undefined"
     });
     try {
         const token = await user.newAuthToken()
@@ -42,7 +44,18 @@ router.post('/login', async (req, res) => {
 
 router.patch('/me', authenticate, async (req, res) => {
     const updates = Object.keys(req.body)
-    const allowedUpdates = ["name", "password", "age", "birthDate", "gender", "biography", "rating", "categories", "subCategories", "profilePhoto"]
+
+    if(!req.body.currentPassword){
+        return res.status(401).send( {error: 'Please send Current Password'});
+    }
+
+    const isMatch = await req.user.checkPassword(req.body.currentPassword) 
+
+    if (!isMatch) {
+        return res.status(401).send( {error: 'Current Password is not valid'});
+    }
+
+    const allowedUpdates = ["usesrname", "password", "currentPassword","age", "birthDate", "gender", "biography", "rating", "categories", "subCategories", "profilePhoto"]
     const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
     const _id = req.user._id
 

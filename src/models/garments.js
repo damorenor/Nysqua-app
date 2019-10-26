@@ -10,19 +10,23 @@ var garmentSchema = new Schema({
         type: String,
         require: true
     },
-    section: {
-        type: String, uppercase: true,
-        maxlenght: 1,
-        require: true
-    },
-    type: {
+    category: {
         type: String,
         require: true
+    },
+    subcategory: {
+        type: String,
+        require: true
+    },
+    title: {
+        type: String,
+        require: true
+    },
+    description: {
+        type: String
     },
     size: {
         type: String,
-        uppercase: true,
-        maxlength: 2,
         require: true
     },
     useperiod: {
@@ -34,9 +38,7 @@ var garmentSchema = new Schema({
         require: true
     },
     state: {
-        type: Number,
-        min: 1,
-        max: 10,
+        type: String,
         require: true
     },
     images: {
@@ -44,12 +46,10 @@ var garmentSchema = new Schema({
         require: true
     },
     tags: {
-        type: [String],
-        required: true
+        type: [String]
     },
     postDate: {
-        type: Date,
-        require: true
+        type: Date
     }
 });
 
