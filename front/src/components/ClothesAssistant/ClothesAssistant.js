@@ -16,6 +16,7 @@ import { ThemeProvider } from '@material-ui/styles';
 import { FiUpload } from 'react-icons/fi';
 import { FiEdit2 } from 'react-icons/fi';
 import { TagInput } from 'reactjs-tag-input'
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 import './ClothesAssistant.css';
@@ -25,6 +26,8 @@ class ClothesAssistant extends Component {
         super(props);
         this.state={
             step: 0,
+            token: this.props.token,
+            userData: this.props.userData,
             productTitle: "",
             productDescription: "",
             checked1: false,
@@ -75,6 +78,7 @@ class ClothesAssistant extends Component {
         this.onImageChange5 = this.onImageChange5.bind(this);
         this.onTagsChanged = this.onTagsChanged.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleToHome = this.handleToHome.bind(this);
         let assistantSwipe;
 
         this.StyledTextField = withStyles({
@@ -216,6 +220,9 @@ class ClothesAssistant extends Component {
             [prop]: event.target.value
         });
     }
+    handleToHome(){
+        this.LinkHomeElement.click();
+    }
 
     handleCategorySelected(event) {
         //always use currentTarget
@@ -311,6 +318,88 @@ class ClothesAssistant extends Component {
 
     handleSubmit(event){
         console.log(this.state.tags);
+        console.log(this.state.sizes);
+        const config = {
+            headers: {
+                'authorization': this.state.token,
+            }
+        };
+        var catnames = ['Hombre', 'Mujer', 'Niño', 'Niña', 'Bebes'];
+        var categorieCheck ="";
+        var subCategorieCheck = "";
+        var colorCheck="";
+        var sizeCheck="";
+        var tagsCheck =[];
+        var clotheStateCheck = "";
+        for (var j = 0; j < catnames.length; j++){
+            var count = j+1;
+            var checkname = "checked"+count;
+            if(this.state[checkname]){
+                categorieCheck = catnames[j];
+                break;
+            }
+        }
+        for (var k = 0; k < this.state.subcategories.length; k++){
+            if(this.state.subcategories[k].checked){
+                subCategorieCheck = this.state.subcategories[k].name;
+            }
+        }
+        for (var l = 0; l < this.state.colors.length; l++){
+            if(this.state.colors[l].checked){
+                colorCheck = this.state.colors[l].name;
+            }
+            
+        }
+        for (var m = 0; m < this.state.sizes.length; m++){
+            if(this.state.sizes[m].checked){
+                sizeCheck = this.state.sizes[m].name;
+            }
+        }
+        for (var n = 0; n < this.state.clothesStates.length; n++){
+            if(this.state.clothesStates[n].checked){
+                clotheStateCheck = this.state.clothesStates[n].name;
+            }
+        }
+        for (var o = 0; o < this.state.tags.length; o++){
+            tagsCheck[o]= this.state.tags[o].displayValue
+        }
+        console.log(categorieCheck);
+        console.log(subCategorieCheck);
+        console.log(colorCheck);
+        console.log(tagsCheck);
+
+        
+        //aqui va el axios 
+        axios.post('http://localhost:3001/garment/add', {
+            category: categorieCheck,
+            subcategory: subCategorieCheck,
+            title: this.state.productTitle,
+            description: this.state.productDescription,
+            size: sizeCheck,
+            userperiod: this.state.usedTime,
+            color: colorCheck,
+            state: clotheStateCheck,
+            images:[this.state.clothe_img_1,this.state.clothe_img_2,this.state.clothe_img_3,this.state.clothe_img_4,this.state.clothe_img_5],
+            tags:tagsCheck
+            
+
+        }, config)
+            .then((response) => {
+                //añadir logica
+                console.log(response.data);
+                axios.get('http://localhost:3001/users/me',config).then((response2)=>{
+                    console.log(response2.data);
+
+                }, (error) => {
+                console.log(error);
+
+            })
+           
+
+            }, (error) => {
+                console.log(error);
+
+            });
     }
 
     render(){
@@ -813,9 +902,23 @@ class ClothesAssistant extends Component {
                                     `}
                                 />
                             </div>
-                            <div className="clothes_assistant_submit_btn" onClick={this.handleSubmit}>
-                                <p>Subir prenda</p>
+                            <div>
+                                <div className="clothes_assistant_submit_btn" onClick={this.handleSubmit}>
+                                    <p>Subir prenda</p>
+                                </div>
+                                <Link to={{
+									pathname: '/Home',
+									state: {
+                                        token: this.state.token,
+                                        userData: this.state.userData
+									}
+								}}
+									ref={
+										LinkHome => this.LinkHomeElement = LinkHome
+									}>
+							    </Link>
                             </div>
+
                         </div>
                     </ReactSwipe>
                 </div>
