@@ -94,7 +94,7 @@ class UserProfile extends Component {
 
     handleToEdit(){
         this.LinkToEditElement.click();
-
+    }
 
     handleDialogOpen(){
         this.setState({ clothesAssistantDialogOpen: true});
