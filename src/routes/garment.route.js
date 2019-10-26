@@ -10,7 +10,6 @@ const { ObjectID } = require('mongodb');
 
 
 router.post('/add', authenticate, async (req, res) => {
-    req.user
 
     garment = new Garment({
         idUser: req.user._id,
@@ -28,6 +27,7 @@ router.post('/add', authenticate, async (req, res) => {
     });
     try {
         await garment.save()
+        req.user.addGarment(garment)
         res.send(garment);
     } catch (error) {
         res.status(400).send()
