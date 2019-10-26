@@ -15,18 +15,10 @@ import Select from '@material-ui/core/Select';
 import { ThemeProvider } from '@material-ui/styles';
 import { FiUpload } from 'react-icons/fi';
 import { FiEdit2 } from 'react-icons/fi';
+import { TagInput } from 'reactjs-tag-input'
 import axios from 'axios';
-import { WithContext as ReactTags } from 'react-tag-input';
-import ReactDOM from 'react-dom';
 
 import './ClothesAssistant.css';
-
-const KeyCodes = {
-    comma: 188,
-    enter: 13,
-};
-
-const delimiters = [KeyCodes.comma, KeyCodes.enter];
 
 class ClothesAssistant extends Component {
     constructor(props) {
@@ -42,6 +34,16 @@ class ClothesAssistant extends Component {
             checked5: false,
             subcategories: [],
             sizes: [],
+            colors: [{ name: "white", checked: false },
+                     { name: "black", checked: false },
+                     { name: "gray", checked: false },
+                     { name: "red", checked: false },
+                     { name: "orange", checked: false },
+                     { name: "yellow", checked: false },
+                     { name: "green", checked: false },
+                     { name: "blue", checked: false },
+                     { name: "purple", checked: false },
+                     { name: "pink", checked: false },],
             usedTime: " ",
             clothesStates: [{ name: "Muy usado", checked: false },
                             { name: "Usado", checked: false },
@@ -58,15 +60,7 @@ class ClothesAssistant extends Component {
             flag_img_4: false,
             clothe_img_5:"",
             flag_img_5: false,
-            tags: [{
-                    id: "Thailand",
-                    text: "Thailand"
-                },
-                {
-                    id: "India",
-                    text: "India"
-                }
-            ],
+            tags: [],
         };
 
         this.handleNext = this.handleNext.bind(this);
@@ -79,8 +73,8 @@ class ClothesAssistant extends Component {
         this.onImageChange3 = this.onImageChange3.bind(this);
         this.onImageChange4 = this.onImageChange4.bind(this);
         this.onImageChange5 = this.onImageChange5.bind(this);
-        this.handleTagDelete = this.handleTagDelete.bind(this);
-        this.handleTagAddition = this.handleTagDelete.bind(this);
+        this.onTagsChanged = this.onTagsChanged.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
         let assistantSwipe;
 
         this.StyledTextField = withStyles({
@@ -309,19 +303,14 @@ class ClothesAssistant extends Component {
         
     }
 
-    handleTagDelete(i) {
-        const {
-            tags
-        } = this.state;
+    onTagsChanged(tags) {
         this.setState({
-            tags: tags.filter((tag, index) => index !== i),
-        });
+            tags
+        })
     }
 
-    handleTagDelete(tag) {
-        this.setState(state => ({
-            tags: [...state.tags, tag]
-        }));
+    handleSubmit(event){
+        console.log(this.state.tags);
     }
 
     render(){
@@ -401,6 +390,64 @@ class ClothesAssistant extends Component {
         }else{
             sizesList = <p className="clothes_assistant_detail_warning">Debes seleccionar una categoria primero para ver las posibles tallas a las que se ajusta la prenda</p>
         }
+
+        let colorsList;
+
+        const handleColorCheckChange = (event) => {
+
+            let newColors = this.state.colors;
+            let prop = event.currentTarget.id.toString();
+            for (var i = 0; i < this.state.colors.length; i++) {
+                if (this.state.colors[i].name == prop) {
+                    newColors[i].checked = !newColors[i].checked;
+                }else{
+                    newColors[i].checked = false;
+                }
+            }
+
+            this.setState({
+                colors: newColors
+            });
+        };
+
+        let colorsMap = {
+            "white": "#FFFFFF",
+            "black": "#000000",
+            "gray": "#757575",
+            "red": "#C62828",
+            "orange": "#D84315",
+            "yellow": "#FBC02D",
+            "green": "#8BC34A",
+            "blue": "#2196F3",
+            "purple": "#9C27B0",
+            "pink": "#E91E63",
+        }
+
+        colorsList = this.state.colors.map(function (d) {
+            
+            const colorStyle = {
+                backgroundColor: colorsMap[d.name],
+            }
+
+            let colorCssClass;
+            let colorCssClassChecked;
+
+            if(d.name == "white"){
+                colorCssClass = "clothes_assistant_color_white"
+                colorCssClassChecked = "clothes_assistant_color_white_checked"
+            }else{
+                colorCssClass = "clothes_assistant_color"
+                colorCssClassChecked = "clothes_assistant_color_checked"
+            }
+
+            return (
+                <div id={d.name}
+                     className = {d.checked ? colorCssClassChecked : colorCssClass} 
+                     style = {colorStyle}
+                     onClick={handleColorCheckChange}>
+                </div>
+                );
+        });
 
         let statesList;
 
@@ -560,7 +607,9 @@ class ClothesAssistant extends Component {
                                 <div className="clothes_assistant_detail_content">
                                     <h3>¿De que color es la prenda?</h3>
                                     <div className="clothes_assistant_details_sizes_container">
-                                        {statesList}
+                                        <div className="clothes_assistant_colors_container">
+                                            {colorsList}
+                                        </div>
                                     </div>
                                 </div>
                                 <div className="clothes_assistant_detail_content">
@@ -617,9 +666,10 @@ class ClothesAssistant extends Component {
                         </div>
                         <div className="clothes_assistant_content">
                             <h1>Sube imágenes de la prenda</h1>
+                            <div className="clothes_assistant_padding"></div>
                             <div className="clothes_assistant_imgs_upload_container">
                                 <div className="clothes_assistant_img_upload_container">
-                                        <label htmlFor="file-input1" >
+                                    <label htmlFor="file-input1">
                                         <div className="clothes_assistant_img_upload">
                                             <div className = "clothes_assistant_img" >
                                                 <div className={this.state.flag_img_1 ? "clothes_assistant_upload_img_overlay" : "clothes_assistant_upload_img_overlay_hidden"}></div>
@@ -628,7 +678,8 @@ class ClothesAssistant extends Component {
                                                         {this.state.flag_img_1 ? <FiEdit2 /> : <FiUpload />}
                                                     </div>
                                                 </IconContext.Provider>
-                                                <img id="target"  src={this.state.clothe_img_1}></img>
+                                                <img id="target" className={this.state.flag_img_1 ? "clothes_assistant_imag": "clothes_assistant_imag_hidden"}
+                                                     src={this.state.clothe_img_1}></img>
                                             </div>
                                         </div>
                                     </label>
@@ -644,7 +695,8 @@ class ClothesAssistant extends Component {
                                                         {this.state.flag_img_2 ? <FiEdit2 /> : <FiUpload />}
                                                     </div>
                                                 </IconContext.Provider>
-                                                <img id="target"  src={this.state.clothe_img_2}></img>
+                                                <img id="target" className={this.state.flag_img_2 ? "clothes_assistant_imag": "clothes_assistant_imag_hidden"}
+                                                     src={this.state.clothe_img_2}></img>
                                             </div>
                                         </div>
                                     </label>
@@ -660,7 +712,8 @@ class ClothesAssistant extends Component {
                                                         {this.state.flag_img_3 ? <FiEdit2 /> : <FiUpload />}
                                                     </div>
                                                 </IconContext.Provider>
-                                                <img id="target"  src={this.state.clothe_img_3}></img>
+                                                <img id="target" className={this.state.flag_img_3 ? "clothes_assistant_imag": "clothes_assistant_imag_hidden"}
+                                                     src={this.state.clothe_img_3}></img>
                                             </div>
                                         </div>
                                     </label>
@@ -678,7 +731,8 @@ class ClothesAssistant extends Component {
                                                         {this.state.flag_img_4 ? <FiEdit2 /> : <FiUpload />}
                                                     </div>
                                                 </IconContext.Provider>
-                                                <img id="target"  src={this.state.clothe_img_4}></img>
+                                                <img id="target" className={this.state.flag_img_4 ? "clothes_assistant_imag": "clothes_assistant_imag_hidden"}
+                                                     src={this.state.clothe_img_4}></img>
                                             </div>
                                         </div>
                                     </label>
@@ -694,7 +748,8 @@ class ClothesAssistant extends Component {
                                                         {this.state.flag_img_5 ? <FiEdit2 /> : <FiUpload />}
                                                     </div>
                                                 </IconContext.Provider>
-                                                <img id="target"  src={this.state.clothe_img_5}></img>
+                                                <img id="target" className={this.state.flag_img_5 ? "clothes_assistant_imag": "clothes_assistant_imag_hidden"}
+                                                     src={this.state.clothe_img_5}></img>
                                             </div>
                                         </div>
                                     </label>
@@ -704,11 +759,62 @@ class ClothesAssistant extends Component {
                         </div>
                         <div className="clothes_assistant_content">
                             <h1>Agrega etiquetas que identifique esta prenda (opcional)</h1>
+                            <p className="p_fullwidth">Las etiquetas son palabras clave que definen la prenda que estas subiendo, estas ayudaran a otros usuarios
+                                 a encontrarla más rápido. Recuerda que este paso es OPCIONAL.</p>
                             <div className="clothes_assistant_tags_container">
-                                <ReactTags tags={this.state.tags}
-                                    handleDelete={this.handleTagDelete}
-                                    handleAddition={this.handleTagAddition}
-                                    delimiters={delimiters} />
+                                <TagInput 
+                                    tags={this.state.tags} 
+                                    onTagsChanged={this.onTagsChanged}
+                                    wrapperStyle = {`
+                                        background: transparent;
+                                        box-shadow: none;
+                                        padding: 0px 10px 18.5px 14px;
+                                        color: rgba(255, 255, 255, 0.75);
+                                    `}
+                                    inputStyle = { `
+                                        background: transparent;
+                                        &::-webkit-input-placeholder {
+                                            font-size: 0.9em !important;
+                                            font-style: normal !important;
+                                            font-weight: 200 !important;
+                                            color: rgba(255, 255, 255, 0.75);
+                                            margin: 0;
+                                        }
+                                        &: hover {
+                                            border: solid 1 px white;
+                                        } &
+                                        : focus {
+                                            border: solid 2 px white;
+                                        }
+                                    `}
+                                    tagStyle={`
+                                        font-family: 'Product Sans' !important;
+                                        background: white;
+                                        color: #E94057;
+                                        font-weight: normal;
+                                        font-size: 0.97em;
+                                        border-radius: 25px;
+                                        white-space: nowrap;
+                                        margin: 3px 0px;
+                                        transition: all .2s;
+                                        padding: 8px 12px 8px 16px !important;
+                                        margin-right: 8px;
+                                        cursor: normal;
+                                    `}
+                                    tagDeleteStyle={`
+                                        font-family: 'Consolas' !important;
+                                        font-size: 16px;
+                                        color: rgba(0, 0, 0, 0.45);
+                                        font-weight: bold;
+                                        padding-bottom: 6px !important;
+                                        text-decoration: none;
+                                        vertical-align: top !important;
+                                        line-height: 1.1;
+                                    `}
+                                />
+                            </div>
+                            <div className="clothes_assistant_submit_btn" onClick={this.handleSubmit}>
+                                <p>Subir prenda</p>
                             </div>
                         </div>
                     </ReactSwipe>

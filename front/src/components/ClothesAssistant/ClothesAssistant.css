@@ -126,6 +126,14 @@
     margin-top: 28px;
 }
 
+.clothes_assistant_content .p_fullwidth{
+    width: 80% !important;
+}
+
+.clothes_assistant_padding{
+    height: 2vh;
+}
+
 .clothes_assistant_content .MuiInputBase-input {
     color: white !important;
 }
@@ -251,7 +259,7 @@
     margin-top: 48px;
 }
 
-ul.ks-cboxtags {
+.clothes_assistant_container ul.ks-cboxtags {
     list-style: none;
     display: inline-block !important;
     width: auto !important;
@@ -260,12 +268,12 @@ ul.ks-cboxtags {
     padding-left: 5px !important;
 }
 
-ul.ks-cboxtags li {
+.clothes_assistant_container ul.ks-cboxtags li {
     display: inline;
     white-space: nowrap;
 }
 
-ul.ks-cboxtags li label {
+.clothes_assistant_container ul.ks-cboxtags li label {
     display: inline-block;
     background-color: transparent;
     border: 2px solid white;
@@ -283,20 +291,20 @@ ul.ks-cboxtags li label {
     transition: all .2s;
 }
 
-ul.ks-cboxtags li label {
+.clothes_assistant_container ul.ks-cboxtags li label {
     padding: 8px 12px;
     cursor: pointer;
     transition: all .2s;
 }
 
-ul.ks-cboxtags li label:hover {
+.clothes_assistant_container ul.ks-cboxtags li label:hover {
     color: white;
     border: 2px solid white;
     transition: all .2s;
     background-color: rgba(255, 255, 255, 0.3);
 }
 
-ul.ks-cboxtags li label:before {
+.clothes_assistant_container ul.ks-cboxtags li label:before {
     display: none;
     font-style: normal;
     font-variant: normal;
@@ -311,13 +319,13 @@ ul.ks-cboxtags li label:before {
     transition: transform .3s ease-in-out;
 }
 
-ul.ks-cboxtags li input[type="checkbox"]:checked+label:before {
+.clothes_assistant_container ul.ks-cboxtags li input[type="checkbox"]:checked+label:before {
     content: "\f00c";
     transform: rotate(-360deg);
     transition: transform .3s ease-in-out;
 }
 
-ul.ks-cboxtags li input[type=checkbox]:checked+label {
+.clothes_assistant_container ul.ks-cboxtags li input[type=checkbox]:checked+label {
     border: 2px solid white;
     background: white;
     color: var(--primary);
@@ -325,11 +333,11 @@ ul.ks-cboxtags li input[type=checkbox]:checked+label {
     transition: all .2s;
 }
 
-ul.ks-cboxtags li input[type="checkbox"] {
+.clothes_assistant_container ul.ks-cboxtags li input[type="checkbox"] {
     display: absolute;
 }
 
-ul.ks-cboxtags li input[type="checkbox"] {
+.clothes_assistant_container ul.ks-cboxtags li input[type="checkbox"] {
     position: absolute;
     opacity: 0;
 }
@@ -381,6 +389,63 @@ ul.ks-cboxtags li input[type="checkbox"] {
     margin-top: 8px;
 }
 
+.clothes_assistant_colors_container{
+    width: auto;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+}
+
+.clothes_assistant_color{
+    width: 30px;
+    height: 30px;
+    position: relative;
+    border-radius: 50% !important;
+    margin: 4px 12px 0 0;
+    padding: 0;
+    cursor: pointer;
+    transition: all 0.2s linear;
+}
+
+.clothes_assistant_color:hover{
+    box-shadow: inset 0 0 0 2px white;
+}
+
+.clothes_assistant_color_checked{
+    width: 30px;
+    height: 30px;
+    border-radius: 50% !important;
+    margin: 4px 12px 0 0;
+    cursor: pointer;
+    transition: all 0.2s linear;
+    box-shadow: inset 0 0 0 5px white;
+}
+
+.clothes_assistant_color_white {
+    width: 30px;
+    height: 30px;
+    position: relative;
+    border-radius: 50% !important;
+    margin: 4px 12px 0 0;
+    padding: 0;
+    cursor: pointer;
+    transition: all 0.2s linear;
+}
+
+.clothes_assistant_color_white:hover {
+    box-shadow: inset 0 0 0 2px black;
+}
+
+.clothes_assistant_color_white_checked {
+    width: 30px;
+    height: 30px;
+    border-radius: 50% !important;
+    margin: 4px 12px 0 0;
+    cursor: pointer;
+    transition: all 0.2s linear;
+    box-shadow: inset 0 0 0 5px black;
+}
+
 .clothes_assistant_detail_usedtime_container{
     width: 100%;
     height: auto;
@@ -416,9 +481,10 @@ ul.ks-cboxtags li input[type="checkbox"] {
     justify-content: center;
     margin-top: 32px;
 }
-.clothes_assistant_img img{
+
+.clothes_assistant_imag{
     object-fit: cover;  
-    position:absolute;
+    position: absolute;
     left: -100%;
     right: -100%;
     top: -100%;
@@ -428,11 +494,17 @@ ul.ks-cboxtags li input[type="checkbox"] {
     height: 100%;
     border-radius: 0.5vw;
     display: block;
-    
+    border: none;
+    box-shadow: none;
+    opacity: 1;
+}
+
+.clothes_assistant_imag_hidden{
+    opacity: 0;
 }
 
 .clothes_assistant_img_upload_container {
-    width: 30vh !important;
+    width: 12vw !important;
     height: auto;
     padding: 0%;
     margin: 0;
@@ -452,7 +524,7 @@ ul.ks-cboxtags li input[type="checkbox"] {
     transform: scale(0.93, 0.93);
     transition: all 0.25s ease-out;
     cursor: pointer;
-    border: solid 2px white;
+    border: solid 1px white;
 }
 
 .clothes_assistant_img_upload_container .clothes_assistant_img_upload::after {
@@ -470,6 +542,7 @@ ul.ks-cboxtags li input[type="checkbox"] {
 .clothes_assistant_img {
     width: 100%;
     height: 100%;
+    position: absolute !important;
     overflow: hidden;
     text-align: center;
     background-size: cover !important;
@@ -536,7 +609,7 @@ ul.ks-cboxtags li input[type="checkbox"] {
     right: 0;
     width: 100% !important;
     height: 100% !important;
-    background-image: radial-gradient(circle, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.6) 70%);
+    background-image: radial-gradient(circle, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.4) 70%);
     z-index: 12 !important;
     border-radius: 0.5vw;
 }
@@ -545,10 +618,73 @@ ul.ks-cboxtags li input[type="checkbox"] {
     display: none;
 }
 
+.hidden{
+    display: none;
+}
+
 .clothes_assistant_tags_container {
     width: 80%;
     height: auto;
-    margin-top: 28px;
+    margin-top: 36px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.clothes_assistant_tags_container .jYtLLG {
+    position: relative;
+    width: 100%;
+    height: auto;
+}
+
+.clothes_assistant_tags_container .sc-bdVaJa{
+    position: relative;
+    width: 100%;
+    height: auto;
+}
+
+.clothes_assistant_tags_container .sc-htpNat {
+    color: white !important;
+    font-weight: normal !important;
+    font-size: 1em;
+    margin-top: 14px !important;
+    font-size: 1em !important;
+    font-weight: 200 !important;
+    border: solid 1px rgba(255, 255, 255, 0.75) !important;
+    border-radius: 0.5vw;
+    padding: 18.5px 10px 18.5px 14px;
+    transition: all .2s linear;
+}
+
+.clothes_assistant_tags_container .dIRMAc{
+    margin: 0 !important;
+}
+
+.clothes_assistant_submit_btn{
+    width: auto;
+    height: auto;
+    padding: 12px 28px 12px 28px;
+    border-radius: 0.5vw;
+    background-color: transparent;
+    border: solid 2px white;
+    color: white;
+    cursor: pointer;
+    transition: all 0.2s linear;
+    margin-top: 5vh;
+}
+
+.clothes_assistant_submit_btn:hover{
+    background-color: white;
+    color: var(--primary);
+}
+
+.clothes_assistant_submit_btn p {
+    width: 100% !important;
+    margin: 0 !important;
+    height: auto;
+    font-family: Product Sans;
+    font-size: 1.05rem;
 }
 
 .react-carousel-dots-dot {
