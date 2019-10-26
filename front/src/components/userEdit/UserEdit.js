@@ -443,7 +443,7 @@ class UserEdit extends Component {
                                 rows="4"
                                 rowsMax="10"
                                 onChange={this.handleChange}
-                                value = {this.state.bio}
+                                defaultValue = {this.state.bio}
                             />
                             <div className="passwords-container">
                                 <div className= "password_item">
@@ -707,7 +707,6 @@ class UserEdit extends Component {
                             biography: this.state.bio,
                             categories: this.state.initialCategories,
                             subCategories: subcategoriesChecked,
-                            password:this.state.password,
                             gender:this.state.gender
             
                         }, config)
