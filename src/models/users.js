@@ -97,6 +97,19 @@ UserSchema.statics.checkValidCredentials = async (email, password) => {
     return user
 }
 
+UserSchema.methods.checkPassword = async function (currentPassword) {
+    const user = this 
+    const isMatch = await bcrypt.compare(currentPassword, user.password)
+
+    if (!isMatch) {
+        return false 
+        
+    }
+
+    return true
+}
+
+
 // add preferences 
 UserSchema.methods.addPreferences = async function (req) {
     const user = this
