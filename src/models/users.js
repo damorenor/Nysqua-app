@@ -121,6 +121,12 @@ UserSchema.methods.addPreferences = async function (req) {
     await user.save()
 }
 
+UserSchema.methods.addGarment = async function (garment) {
+    const user = this
+    user.garmentList.push(garment)
+    await user.save()
+}
+
 //custom method to generate authToken 
 UserSchema.methods.newAuthToken = async function () {
     const user = this
