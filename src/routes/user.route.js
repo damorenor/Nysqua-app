@@ -40,14 +40,16 @@ router.post('/login', async (req, res) => {
 router.patch('/me', authenticate, async (req, res) => {
     const updates = Object.keys(req.body)
 
-    if(!req.body.currentPassword){
-        return res.status(401).send( {error: 'Please send Current Password'});
-    }
+    if(req.body.password){
+        if(!req.body.currentPassword){
+            return res.status(401).send( {error: 'Please send Current Password'});
+        }
 
-    const isMatch = await req.user.checkPassword(req.body.currentPassword) 
+        const isMatch = await req.user.checkPassword(req.body.currentPassword) 
 
-    if (!isMatch) {
-        return res.status(401).send( {error: 'Current Password is not valid'});
+        if (!isMatch) {
+            return res.status(401).send( {error: 'Current Password is not valid'});
+        }
     }
 
     const allowedUpdates = ["usesrname", "password", "currentPassword","age", "birthDate", "gender", "biography", "rating", "categories", "subCategories", "profilePhoto"]
