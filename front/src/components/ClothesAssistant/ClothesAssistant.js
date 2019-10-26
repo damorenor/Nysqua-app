@@ -13,9 +13,20 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import { ThemeProvider } from '@material-ui/styles';
+import { FiUpload } from 'react-icons/fi';
+import { FiEdit2 } from 'react-icons/fi';
 import axios from 'axios';
+import { WithContext as ReactTags } from 'react-tag-input';
+import ReactDOM from 'react-dom';
 
 import './ClothesAssistant.css';
+
+const KeyCodes = {
+    comma: 188,
+    enter: 13,
+};
+
+const delimiters = [KeyCodes.comma, KeyCodes.enter];
 
 class ClothesAssistant extends Component {
     constructor(props) {
@@ -37,6 +48,25 @@ class ClothesAssistant extends Component {
                             { name: "Poco usado", checked: false },
                             { name: "Como nuevo", checked: false },
                             { name: "Nuevo", checked: false },],
+            clothe_img_1:"",
+            flag_img_1: false,
+            clothe_img_2:"",
+            flag_img_2: false,
+            clothe_img_3:"",
+            flag_img_3: false,
+            clothe_img_4:"",
+            flag_img_4: false,
+            clothe_img_5:"",
+            flag_img_5: false,
+            tags: [{
+                    id: "Thailand",
+                    text: "Thailand"
+                },
+                {
+                    id: "India",
+                    text: "India"
+                }
+            ],
         };
 
         this.handleNext = this.handleNext.bind(this);
@@ -44,6 +74,13 @@ class ClothesAssistant extends Component {
         this.handleTextInputChange = this.handleTextInputChange.bind(this);
         this.handleCategorySelected = this.handleCategorySelected.bind(this);
         this.handleUsedTimeChange = this.handleUsedTimeChange.bind(this);
+        this.onImageChange1 = this.onImageChange1.bind(this);
+        this.onImageChange2 = this.onImageChange2.bind(this);
+        this.onImageChange3 = this.onImageChange3.bind(this);
+        this.onImageChange4 = this.onImageChange4.bind(this);
+        this.onImageChange5 = this.onImageChange5.bind(this);
+        this.handleTagDelete = this.handleTagDelete.bind(this);
+        this.handleTagAddition = this.handleTagDelete.bind(this);
         let assistantSwipe;
 
         this.StyledTextField = withStyles({
@@ -210,6 +247,81 @@ class ClothesAssistant extends Component {
         this.setState({
             usedTime: event.target.value
         });
+    }
+    onImageChange1 = (event) => {
+
+        if (event.target.files && event.target.files[0]) {
+            let reader = new FileReader();
+            reader.onload = (e) => {
+                this.setState({ clothe_img_1: e.target.result });
+                this.setState({flag_img_1 : true});
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        }
+        
+    }
+    onImageChange2 = (event) => {
+
+        if (event.target.files && event.target.files[0]) {
+            let reader = new FileReader();
+            reader.onload = (e) => {
+                this.setState({ clothe_img_2: e.target.result });
+                this.setState({flag_img_2 : true});
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        }
+        
+    }
+    onImageChange3 = (event) => {
+
+        if (event.target.files && event.target.files[0]) {
+            let reader = new FileReader();
+            reader.onload = (e) => {
+                this.setState({ clothe_img_3: e.target.result });
+                this.setState({flag_img_3 : true});
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        }
+        
+    }
+    onImageChange4 = (event) => {
+
+        if (event.target.files && event.target.files[0]) {
+            let reader = new FileReader();
+            reader.onload = (e) => {
+                this.setState({ clothe_img_4: e.target.result });
+                this.setState({flag_img_4 : true});
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        }
+        
+    }
+    onImageChange5 = (event) => {
+
+        if (event.target.files && event.target.files[0]) {
+            let reader = new FileReader();
+            reader.onload = (e) => {
+                this.setState({ clothe_img_5: e.target.result });
+                this.setState({flag_img_5 : true});
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        }
+        
+    }
+
+    handleTagDelete(i) {
+        const {
+            tags
+        } = this.state;
+        this.setState({
+            tags: tags.filter((tag, index) => index !== i),
+        });
+    }
+
+    handleTagDelete(tag) {
+        this.setState(state => ({
+            tags: [...state.tags, tag]
+        }));
     }
 
     render(){
@@ -505,9 +617,99 @@ class ClothesAssistant extends Component {
                         </div>
                         <div className="clothes_assistant_content">
                             <h1>Sube imágenes de la prenda</h1>
+                            <div className="clothes_assistant_imgs_upload_container">
+                                <div className="clothes_assistant_img_upload_container">
+                                        <label htmlFor="file-input1" >
+                                        <div className="clothes_assistant_img_upload">
+                                            <div className = "clothes_assistant_img" >
+                                                <div className={this.state.flag_img_1 ? "clothes_assistant_upload_img_overlay" : "clothes_assistant_upload_img_overlay_hidden"}></div>
+                                                <IconContext.Provider value={{ size: "2em", className: 'clothes_assistant_upload_icon' }}>
+                                                    <div className={this.state.flag_img_1 ? "clothes_assistant_edit_btn" : "clothes_assistant_upload_btn"}>
+                                                        {this.state.flag_img_1 ? <FiEdit2 /> : <FiUpload />}
+                                                    </div>
+                                                </IconContext.Provider>
+                                                <img id="target"  src={this.state.clothe_img_1}></img>
+                                            </div>
+                                        </div>
+                                    </label>
+                                    <input id="file-input1"  type="file" onChange={this.onImageChange1} />
+                                </div>
+                                <div className="clothes_assistant_img_upload_container">
+                                        <label htmlFor="file-input2" >
+                                        <div className="clothes_assistant_img_upload">
+                                            <div className = "clothes_assistant_img" >
+                                                <div className={this.state.flag_img_2 ? "clothes_assistant_upload_img_overlay" : "clothes_assistant_upload_img_overlay_hidden"}></div>
+                                                <IconContext.Provider value={{ size: "2em", className: 'clothes_assistant_upload_icon' }}>
+                                                    <div className={this.state.flag_img_2 ? "clothes_assistant_edit_btn" : "clothes_assistant_upload_btn"}>
+                                                        {this.state.flag_img_2 ? <FiEdit2 /> : <FiUpload />}
+                                                    </div>
+                                                </IconContext.Provider>
+                                                <img id="target"  src={this.state.clothe_img_2}></img>
+                                            </div>
+                                        </div>
+                                    </label>
+                                    <input id="file-input2"  type="file" onChange={this.onImageChange2} />
+                                </div>
+                                <div className="clothes_assistant_img_upload_container">
+                                        <label htmlFor="file-input3" >
+                                        <div className="clothes_assistant_img_upload">
+                                            <div className = "clothes_assistant_img" >
+                                                <div className={this.state.flag_img_3 ? "clothes_assistant_upload_img_overlay" : "clothes_assistant_upload_img_overlay_hidden"}></div>
+                                                <IconContext.Provider value={{ size: "2em", className: 'clothes_assistant_upload_icon' }}>
+                                                    <div className={this.state.flag_img_3 ? "clothes_assistant_edit_btn" : "clothes_assistant_upload_btn"}>
+                                                        {this.state.flag_img_3 ? <FiEdit2 /> : <FiUpload />}
+                                                    </div>
+                                                </IconContext.Provider>
+                                                <img id="target"  src={this.state.clothe_img_3}></img>
+                                            </div>
+                                        </div>
+                                    </label>
+                                    <input id="file-input3"  type="file" onChange={this.onImageChange3} />
+                                </div>
+                            </div>
+                            <div className="clothes_assistant_imgs_upload_container">
+                                <div className="clothes_assistant_img_upload_container">
+                                        <label htmlFor="file-input4" >
+                                        <div className="clothes_assistant_img_upload">
+                                            <div className = "clothes_assistant_img" >
+                                                <div className={this.state.flag_img_4 ? "clothes_assistant_upload_img_overlay" : "clothes_assistant_upload_img_overlay_hidden"}></div>
+                                                <IconContext.Provider value={{ size: "2em", className: 'clothes_assistant_upload_icon' }}>
+                                                    <div className={this.state.flag_img_4 ? "clothes_assistant_edit_btn" : "clothes_assistant_upload_btn"}>
+                                                        {this.state.flag_img_4 ? <FiEdit2 /> : <FiUpload />}
+                                                    </div>
+                                                </IconContext.Provider>
+                                                <img id="target"  src={this.state.clothe_img_4}></img>
+                                            </div>
+                                        </div>
+                                    </label>
+                                    <input id="file-input4"  type="file" onChange={this.onImageChange4} />
+                                </div>
+                                <div className="clothes_assistant_img_upload_container">
+                                        <label htmlFor="file-input5" >
+                                        <div className="clothes_assistant_img_upload">
+                                            <div className = "clothes_assistant_img" >
+                                                <div className={this.state.flag_img_5 ? "clothes_assistant_upload_img_overlay" : "clothes_assistant_upload_img_overlay_hidden"}></div>
+                                                <IconContext.Provider value={{ size: "2em", className: 'clothes_assistant_upload_icon' }}>
+                                                    <div className={this.state.flag_img_5 ? "clothes_assistant_edit_btn" : "clothes_assistant_upload_btn"}>
+                                                        {this.state.flag_img_5 ? <FiEdit2 /> : <FiUpload />}
+                                                    </div>
+                                                </IconContext.Provider>
+                                                <img id="target"  src={this.state.clothe_img_5}></img>
+                                            </div>
+                                        </div>
+                                    </label>
+                                    <input id="file-input5"  type="file" onChange={this.onImageChange5} />
+                                </div>
+                            </div>
                         </div>
                         <div className="clothes_assistant_content">
                             <h1>Agrega etiquetas que identifique esta prenda (opcional)</h1>
+                            <div className="clothes_assistant_tags_container">
+                                <ReactTags tags={this.state.tags}
+                                    handleDelete={this.handleTagDelete}
+                                    handleAddition={this.handleTagAddition}
+                                    delimiters={delimiters} />
+                            </div>
                         </div>
                     </ReactSwipe>
                 </div>
