@@ -175,7 +175,7 @@ class PrefAssistant extends Component {
                 'content-type': 'multipart/form-data',
             }
         };
-        console.log(profilePhot);
+        
         axios.post("http://localhost:3001/assistant/upload", profilePhot, config)
             .then((response) => {
 
