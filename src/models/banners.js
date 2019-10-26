@@ -9,18 +9,18 @@ var bannerSchema = new Schema({
         require: true
     },
     img: {
-        type: String, 
+        type: String,
         require: true
     },
     description: {
-        type: String, 
+        type: String,
         require: true
     },
     tittle: {
-        type: String, 
+        type: String,
         require: true
     },
 });
-var Banner = mongoose.model('Banner', garmentSchema);
+var Banner = mongoose.model('Banner', bannerSchema);
 
 module.exports = Banner;
