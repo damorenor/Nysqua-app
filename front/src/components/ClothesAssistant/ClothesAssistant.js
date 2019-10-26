@@ -34,6 +34,8 @@ class ClothesAssistant extends Component {
         this.state={
             step: 0,
             productTitle: "",
+            userData:this.props.userData,
+            token: this.props.token,
             productDescription: "",
             checked1: false,
             checked2: false,
@@ -325,7 +327,7 @@ class ClothesAssistant extends Component {
     }
 
     render(){
-
+console.log(this.state.userData);
         let subcategoriesList;
 
         const handleSubcategoryCheckChange = (event) => {

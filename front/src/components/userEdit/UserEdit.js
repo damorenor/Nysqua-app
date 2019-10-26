@@ -192,7 +192,7 @@ class UserEdit extends Component {
                 var subCategories = [];
 
                 serverResponse.map((e, i) => !serverSubCategories.includes(e) && serverSubCategories.push(e))
-
+                console.log(serverSubCategories);
                 for (var i = 0; i < serverSubCategories.length; i++) {
                     if(this.state.initialSubCategories.includes(serverSubCategories[i])){
                         console.log(serverSubCategories[i]);
@@ -204,8 +204,10 @@ class UserEdit extends Component {
                     
                     
                 }
-                console.log(subCategories);
+                
+
                 this.setState({ subcategories: subCategories });
+
 
             }, (error) => {
                 console.log(error);
@@ -369,18 +371,48 @@ class UserEdit extends Component {
     render(){
         
         const handleCheckChangeSub = (event) => {
+
+            let newSubcategories = this.state.subcategories;
+            let prop = event.currentTarget.value.toString();
             for (var i = 0; i < this.state.subcategories.length; i++) {
-                if (this.state.subcategories[i].name == event.currentTarget.value.toString()) {
-                    this.state.subcategories[i].checked = !this.state.subcategories[i].checked;
-                    console.log(this.state.subcategories[i].checked);
+                if (this.state.subcategories[i].name == prop) {
+                    newSubcategories[i].checked = !newSubcategories[i].checked;
+                    //falso -> verdadero -> añadir
+                    if(newSubcategories[i].checked){
+                        var aux = this.state.initialSubCategories;
+                        aux.push(this.state.subcategories[i].name);
+                        this.setState({
+                            initialSubCategories: aux
+                        });
+                    }
+                    else{
+                        var aux = this.state.initialSubCategories;
+                        var i = aux.indexOf(this.state.subcategories[i].name);
+                        aux.splice( i, 1 );
+                        this.setState({
+                            initialSubCategories: aux
+                        });
+                    }
+                    break;
+                    
                 }
-            };
+            }
+
+            this.setState({
+                subcategories: newSubcategories
+            });
+            console.log(this.state.subcategories);
+            console.log(this.state.initialSubCategories);
+           
         };
         const checkeditems = this.state.initialSubCategories;
+        console.log("asignacion");
+        console.log(checkeditems);
         const listItems = this.state.subcategories.map(function (d) {
             var idstr = "checkbox" + d.name;
             
             if(checkeditems.includes(d.name)){
+                console.log("es un checked");
                 return <ul className="ks-cboxtags-checked">
                 <li>
                     <input type="checkbox" id={idstr}
@@ -442,8 +474,9 @@ class UserEdit extends Component {
                                 multiline
                                 rows="4"
                                 rowsMax="10"
+                                defaultValue = {this.state.bio}
                                 onChange={this.handleChange}
-                                value = {this.state.bio}
+                                
                             />
                             <div className="passwords-container">
                                 <div className= "password_item">
@@ -699,15 +732,16 @@ class UserEdit extends Component {
                                 'authorization': this.state.token,
                             }
                         };
-                        console.log("//////////////////////");
                         console.log(subcategoriesChecked);
-                        console.log(this.state.subcategories);
+                        console.log(this.state.initialSubCategories);
+                        
+                  
                         axios.patch('http://localhost:3001/users/me ', {
                             profilePhoto: this.state.profilePhoto,
                             biography: this.state.bio,
                             categories: this.state.initialCategories,
                             subCategories: subcategoriesChecked,
-                            password:this.state.password,
+                            
                             gender:this.state.gender
             
                         }, config)

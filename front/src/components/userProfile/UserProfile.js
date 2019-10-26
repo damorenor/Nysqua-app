@@ -238,7 +238,7 @@ class UserProfile extends Component {
                         </SwipeableViews>
                         <Dialog onClose={this.handleDialogClose} aria-labelledby="customized-dialog-title" open={this.state.clothesAssistantDialogOpen} fullWidth={true}>
                             <DialogContent dividers>
-                                <ClothesAssistant/>
+                                <ClothesAssistant token = {this.state.token} userData ={this.state.userData}/>
                             </DialogContent>
                         </Dialog>
                      </div>
