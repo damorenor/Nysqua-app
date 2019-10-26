@@ -40,13 +40,22 @@ var UserSchema = new Schema({
     rating: {
         type: Number,
         min: 1,
-        max: 10
+        max: 5
     },
     categories: {
         type: [String]
     },
     subCategories: {
         type: [String]
+    },
+    totalExchanges: {
+        type: Number
+    },
+    exchangesCanceled: {
+        type: Number
+    },
+    exchangesCanceledByOthers: {
+        type: Number
     },
     exchangeList: {
         type: [{ type: Schema.ObjectId, ref: 'Exchange' }]

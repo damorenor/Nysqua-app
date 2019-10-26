@@ -18,7 +18,12 @@ router.post('/', async (req, res) => {
         password: req.body.password,
         email: req.body.email,
         birthDate: req.body.birthdate,
-        gender: req.body.gender
+        gender: req.body.gender,
+        rating: 5,
+        totalExchanges: 0,
+        exchangesCanceled: 0,
+        exchangesCanceledByOthers: 0,
+        profilePhoto: "undefined"
     });
     try {
         const token = await user.newAuthToken()
