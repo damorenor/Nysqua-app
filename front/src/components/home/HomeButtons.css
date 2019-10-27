@@ -1,0 +1,141 @@
+:root {
+    --step_size: 55px;
+    --primary: #E94057;
+    --shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    --carousel-height: 55vh;
+    --gradient: linear-gradient(136deg, rgb(242, 113, 33) 0%, rgb(233, 64, 87) 50%, rgb(138, 35, 135) 100%);
+    --buttons-size: 12vw;
+}
+
+.home_buttons_container {
+    width: 100%;
+    height: auto;
+    padding-top: 5vh;
+    margin-bottom: 1vh;
+    flex-flow: wrap;
+    background-color: transparent;
+}
+
+.home_button_centered{
+    width: 100%;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.home_buttons_container li {
+    width: var(--buttons-size);
+    height: var(--buttons-size);
+    display: inline-block;
+}
+
+.ch-item {
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    border-radius: 50%;
+    overflow: hidden;
+    position: relative;
+    cursor: default;
+    box-shadow: inset 0 0 0 130px rgba(0, 0, 0, 0.7);
+    transition: all 0.3s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.ch-img-1 {
+    background-image: url('https://midevocional.org/wp-content/uploads/2015/04/closet.jpeg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: 50% 0;
+    cursor: pointer;
+}
+
+.ch-img-2 {
+    background-image: url('https://www.wisebread.com/files/fruganomics/imagecache/605x340/blog-images/iStock_000026547400_Large.jpg');
+    background-repeat: no-repeat;
+    background-position: 80% 0;
+    background-size: cover;
+    cursor: pointer;
+}
+
+.ch-img-3 {
+    background-image: url('http://madeinzaragoza.es/blog/wp-content/uploads/2018/11/pexels-photo-196655.jpeg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: 40% 0;
+    cursor: pointer;
+}
+
+.ch-img-4 {
+    background-image: url('https://beyondwords.life/wp-content/uploads/2017/03/iStock-585786834.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: 35% 0;
+    cursor: pointer;
+}
+
+.ch-info {
+    position: absolute;
+    background: var(--gradient);
+    width: inherit;
+    height: inherit;
+    border-radius: 50%;
+    overflow: hidden;
+    opacity: 0;
+    transition: all 0.3s ease-in-out;
+    -webkit-transform: scale(0);
+    transform: scale(0);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.ch-info h3 {
+    color: #fff;
+    width: 75%;
+    text-transform: uppercase;
+    font-size: 1.1em;
+    padding-top: 0;
+    padding-bottom: 10px;
+    margin-bottom: 8px;
+    height: auto;
+    text-align: center;
+    text-shadow: 0 0 1px #fff, 0 1px 2px rgba(0, 0, 0, 0.3);
+    border-bottom: 1px solid white;
+}
+
+.home-button-icons{
+    margin-top: 0;
+    color: white;
+    opacity: 1;
+    transition: all 0.3s ease-in-out;
+}
+
+.home-button-icons-hover {
+    margin-top: 0;
+    color: white;
+    opacity: 1;
+}
+
+.ch-item:hover .home-button-icons{
+    opacity: 0;
+}
+
+.ch-item:hover {
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1), 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.ch-item:hover .ch-info {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+    opacity: 1;
+}
+
+.ch-item:hover .ch-info p {
+    opacity: 1;
+}

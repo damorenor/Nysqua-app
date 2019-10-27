@@ -3,8 +3,7 @@
 :root {
     --step_size: 55px;
     --primary: #E94057;
-    --shadow: 0 3px 6px rgba(0, 0, 0, 0.16),
-    0 3px 6px rgba(0, 0, 0, 0.23);
+    --shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
     --carousel-height: 55vh;
     --gradient: linear-gradient(136deg, rgb(242, 113, 33) 0%, rgb(233, 64, 87) 50%, rgb(138, 35, 135) 100%);
 }
@@ -12,6 +11,20 @@
 * {
     box-sizing: border-box;
     padding: 0;
+}
+
+.preferences_assistant_container{
+    min-width: 70vw;
+    max-width: 70vw;
+    width: 70vw;
+    margin-left: 15vw !important;
+    margin-right: 15vw !important;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
 }
 
 .preferences_assistant {
@@ -433,6 +446,10 @@ input[type=radio] {
     width: 17px;
 }
 
+
+
+
+
 .preferences_assistant h2{
     font-size: 1.4em;
     font-weight: 600;
@@ -499,7 +516,7 @@ ul.ks-cboxtags li label:hover {
 }
 
 ul.ks-cboxtags li label:before {
-    display: inline-block;
+    display: none;
     font-style: normal;
     font-variant: normal;
     text-rendering: auto;
@@ -533,5 +550,10 @@ ul.ks-cboxtags li input[type="checkbox"] {
 ul.ks-cboxtags li input[type="checkbox"] {
   position: absolute;
   opacity: 0;
+}
+
+.MuiTypography-body2{
+    font-family: 'Product Sans' !important;
+    font-size: 0.95em !important;
 }
 

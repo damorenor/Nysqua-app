@@ -1,12 +1,21 @@
 :root{
     --primary: #E94057;
-    --shadow: 0 3px 6px rgba(0, 0, 0, 0.16),
-    0 3px 6px rgba(0, 0, 0, 0.23);
+    --shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
 }
 
 .padding_1 {
     height: 5vh;
     
+}
+
+.sign_in{
+    width: auto;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
 }
 
 .paper {
@@ -45,6 +54,10 @@
     text-align: center;
     margin-top: 0.5vh;
     color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
 }
 
 .login_link a{
@@ -58,6 +71,10 @@
 
 .login_link a:hover{
     text-decoration-color: var(--primary);
+}
+
+.login_link p{
+    color: rgba(0, 0, 0, 0.6);
 }
 
 .title {
@@ -106,3 +123,68 @@
 .react-icons {
     vertical-align: middle;
   }
+
+.MuiTypography-body1 {
+    font-family: 'Product Sans' !important;
+    font-size: 1.2em !important;
+}
+
+.error_msg{
+    width: 100%;
+    height: auto;
+    padding: 4px 12px 4px 12px;
+    background-color: #B71C1C;
+    border-radius: 0.5vw;
+    color: white;
+    margin-bottom: 2.3vh;
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    justify-content: center;
+}
+
+.error_msg span{
+    color: white;
+    font-size: 1.05em;
+    margin: 0% !important;
+}
+
+.error_msg .help{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 12px;
+}
+
+.error_msg .help_icon{
+    cursor: pointer;
+}
+
+.dialog_title {
+    font-family: 'Product Sans';
+}
+
+.dialog_content{
+    width: inherit;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    font-family: 'Product Sans';
+    font-size: 1.1em;
+}
+
+.dialog_content a{
+    color: var(--primary);
+    text-decoration-line: underline;
+    text-decoration-color: white;
+}
+
+.dialog_content a:hover {
+    text-decoration-color: var(--primary);
+}
+
+.MuiDialogActions-root .MuiButton-label {
+    color: var(--primary);
+}
