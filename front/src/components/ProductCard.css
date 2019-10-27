@@ -50,6 +50,8 @@
 }
 
 .product_title h1{
+    width: 90%;
+    text-align: center;
     color: black;
     font-size: 1.2em;
     font-weight: bold;

@@ -11,15 +11,12 @@ import StarRatings from 'react-star-ratings';
 import { FiEdit2 } from 'react-icons/fi';
 import SwipeableViews from 'react-swipeable-views';
 import ProductCard from './../productCard';
-
 import { Link } from 'react-router-dom';
 import Dialog from '@material-ui/core/Dialog';
-import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogActions from '@material-ui/core/DialogActions';
-import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
 import Navbar from '../home/Navbar';
 import ClothesAssistant from '../ClothesAssistant/ClothesAssistant';
+import axios from 'axios';
 import './UserProfile.css';
 
 
@@ -40,14 +37,15 @@ class UserProfile extends Component {
               garmentList: ["prenda1","prenda2","prenda3","prenda4","prenda5","prenda6","prenda7","prenda8" ,"prenda9","prenda10","prenda11"     ],
               profilePhoto : "https://www.rogowaylaw.com/wp-content/uploads/Blank-Employee.jpg",
           },
-          clothesAssistantDialogOpen: false
-      }
+          clothesAssistantDialogOpen: false,
+          uploadedClothes: false,
+      };
 
       this.handleToEdit = this.handleToEdit.bind(this);
 
-
       this.handleDialogOpen = this.handleDialogOpen.bind(this);
       this.handleDialogClose = this.handleDialogClose.bind(this);
+      this.callbackFunction = this.callbackFunction.bind(this);
 
       this.gradient = 'linear-gradient(136deg, rgb(242, 113, 33) 0%, rgb(233, 64, 87) 50%, rgb(138, 35, 135) 100%)';
       this.StyledButton = withStyles({
@@ -78,19 +76,19 @@ class UserProfile extends Component {
      
     }
 
-    handleChange = (event, value) => {
+    handleChange(event, value){
         console.log(this.state.index);
 
         this.setState({
             index: value,
         });
-    };
+    }
     
-    handleChangeIndex = index => {
+    handleChangeIndex(index) {
         this.setState({
             index,
         });
-    };
+    }
 
     handleToEdit(){
         this.LinkToEditElement.click();
@@ -102,13 +100,41 @@ class UserProfile extends Component {
 
     handleDialogClose(){
         this.setState({ clothesAssistantDialogOpen: false});
-
     }
- 
+
+    callbackFunction(childData){
+        this.setState({
+            userData: childData[0],
+            uploadedClothes: childData[1]
+        });
+    }
+
+    componentDidUpdate(){
+        if (this.state.uploadedClothes){
+            console.log(this.state.userData.garmentList);
+            this.setState({uploadedClothes: false});
+            this.handleDialogClose();
+        }
+    }
+    componentDidMount(){
+        const config = {
+            headers: {
+                'authorization': this.state.token,
+            }
+        };
+        axios.get('http://localhost:3001/users/me',config).then((response2)=>{
+                    console.log(response2.data);
+                    this.setState({userData : response2.data}); 
+
+                }, (error) => {
+                console.log(error);
+            })
+    }
+
     render(){
-        console.log(this.state.userData);
         var myElements = [];
-        var completes= this.state.userData.garmentList.length - (this.state.userData.garmentList.length %  4);
+        var completes= 0;
+        console.log(this.state.userData.garmentList);
         for(var i = 0; i < Math.floor(this.state.userData.garmentList.length/4) ; i++) {
             myElements.push(
                 <Grid container 
@@ -117,20 +143,99 @@ class UserProfile extends Component {
                         justify = "center">
 
                         <Grid item xs={3}>
-                            <ProductCard/>
+                            <ProductCard token= {this.state.token} productData={this.state.userData.garmentList[completes]} />
                         </Grid>
                         <Grid item xs={3}>
-                            <ProductCard/>
+                            <ProductCard  token={this.state.token} productData={this.state.userData.garmentList[completes+1]}/>
                         </Grid>
                         <Grid item xs={3}>
-                            <ProductCard/>
+                            <ProductCard token= {this.state.token} productData={this.state.userData.garmentList[completes+2]}/>
                         </Grid>
                         <Grid item xs={3}>
-                            <ProductCard/>
+                            <ProductCard token= {this.state.token} productData={this.state.userData.garmentList[completes+3]}/>
+                        </Grid>
+                </Grid>
+                
+            );
+            completes += 4;
+        };
+        
+        console.log("aca fercho");
+        console.log(completes);
+
+        
+        for(var j = 0; j < Math.floor((this.state.userData.garmentList.length-completes)/3) ; j++){
+            myElements.push(
+                <Grid container 
+                        spacing={4}
+                        direction = "row"
+                        justify = "center">
+
+                        <Grid item xs={3}>
+                            <ProductCard token= {this.state.token} productData={this.state.userData.garmentList[completes]} />
+                        </Grid>
+                        <Grid item xs={3}>
+                            <ProductCard  token={this.state.token} productData={this.state.userData.garmentList[completes+1]}/>
+                        </Grid>
+                        <Grid item xs={3}>
+                            <ProductCard token= {this.state.token} productData={this.state.userData.garmentList[completes+2]}/>
+                        </Grid>
+                        <Grid item xs={3}>
+                            
                         </Grid>
                 </Grid>
             );
-        };
+            completes= completes + 3;
+        }
+      
+        for(var j = 0; j < Math.floor((this.state.userData.garmentList.length-completes)/2) ; j++){
+            console.log("esto no deberia ejecutarse");
+            myElements.push(
+                <Grid container 
+                        spacing={4}
+                        direction = "row"
+                        justify = "center">
+
+                        <Grid item xs={3}>
+                            <ProductCard token= {this.state.token} productData={this.state.userData.garmentList[completes]} />
+                        </Grid>
+                        <Grid item xs={3}>
+                            <ProductCard  token={this.state.token} productData={this.state.userData.garmentList[completes+1]}/>
+                        </Grid>
+                        <Grid item xs={3}>
+                            
+                        </Grid>
+                        <Grid item xs={3}>
+                            
+                        </Grid>
+                </Grid>
+            );
+            completes = completes +2;
+        }
+        for(var j = 0; j < Math.floor((this.state.userData.garmentList.length-completes)) ; j++){
+            myElements.push(
+                <Grid container 
+                        spacing={4}
+                        direction = "row"
+                        justify = "center">
+
+                        <Grid item xs={3}>
+                            <ProductCard token= {this.state.token} productData={this.state.userData.garmentList[completes]} />
+                        </Grid>
+                        <Grid item xs={3}>
+                            
+                        </Grid>
+                        <Grid item xs={3}>
+                            
+                        </Grid>
+                        <Grid item xs={3}>
+                            
+                        </Grid>
+                </Grid>
+            );
+            completes = completes +1;
+        }
+        
 
 
 
@@ -178,7 +283,7 @@ class UserProfile extends Component {
                                         <div className="user_rating_container">
                                             <p>Confiabilidad</p>
                                             <StarRatings
-                                            rating={4}
+                                            rating={5}
                                             starRatedColor="black"
                                             numberOfStars={5}
                                             name='rating'
@@ -238,7 +343,7 @@ class UserProfile extends Component {
                         </SwipeableViews>
                         <Dialog onClose={this.handleDialogClose} aria-labelledby="customized-dialog-title" open={this.state.clothesAssistantDialogOpen} fullWidth={true}>
                             <DialogContent dividers>
-                                <ClothesAssistant token = {this.state.token} userData ={this.state.userData} />
+                                <ClothesAssistant token = {this.state.token} userData ={this.state.userData} parentCallback = {this.callbackFunction}/>
                             </DialogContent>
                         </Dialog>
                      </div>
