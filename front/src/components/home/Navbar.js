@@ -47,7 +47,7 @@ class Navbar extends Component {
                     </Grid>
                     <Grid item xs={7}>
                         <form className="search-container">
-                            <input type="text" id="search-bar" placeholder="What can I help you with today?">
+                            <input type="text" id="search-bar" placeholder="Encuentra la ropa que tanto buscas">
                             </input>
                         </form>
                     </Grid>

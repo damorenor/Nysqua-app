@@ -78,7 +78,6 @@ class ClothesAssistant extends Component {
         this.onImageChange5 = this.onImageChange5.bind(this);
         this.onTagsChanged = this.onTagsChanged.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleToHome = this.handleToHome.bind(this);
         let assistantSwipe;
 
         this.StyledTextField = withStyles({
@@ -219,9 +218,6 @@ class ClothesAssistant extends Component {
         this.setState({
             [prop]: event.target.value
         });
-    }
-    handleToHome(){
-        this.LinkHomeElement.click();
     }
 
     handleCategorySelected(event) {
@@ -390,17 +386,15 @@ class ClothesAssistant extends Component {
                 axios.get('http://localhost:3001/users/me',config).then((response2)=>{
                     console.log(response2.data);
                     this.setState({userData : response2.data});
-                    this.handleToHome();
+                    this.props.parentCallback([this.state.userData, true]);
 
                 }, (error) => {
                 console.log(error);
-
             })
            
 
             }, (error) => {
                 console.log(error);
-
             });
     }
 
@@ -908,17 +902,6 @@ class ClothesAssistant extends Component {
                                 <div className="clothes_assistant_submit_btn" onClick={this.handleSubmit}>
                                     <p>Subir prenda</p>
                                 </div>
-                                <Link to={{
-									pathname: '/Home',
-									state: {
-                                        token: this.state.token,
-                                        userData: this.state.userData
-									}
-								}}
-									ref={
-										LinkHome => this.LinkHomeElement = LinkHome
-									}>
-							    </Link>
                             </div>
 
                         </div>

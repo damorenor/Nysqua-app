@@ -5,39 +5,72 @@ import { IconContext } from "react-icons";
 import Slider from 'react-animated-slider';
 import {FaChevronCircleLeft} from "react-icons/fa";
 import {FaChevronCircleRight} from "react-icons/fa";
+import axios from 'axios';
 
 class ProductCard extends Component {
+
     constructor(props) {
         super(props);
 
-        this.content = [
-        {
-          image:'https://i.pinimg.com/564x/21/e7/08/21e7083828c82f4192c02d1200d52c7f.jpg',
-        },
-        {
-          image:'https://i.pinimg.com/564x/15/79/e3/1579e3d5ac97980f165ab29ad0629620.jpg',
-        },
-        {
-          image:'https://i.pinimg.com/564x/03/7c/77/037c7710e895aab8e8affa0340b2fea6.jpg',
-        },
-        {
-          image:'https://i.pinimg.com/564x/1f/23/80/1f23806884be7158e391f84eea82497e.jpg',
-        },
-        {
-          image:'https://i.pinimg.com/564x/d9/2c/80/d92c80cb5cc338ff20e61c0fb59426a6.jpg',
-        },
-        {
-          image:'https://i.pinimg.com/564x/28/bb/c3/28bbc36cbf189e1fb8b9441c9269cac8.jpg',
-        },
-        {
-          image:'https://i.pinimg.com/564x/28/88/f3/2888f3822f05d3705fede9d57173b63c.jpg',
-        },
-      ];
+        this.state={
+             images: "this.props.productData.images",
+            category:"this.props.productData.category",
+            color:"this.props.productData.color",
+            description:"this.props.productData.description",
+            title: "this.props.productData.title", 
+            state:"this.props.productData.state",
+            size:"this.props.productData.size",
+            tags:"this.props.productData.tags",
+            idUser:"this.props.productData.idUser",
+            content:[] 
+        };
+
+     
 
       let sliderRef;
     }
 
+     componentDidMount(){
+      const config = {
+        headers: {
+            'authorization': this.props.token
+        }
+    };
+      axios.post('http://localhost:3001/garment/get',{
+        garmentID: this.props.productData
+        },config).then((response)=>
+            {
+                
+            this.setState({ images: response.data.images});
+            this.setState({ category: response.data.category});
+            this.setState({ color: response.data.color});
+            this.setState({ descripton: response.data.description});
+            this.setState({ title: response.data.title});
+            this.setState({ state:response.data.state});
+            this.setState({ size: response.data.size});
+            this.setState({ tags: response.data.tags});
+            this.setState({ idUser: response.data.idUser});
+            var aux = this.state.content;
+
+            for(var i=0;i<this.state.images.length;i++){
+                if(this.state.images[i] != ""){
+                aux.push({
+                    image: this.state.images[i],
+                });
+                }
+                
+            }
+            this.setState({ content: aux});
+            console.log(this.state.title) ;
+            
+            }, (error) => {
+            console.log(error);
+
+        });
+    }
+ 
     render() {
+
         return (
             <div>
                 <div className="product_card_container">
@@ -49,14 +82,14 @@ class ProductCard extends Component {
                             <FaChevronCircleRight onClick={() => this.sliderRef.next()}/>
                         </IconContext.Provider>
                         <div className="size_label">
-                            <p><span>Talla:</span> M</p>
+                            <p><span>{this.state.size}</span> </p>
                         </div>
                         <div className = "img_slider_container" >
                             <Slider duration={300}
                                 ref={ref => (this.sliderRef = ref)}
                                 previousButton={null}
                                 nextButton={null}>
-                                {this.content.map((item, index) => (
+                                {this.state.content.map((item, index) => (
                                     <div className="img_content"
                                         key={index}
                                         style={{ background: `url('${item.image}') no-repeat center center` }}>
@@ -71,8 +104,8 @@ class ProductCard extends Component {
                     </div>
                 </div>
                 <div className="product_title">
-                    <h1>Product title</h1>
-                    <p>Estado: estado</p>
+                    <h1>{this.state.title}</h1>
+                    <p>Estado: {this.state.state}</p>
                 </div>
             </div>
         );

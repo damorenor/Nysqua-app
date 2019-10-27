@@ -17,51 +17,46 @@ class Home extends Component {
     constructor(props) {
 
       super(props);
-      this.state={
-        userData: this.props.location.state.userData,
-        token: this.props.location.state.token,
-        clothes : [],
-        }
+        this.state={
+            userData: this.props.location.state.userData,
+            token: this.props.location.state.token,
+            clothes : [],
+        };
+
         this.handleToUser = this.handleToUser.bind(this);
     }
+
     handleToUser(){
         this.LinkToUserElement.click();
 
     }
+    
     componentDidMount(){
         const config = {
             headers: {
-                'authorization': this.state.token
+                'authorization': this.state.token,
             }
         };
+        axios.get('http://localhost:3001/users/me',config).then((response2)=>{
+                    console.log(response2.data);
+                    this.setState({userData : response2.data}); 
 
-        console.log(this.state.token);
-        for(var i = 0; i< this.state.userData.garmentList.length; i++){
-            axios.post('http://localhost:3001/garment/get',{
-                garmentID: this.state.userData.garmentList[i]
-            },config).then((response)=>
-            {
- 
-                var aux = this.state.clothes;
-                aux.push(response.data)
-                this.setState({
-                    clothes: aux
-                });
-    
-            }, (error) => {
-            console.log(error);
-    
-        })
-        }
-        
-       
+                }, (error) => {
+                console.log(error);
+            })
     }
-    
 
     render(){
         console.log(this.state.clothes);
         console.log("datos que llegan");
         console.log(this.props.location.state);
+        var count = 0;
+        var tok = this.state.token;
+        const listItems = this.state.userData.garmentList.map(function (d) {
+            return  (<Grid item xs={3}>
+                        <ProductCard token = {tok} productData={d}/>
+                    </Grid>);
+        });
         return(
             <div className="home_container">
                 <Navbar token = {this.state.token} userData ={this.state.userData} />
@@ -71,9 +66,10 @@ class Home extends Component {
                     </div>
                     
                     <div className="carouselcontainer">
-                            <Banner />       
+                        <Banner />       
                     </div>
-                    <HomeButtons token = {this.state.token} userData ={this.state.userData} />
+                    <HomeButtons token = {this.state.token} 
+                                 userData ={this.state.userData}/>
                     <h1 className="heading-1">Recomendado para ti</h1>
                     <div className="divider-1"> <span></span></div>
                     <Grid container 
@@ -83,20 +79,9 @@ class Home extends Component {
                         alignItems = "stretch"
                         wrap = "nowrap" >
 
-                        <Grid item xs={3}>
-                            <ProductCard/>
-                        </Grid>
-                        <Grid item xs={3}>
-                            <ProductCard/>
-                        </Grid>
-                        <Grid item xs={3}>
-                            <ProductCard/>
-                        </Grid>
-                        <Grid item xs={3}>
-                            <ProductCard/>
-                        </Grid>
+                    {listItems}
                     </Grid>
-                    <Grid container 
+                    {/* <Grid container 
                         spacing={4}
                         direction = "row"
                         justify = "center"
@@ -105,18 +90,18 @@ class Home extends Component {
                         className = "products_margin">
 
                         <Grid item xs={3}>
-                            <ProductCard/>
+                            <ProductCard token = {this.state.token} productData={this.state.userData.garmentList[4]}/>
                         </Grid>
                         <Grid item xs={3}>
-                            <ProductCard/>
+                            <ProductCard token = {this.state.token} productData={this.state.userData.garmentList[5]}/>
                         </Grid>
                         <Grid item xs={3}>
-                            <ProductCard/>
+                            <ProductCard token = {this.state.token} productData={this.state.userData.garmentList[6]}/>
                         </Grid>
                         <Grid item xs={3}>
-                            <ProductCard/>
+                            <ProductCard token = {this.state.token} productData={this.state.userData.garmentList[7]}/>
                         </Grid>
-                    </Grid>
+                    </Grid> */}
                 </div>
                 <Footer />
             </div>
