@@ -389,6 +389,8 @@ class ClothesAssistant extends Component {
                 console.log(response.data);
                 axios.get('http://localhost:3001/users/me',config).then((response2)=>{
                     console.log(response2.data);
+                    this.setState({userData : response2.data});
+                    this.handleToHome();
 
                 }, (error) => {
                 console.log(error);

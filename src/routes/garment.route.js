@@ -83,7 +83,7 @@ router.get('/search', authenticate, async (req, res) => {
 });
 
 //get the garment associated to garmentID
-router.get('/get', authenticate, async (req, res) => {
+router.post('/get', authenticate, async (req, res) => {
     req.user
     var id = req.body.garmentID
     var r = await Garment.findOne({ _id: id });

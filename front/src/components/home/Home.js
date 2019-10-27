@@ -19,7 +19,8 @@ class Home extends Component {
       super(props);
       this.state={
         userData: this.props.location.state.userData,
-        token: this.props.location.state.token
+        token: this.props.location.state.token,
+        clothes : [],
         }
         this.handleToUser = this.handleToUser.bind(this);
     }
@@ -27,9 +28,38 @@ class Home extends Component {
         this.LinkToUserElement.click();
 
     }
+    componentDidMount(){
+        const config = {
+            headers: {
+                'authorization': this.state.token
+            }
+        };
+
+        console.log(this.state.token);
+        for(var i = 0; i< this.state.userData.garmentList.length; i++){
+            axios.post('http://localhost:3001/garment/get',{
+                garmentID: this.state.userData.garmentList[i]
+            },config).then((response)=>
+            {
+ 
+                var aux = this.state.clothes;
+                aux.push(response.data)
+                this.setState({
+                    clothes: aux
+                });
+    
+            }, (error) => {
+            console.log(error);
+    
+        })
+        }
+        
+       
+    }
     
 
     render(){
+        console.log(this.state.clothes);
         console.log("datos que llegan");
         console.log(this.props.location.state);
         return(
