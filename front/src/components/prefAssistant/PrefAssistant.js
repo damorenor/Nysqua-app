@@ -25,7 +25,7 @@ class PrefAssistant extends Component {
         super(props);
 
         this.state = {
-            token: "",
+            token: this.props.location.state.token,
             activeStep: 0,
             bio: "",
             userData: "",
@@ -54,7 +54,7 @@ class PrefAssistant extends Component {
 
         this.gradient = 'linear-gradient(136deg, rgb(242, 113, 33) 0%, rgb(233, 64, 87) 50%, rgb(138, 35, 135) 100%)';
         this.primaryColor = '#E94057';
-        this.token = this.props.location.state;
+    
         this.steps = this.getSteps();
         this.handleClick = this.handleClick.bind(this);
         this.onImageSubmit = this.onImageSubmit.bind(this);
@@ -252,7 +252,7 @@ class PrefAssistant extends Component {
 
             const config = {
                 headers: {
-                    'authorization': this.props.location.state.token.token,
+                    'authorization': this.state.token,
                 }
             };
 
@@ -265,6 +265,8 @@ class PrefAssistant extends Component {
             }, config)
                 .then((response) => {
                     //añadir logica
+                    console.log("Actual / Nueva");
+                    console.log(this.state.userData);
                     console.log(response.data);
                     var data = "";
                     //aca meter el link
@@ -607,7 +609,7 @@ class PrefAssistant extends Component {
                                 <Link to={{
 									pathname: '/Home',
 									state: {
-                                        token: this.props.location.state.token.token,
+                                        token: this.state.token,
                                         userData: this.state.userData
 									}
 								}}

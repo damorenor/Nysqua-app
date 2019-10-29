@@ -32,6 +32,8 @@ class Home extends Component {
     }
     
     componentDidMount(){
+        console.log("info flag");
+        console.log(this.props.location.state.token);
         const config = {
             headers: {
                 'authorization': this.state.token,
@@ -39,6 +41,7 @@ class Home extends Component {
         };
         axios.get('http://localhost:3001/users/me',config).then((response2)=>{
                     console.log(response2.data);
+                    console.log("funciono");    
                     this.setState({userData : response2.data}); 
 
                 }, (error) => {
