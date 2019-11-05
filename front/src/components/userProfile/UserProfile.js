@@ -42,7 +42,8 @@ class UserProfile extends Component {
       };
 
       this.handleToEdit = this.handleToEdit.bind(this);
-
+      this.handleChange = this.handleChange.bind(this);
+      this.handleChangeIndex = this.handleChangeIndex.bind(this);
       this.handleDialogOpen = this.handleDialogOpen.bind(this);
       this.handleDialogClose = this.handleDialogClose.bind(this);
       this.callbackFunction = this.callbackFunction.bind(this);

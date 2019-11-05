@@ -703,6 +703,7 @@ class UserEdit extends Component {
                         console.log(subcategoriesChecked);
                         console.log(this.state.subcategories);
                         axios.patch('http://localhost:3001/users/me ', {
+                            
                             profilePhoto: this.state.profilePhoto,
                             biography: this.state.bio,
                             categories: this.state.initialCategories,
@@ -712,6 +713,7 @@ class UserEdit extends Component {
                         }, config)
                             .then((response) => {
                                 //añadir logica
+                                console.log("funciona");
                                 console.log(response.data);
                                 this.setState({
                                     userData: response.data

@@ -52,6 +52,7 @@ class SignIn extends Component {
     this.handleClickShowPassword = this.handleClickShowPassword.bind(this);
     this.handleDialogOpen = this.handleDialogOpen.bind(this);
     this.handleDialogClose = this.handleDialogClose.bind(this);
+    this.handleToAssistant = this.handleToAssistant.bind(this);
 
     this.handleMouseDownPassword = event => {
       event.preventDefault();
@@ -157,6 +158,13 @@ class SignIn extends Component {
       this.LinkElement.click();
   }
 
+  handleToAssistant(udata){
+    this.setState({
+      userData: udata
+    });
+    this.LinkToAssistantElement.click();
+  }
+
   handleDialogOpen(){
       this.setState({ dialogOpen: true});
   }
@@ -195,8 +203,12 @@ class SignIn extends Component {
                             var data = "";
                             console.log(resp.data);
                             data = resp.data;
-                            this.handleClick(data);
-                            
+                            if(data.user.profilePhoto == "undefined"){
+                              this.handleToAssistant(data)
+                            }
+                            else{
+                              this.handleClick(data);
+                            }
                     
                           }, (error) => {
                             console.log(error);
@@ -251,7 +263,13 @@ class SignIn extends Component {
                             var data = "";
                             console.log(resp.data);
                             data = resp.data;
-                            this.handleClick(data);
+                            if(data.user.profilePhoto == "undefined"){
+                              this.handleToAssistant(data)
+                            }
+                            else{
+                              this.handleClick(data);
+                            }
+                            
                           }, (error) => {
                             console.log(error);
                     
@@ -387,6 +405,16 @@ class SignIn extends Component {
                     }}} 
                     ref={
                         Link => this.LinkElement = Link
+                        }>		
+                </Link>
+                <Link  to={{
+                    pathname: '/PrefAssistant',
+                    state: {
+                        token: this.state.userData.token,
+                        userData: this.state.userData.user
+                    }}} 
+                    ref={
+                        Link => this.LinkToAssistantElement = Link
                         }>		
                 </Link>
             </div>    
