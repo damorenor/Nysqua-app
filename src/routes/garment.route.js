@@ -39,10 +39,17 @@ router.get('/preferences', authenticate, async (req, res) => {
     req.user
     var categories = req.body.categories
     var subcategories = req.body.subcategories
+    var user = req.user._id
+    console.log(user)
     console.log(categories)
     console.log(subcategories)
-    var r = await Garment.find({ $and: [{ category: { categories } }, { subcategory: { subcategories } }] });
-    console.log(r);
+    try {
+        var r = await Garment.find({ $and: [{ category: { $in: categories } }, { subcategory: { $in: subcategories } }, { idUser: { $not: { $eq: user } } }] });
+        console.log(r);
+    } catch (error) {
+        console.log(error)
+    }
+
     try {
         res.send(r);
     } catch (error) {
