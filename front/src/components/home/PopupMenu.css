@@ -14,6 +14,12 @@
     display: flex;
     justify-content: center;
   }
+  .PopupMenu_title p{
+    cursor: pointer;
+  }
+  .PopupMenu_title p:hover{
+    color: var(--primary)!important;
+  }
   
   
   .PopupMenuWrapper.-under {
@@ -69,7 +75,7 @@
     width: 100%;
     height: 1em;
   }
-  
+
   .PopupMenu__Menu.-under::before {
     top: -1em;
     bottom: auto;

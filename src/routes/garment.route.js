@@ -35,7 +35,7 @@ router.post('/add', authenticate, async (req, res) => {
 });
 
 //get all the garments that meet with categories, subcategories
-router.get('/preferences', authenticate, async (req, res) => {
+router.post('/preferences', authenticate, async (req, res) => {
     req.user
     var categories = req.body.categories
     var subcategories = req.body.subcategories

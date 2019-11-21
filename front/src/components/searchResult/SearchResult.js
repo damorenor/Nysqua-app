@@ -1,80 +1,50 @@
 import React, { Component } from "react";
-import HomeButtons from './HomeButtons';
-import './Home.css';
-import Navbar from './Navbar';
-import Footer from './Footer';
-import Banner from './Banner';
-import CategoriesBar from './CategoriesBar';
+import Navbar from '../home/Navbar';
+import Footer from '../home/Footer';
 import { Grid } from "@material-ui/core";
+
+
 import ProductCard from './../productCard';
-import axios from 'axios';
 
-
-
-class Home extends Component {
-   
-
+import './SearchResult.css';
+class SearchResult extends Component {
     constructor(props) {
-
-      super(props);
-        this.state={
-            userData: this.props.location.state.userData,
-            token: this.props.location.state.token,
-            clothes : [],
-        };
-
-        this.handleToUser = this.handleToUser.bind(this);
-    }
-
-    handleToUser(){
-        this.LinkToUserElement.click();
-
-    }
+        super(props);
     
-    componentDidMount(){
-        console.log("info flag");
-        console.log(this.props.location.state.token)     ;
-        const config = {
-            headers: {
-                'authorization': this.state.token,
-            }
+        this.state = {
+            token : this.props.location.state.token,
+            userData: this.props.location.state.userData,
+            clothes: this.props.location.state.clothes,
+            labelCategorie:this.props.location.state.labelCategorie,
+            labelSubcategorie:this.props.location.state.labelSubcategorie,
+          
+       
         };
-        axios.get('http://localhost:3001/users/me',config).then((response2)=>{
-                    console.log(response2.data);
-                     
-                    this.setState({userData : response2.data});    
-                    const head = {
-                        headers: {
-                            'authorization': this.state.token,
-                        }
-                    }
-
-
-                    console.log(this.state.userData.subCategories);
-                    axios.post('http://localhost:3001/garment/preferences',{
-                        categories: this.state.userData.categories,
-                        subcategories: this.state.userData.subCategories,
-                    
-                        
-                    },head).then((response)=>{
-                        console.log(response.data);
-                        this.setState({clothes : response.data});    
-
-                    }     , (error) => {
-                        console.log(error);
-                    })
-                    
-
-
-                  
-
-                }, (error) => {
-                console.log(error);
-            })
-
+        this.isEmpty = this.isEmpty.bind(this);
+        this.isCategorieSearch = this.isCategorieSearch.bind(this);
     }
 
-    render(){
+    componentDidMount(){
+   
+    }
+    isEmpty(){
+        if(this.state.clothes.length == 0){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    isCategorieSearch(){
+        if(this.state.labelSubcategorie == ""){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    render() {
+        console.log(this.state.clothes);
         var myElements = [];
         var completes= 0;
         for(var i = 0; i < Math.floor(this.state.clothes.length/4) ; i++) {
@@ -176,40 +146,26 @@ class Home extends Component {
             completes = completes +1;
         }
 
+        
+        return (
+            <div className="results_container">
+             <Navbar token = {this.state.token} userData ={this.state.userData} />
 
-
-        console.log(this.state.clothes);
-        console.log("datos que llegan");
-        console.log(this.props.location.state);
-        var count = 0;
-        var tok = this.state.token;
-        const listItems = this.state.clothes.map(function (d) {
-            return  (<Grid item xs={3}>
-                        <ProductCard token = {tok} productData={d._id}/>
-                    </Grid>);
-        });
-        return(
-            <div className="home_container">
-                <Navbar token = {this.state.token} userData ={this.state.userData} />
-                <div className="home">
-                    <div className="categories-container">
-                    <CategoriesBar token = {this.state.token} userData ={this.state.userData} />
-                    </div>
-                    
-                    <div className="carouselcontainer">
-                        <Banner />       
-                    </div>
-                    <HomeButtons token = {this.state.token} 
-                                 userData ={this.state.userData}/>
-                    <h1 className="heading-1">Recomendado para ti</h1>
-                    <div className="divider-1"> <span></span></div>
-                    {myElements}
-                   
-                </div>
-                <Footer />
+            <div className="results">
+     
+            
+              {this.isCategorieSearch()? <h1 className="heading-1">Resultados de {this.state.labelCategorie} </h1> : <h1 className="heading-1"> Resultados de {this.state.labelSubcategorie} para {this.state.labelCategorie}  </h1>}  
+           
+             <div className="divider-1"> <span></span></div>
+            { this.isEmpty() ?<p>Lo sentimos, no se encontraron resultados para esta Busqueda</p>:myElements}    
+               
             </div>
-        );
+            <Footer />
+        </div>
+
+        )
     }
+
 }
 
-export default Home;
+export default SearchResult;

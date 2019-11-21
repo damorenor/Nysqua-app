@@ -13,15 +13,15 @@ class ProductCard extends Component {
         super(props);
 
         this.state={
-             images: "this.props.productData.images",
-            category:"this.props.productData.category",
-            color:"this.props.productData.color",
-            description:"this.props.productData.description",
-            title: "this.props.productData.title", 
-            state:"this.props.productData.state",
-            size:"this.props.productData.size",
-            tags:"this.props.productData.tags",
-            idUser:"this.props.productData.idUser",
+             images: "",
+            category:"",
+            color:"",
+            description:"",
+            title: "", 
+            state:"",
+            size:"",
+            tags:"",
+            idUser:"",
             content:[] 
         };
 
