@@ -50,7 +50,7 @@ class Home extends Component {
                     }
 
 
-
+                    console.log(this.state.userData.subCategories);
                     axios.post('http://localhost:3001/garment/preferences',{
                         categories: this.state.userData.categories,
                         subcategories: this.state.userData.subCategories,
@@ -130,7 +130,6 @@ class Home extends Component {
         }
       
         for(var j = 0; j < Math.floor((this.state.clothes.length-completes)/2) ; j++){
-            console.log("esto no deberia ejecutarse");
             myElements.push(
                 <Grid container 
                         spacing={4}
@@ -194,7 +193,7 @@ class Home extends Component {
                 <Navbar token = {this.state.token} userData ={this.state.userData} />
                 <div className="home">
                     <div className="categories-container">
-                    <CategoriesBar/>
+                    <CategoriesBar token = {this.state.token} userData ={this.state.userData} />
                     </div>
                     
                     <div className="carouselcontainer">

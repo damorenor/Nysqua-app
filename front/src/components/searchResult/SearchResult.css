@@ -1,0 +1,58 @@
+:root {
+    --step_size: 55px;
+    --primary: #E94057;
+    --shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    --gradient: linear-gradient(136deg, rgb(242, 113, 33) 0%, rgb(233, 64, 87) 50%, rgb(138, 35, 135) 100%);
+}
+
+.results_container {
+    width: 100%;
+    max-width: 100%;
+    min-width: 100%;
+    height: 100%;
+    flex-direction: column;
+    align-items: center !important;
+    justify-content: flex-start;
+}
+
+.results{
+    min-width: 70vw;
+    max-width: 70vw;
+    width: 70vw;
+    margin-left: 15vw !important;
+    margin-right: 15vw !important;
+    margin-top: 4vh !important;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+}
+
+.heading-1 {
+    font-size: 1.4em;
+    letter-spacing: 0.08em;
+    font-weight: 500;
+    float: left;
+    width: 100%;
+    margin-top: 3vh;
+    text-align: left;
+    color: var(--primary);
+    text-shadow: 0 1px 1px #FFFFFF;
+    text-transform: uppercase;
+}
+
+.results .divider-1 {
+    border-bottom: 1.2px solid rgba(0, 0, 0, 0.25) !important;
+    width: 100%;
+    height: 1.2px;
+    margin: 0px 0px 1.5em 0px;
+}
+
+.results .divider-1 span {
+    display: block;
+    width: 50px;
+    height: 1.2px;
+    background-color: var(--primary);
+}

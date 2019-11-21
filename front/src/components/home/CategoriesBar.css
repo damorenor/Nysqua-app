@@ -58,6 +58,7 @@
   .Menu-item p{
       padding: 0px!important;
       margin: 0px!important;
+      cursor: pointer;  
       
   }
 
@@ -71,6 +72,7 @@
   }
   .MenuTitle p{
     margin-bottom: 0vh!important;
+    
   }
 
   .MenuTitle hr{

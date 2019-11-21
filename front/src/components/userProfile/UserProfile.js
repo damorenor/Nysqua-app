@@ -189,7 +189,7 @@ class UserProfile extends Component {
         }
       
         for(var j = 0; j < Math.floor((this.state.userData.garmentList.length-completes)/2) ; j++){
-            console.log("esto no deberia ejecutarse");
+            
             myElements.push(
                 <Grid container 
                         spacing={4}
