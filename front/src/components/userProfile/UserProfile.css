@@ -458,9 +458,9 @@
 }
 
 .MuiDialog-paperFullWidth {
-    width: 60vw !important;
-    max-width: 60vw !important;
-    min-width: 60vw !important;
+    width: 72vw !important;
+    max-width: 72vw !important;
+    min-width: 72vw !important;
     margin: 0 !important;
     border-radius: 0.5vw !important;
 }

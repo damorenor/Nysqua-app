@@ -5,6 +5,9 @@ import { IconContext } from "react-icons";
 import Slider from 'react-animated-slider';
 import {FaChevronCircleLeft} from "react-icons/fa";
 import {FaChevronCircleRight} from "react-icons/fa";
+import Dialog from '@material-ui/core/Dialog';
+import DialogContent from '@material-ui/core/DialogContent';
+import ProductDetails from './ProductDetails';
 import axios from 'axios';
 
 class ProductCard extends Component {
@@ -22,16 +25,28 @@ class ProductCard extends Component {
             size:"",
             tags:"",
             idUser:"",
-            content:[] 
+            content:[],
+            productDetailsDialogOpen: false,
         };
-
-     
-
-      let sliderRef;
+        this.handleDialogOpen = this.handleDialogOpen.bind(this);
+        this.handleDialogClose = this.handleDialogClose.bind(this);
+        let sliderRef;
     }
 
-     componentDidMount(){
-      const config = {
+    handleDialogOpen() {
+        this.setState({
+            productDetailsDialogOpen: true
+        });
+    }
+
+    handleDialogClose() {
+        this.setState({
+            productDetailsDialogOpen: false
+        });
+    }
+
+    componentDidMount(){
+        const config = {
         headers: {
             'authorization': this.props.token
         }
@@ -93,15 +108,18 @@ class ProductCard extends Component {
                                     <div className="img_content"
                                         key={index}
                                         style={{ background: `url('${item.image}') no-repeat center center` }}>
-                                        <div className="img_overlay" onClick={() => {
-                                                console.log("in");
-                                        }}> 
+                                        < div className = "img_overlay" onClick = {this.handleDialogOpen}>
                                         </div>
                                     </div>
                                 ))}
                             </Slider>
                         </div>
                     </div>
+                    <Dialog className="dialog" onClose={this.handleDialogClose} aria-labelledby="customized-dialog-title" open={this.state.productDetailsDialogOpen} fullWidth={true}>
+                        <DialogContent dividers>
+                            <ProductDetails/>
+                        </DialogContent>
+                    </Dialog>
                 </div>
                 <div className="product_title">
                     <h1>{this.state.title}</h1>
