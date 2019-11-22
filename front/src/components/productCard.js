@@ -16,7 +16,7 @@ class ProductCard extends Component {
         super(props);
 
         this.state={
-             images: "",
+            images: "",
             category:"",
             color:"",
             description:"",
