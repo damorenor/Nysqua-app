@@ -9,6 +9,7 @@ class ProductDetails extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            productData: this.props.productData,
 
         };
 
@@ -27,6 +28,7 @@ class ProductDetails extends Component {
 
 
     render(){
+        console.log(this.state.productData);
         return(
             <div className="product_details_main_container">
                 <ReactSwipe

@@ -27,6 +27,7 @@ class ProductCard extends Component {
             idUser:"",
             content:[],
             productDetailsDialogOpen: false,
+            productData: "",
         };
         this.handleDialogOpen = this.handleDialogOpen.bind(this);
         this.handleDialogClose = this.handleDialogClose.bind(this);
@@ -55,7 +56,7 @@ class ProductCard extends Component {
         garmentID: this.props.productData
         },config).then((response)=>
             {
-                
+            this.setState({ productData: response.data});  
             this.setState({ images: response.data.images});
             this.setState({ category: response.data.category});
             this.setState({ color: response.data.color});
@@ -117,7 +118,7 @@ class ProductCard extends Component {
                     </div>
                     <Dialog className="dialog" onClose={this.handleDialogClose} aria-labelledby="customized-dialog-title" open={this.state.productDetailsDialogOpen} fullWidth={true}>
                         <DialogContent dividers>
-                            <ProductDetails/>
+                            <ProductDetails productData = {this.state.productData}/>
                         </DialogContent>
                     </Dialog>
                 </div>
