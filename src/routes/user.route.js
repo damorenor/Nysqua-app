@@ -121,6 +121,23 @@ router.post('/ogoutall', authenticate, async (req, res) => {
     }
 })
 
+
+router.post('/getUser', authenticate, async (req, res) => {
+    if (!ObjectID.isValid(req.body.userid)) {
+        console.log(req.body.userid         )
+        return res.status(404).send();
+    }
+    try {
+        let user = await User.findOne({ _id: req.body.userid }).select( 
+            'email username birthDate gender biography rating totalExchanges exchangesCanceled exchangesCanceledByOthers exchangeList garmentList magazineList profilePhoto');
+        res.send(user);
+    }catch (error) {
+        res.status(400).send()
+    }
+})
+
+
+
 module.exports = router
 
 
