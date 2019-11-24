@@ -8,6 +8,7 @@ import Home from './components/home/Home';
 import UserProfile from './components/userProfile/UserProfile';
 import UserEdit from './components/userEdit/UserEdit';
 import SearchResult from './components/searchResult/SearchResult';
+import OtherProfile from './components/otherProfile/OtherProfile';
 
 function App() {
   return (
@@ -22,6 +23,8 @@ function App() {
           <Route exact path="/UserProfile" component={UserProfile}/>  
           <Route exact path="/UserEdit" component={UserEdit}/>
           <Route exact path="/SearchResult" component={SearchResult}/>
+          <Route exact path="/OtherProfile" component={OtherProfile}/>
+
 
 
         </Switch>

@@ -17,55 +17,29 @@ import DialogContent from '@material-ui/core/DialogContent';
 import Navbar from '../home/Navbar';
 import ClothesAssistant from '../ClothesAssistant/ClothesAssistant';
 import axios from 'axios';
-import './UserProfile.css';
+import './OtherProfile.css';
 
 
 
-class UserProfile extends Component {
+class OtherProfile extends Component {
 
     constructor(props) {
       super(props);
       this.state={
           index : 0,
           token:this.props.location.state.token,
-          userData:this.props.location.state.userData,    
-          clothesAssistantDialogOpen: false,
-          uploadedClothes: false,
+          ownerData:this.props.location.state.ownerData,    
+          userData:this.props.location.state.userData,
+
       };
 
       this.handleToEdit = this.handleToEdit.bind(this);
       this.handleChange = this.handleChange.bind(this);
       this.handleChangeIndex = this.handleChangeIndex.bind(this);
-      this.handleDialogOpen = this.handleDialogOpen.bind(this);
-      this.handleDialogClose = this.handleDialogClose.bind(this);
-      this.callbackFunction = this.callbackFunction.bind(this);
+
 
       this.gradient = 'linear-gradient(136deg, rgb(242, 113, 33) 0%, rgb(233, 64, 87) 50%, rgb(138, 35, 135) 100%)';
-      this.StyledButton = withStyles({
-        root: {
-            backgroundImage: this.gradient,
-            fontFamily: 'Product Sans !important',
-            borderRadius: 3,
-            border: 0,
-            color: 'white',
-            height: 48,
-            padding: '0 30px',
-            boxShadow: '0 3px 5px 2px rgba(255, 255, 255, .3)',
-            margin: '1vh 0vw 1vh 0vh',
-            fontSize: '1.05rem',
-            transitionProperty: 'opacity',
-            transitionDuration: '0.1s',
-            '&:hover': {
-                opacity: 0.9,
-            },
-            '&:active': {
-                boxShadow: '0 3px 5px 2px rgba(255, 255, 255, .3)',
-            },
-        },
-        label: {
-            textTransform: 'capitalize',
-        },
-    })(Button);
+
      
     }
 
@@ -87,48 +61,13 @@ class UserProfile extends Component {
         this.LinkToEditElement.click();
     }
 
-    handleDialogOpen(){
-        this.setState({ clothesAssistantDialogOpen: true});
-    }
 
-    handleDialogClose(){
-        this.setState({ clothesAssistantDialogOpen: false});
-    }
-
-    callbackFunction(childData){
-        this.setState({
-            userData: childData[0],
-            uploadedClothes: childData[1]
-        });
-    }
-
-    componentDidUpdate(){
-        if (this.state.uploadedClothes){
-            console.log(this.state.userData.garmentList);
-            this.setState({uploadedClothes: false});
-            this.handleDialogClose();
-        }
-    }
-    componentDidMount(){
-        const config = {
-            headers: {
-                'authorization': this.state.token,
-            }
-        };
-        axios.get('http://localhost:3001/users/me',config).then((response2)=>{
-                    console.log(response2.data);
-                    this.setState({userData : response2.data}); 
-
-                }, (error) => {
-                console.log(error);
-            })
-    }
 
     render(){
         var myElements = [];
         var completes= 0;
-        console.log(this.state.userData.garmentList);
-        for(var i = 0; i < Math.floor(this.state.userData.garmentList.length/4) ; i++) {
+        console.log(this.state.ownerData.garmentList);
+        for(var i = 0; i < Math.floor(this.state.ownerData.garmentList.length/4) ; i++) {
             myElements.push(
                 <Grid container 
                         spacing={4}
@@ -136,16 +75,16 @@ class UserProfile extends Component {
                         justify = "center">
 
                         <Grid item xs={3}>
-                            <ProductCard token= {this.state.token} productData={this.state.userData.garmentList[completes]} />
+                            <ProductCard token= {this.state.token} productData={this.state.ownerData.garmentList[completes]} />
                         </Grid>
                         <Grid item xs={3}>
-                            <ProductCard  token={this.state.token} productData={this.state.userData.garmentList[completes+1]}/>
+                            <ProductCard  token={this.state.token} productData={this.state.ownerData.garmentList[completes+1]}/>
                         </Grid>
                         <Grid item xs={3}>
-                            <ProductCard token= {this.state.token} productData={this.state.userData.garmentList[completes+2]}/>
+                            <ProductCard token= {this.state.token} productData={this.state.ownerData.garmentList[completes+2]}/>
                         </Grid>
                         <Grid item xs={3}>
-                            <ProductCard token= {this.state.token} productData={this.state.userData.garmentList[completes+3]}/>
+                            <ProductCard token= {this.state.token} productData={this.state.ownerData.garmentList[completes+3]}/>
                         </Grid>
                 </Grid>
                 
@@ -156,7 +95,7 @@ class UserProfile extends Component {
   
 
         
-        for(var j = 0; j < Math.floor((this.state.userData.garmentList.length-completes)/3) ; j++){
+        for(var j = 0; j < Math.floor((this.state.ownerData.garmentList.length-completes)/3) ; j++){
             myElements.push(
                 <Grid container 
                         spacing={4}
@@ -164,13 +103,13 @@ class UserProfile extends Component {
                         justify = "center">
 
                         <Grid item xs={3}>
-                            <ProductCard token= {this.state.token} productData={this.state.userData.garmentList[completes]} />
+                            <ProductCard token= {this.state.token} productData={this.state.ownerData.garmentList[completes]} />
                         </Grid>
                         <Grid item xs={3}>
-                            <ProductCard  token={this.state.token} productData={this.state.userData.garmentList[completes+1]}/>
+                            <ProductCard  token={this.state.token} productData={this.state.ownerData.garmentList[completes+1]}/>
                         </Grid>
                         <Grid item xs={3}>
-                            <ProductCard token= {this.state.token} productData={this.state.userData.garmentList[completes+2]}/>
+                            <ProductCard token= {this.state.token} productData={this.state.ownerData.garmentList[completes+2]}/>
                         </Grid>
                         <Grid item xs={3}>
                             
@@ -180,7 +119,7 @@ class UserProfile extends Component {
             completes= completes + 3;
         }
       
-        for(var j = 0; j < Math.floor((this.state.userData.garmentList.length-completes)/2) ; j++){
+        for(var j = 0; j < Math.floor((this.state.ownerData.garmentList.length-completes)/2) ; j++){
             
             myElements.push(
                 <Grid container 
@@ -189,10 +128,10 @@ class UserProfile extends Component {
                         justify = "center">
 
                         <Grid item xs={3}>
-                            <ProductCard token= {this.state.token} productData={this.state.userData.garmentList[completes]} />
+                            <ProductCard token= {this.state.token} productData={this.state.ownerData.garmentList[completes]} />
                         </Grid>
                         <Grid item xs={3}>
-                            <ProductCard  token={this.state.token} productData={this.state.userData.garmentList[completes+1]}/>
+                            <ProductCard  token={this.state.token} productData={this.state.ownerData.garmentList[completes+1]}/>
                         </Grid>
                         <Grid item xs={3}>
                             
@@ -204,7 +143,7 @@ class UserProfile extends Component {
             );
             completes = completes +2;
         }
-        for(var j = 0; j < Math.floor((this.state.userData.garmentList.length-completes)) ; j++){
+        for(var j = 0; j < Math.floor((this.state.ownerData.garmentList.length-completes)) ; j++){
             myElements.push(
                 <Grid container 
                         spacing={4}
@@ -212,7 +151,7 @@ class UserProfile extends Component {
                         justify = "center">
 
                         <Grid item xs={3}>
-                            <ProductCard token= {this.state.token} productData={this.state.userData.garmentList[completes]} />
+                            <ProductCard token= {this.state.token} productData={this.state.ownerData.garmentList[completes]} />
                         </Grid>
                         <Grid item xs={3}>
                             
@@ -237,32 +176,14 @@ class UserProfile extends Component {
                  <div className = "userProfile">
                      <div className = "info_container">
                          <div className = "profilephoto">
-                            <img  className ="adjust_photo"  src ={this.state.userData.profilePhoto} ></img>
+                            <img  className ="adjust_photo"  src ={this.state.ownerData.profilePhoto} ></img>
                         </div>
                         <div className = "text_info">
-                            <div className="user_name_container">
-                                <p className="user_name_text">{this.state.userData.username}</p>
-                                <div className="user_edit_btn_container" onClick={this.handleToEdit}>
-                                    <div className="user_edit_btn">
-                                        <IconContext.Provider value={{ size: "1em", className: 'user_edit_icon'}}>
-                                            <FiEdit2 />
-                                        </IconContext.Provider>
-                                        <p className="user_edit_btn_label">Editar perfil</p>
-                                    </div>
-                                    <Link to={{
-                                        pathname: '/UserEdit',
-                                        state: {
-                                            token: this.state.token,
-                                            userData: this.state.userData
-                                        }
-                                        }}
-                                        ref={
-                                            LinkToEdit => this.LinkToEditElement = LinkToEdit
-                                        }>
-                                    </Link>
-                                </div>
+                            <div className="user_name_container_otherProfile">
+                                <p className="user_name_text">{this.state.ownerData.username}</p>
+                               
                             </div>
-                            <p className="user_bio_text">{this.state.userData.biography}</p>
+                            <p className="user_bio_text">{this.state.ownerData.biography}</p>
                             <Grid container 
                                 direction = "row"
                                 justify = "center"
@@ -275,7 +196,7 @@ class UserProfile extends Component {
                                         <div className="user_rating_container">
                                             <p>Confiabilidad</p>
                                             <StarRatings
-                                            rating={this.state.userData.rating}
+                                            rating={this.state.ownerData.rating}
                                             starRatedColor="black"
                                             numberOfStars={5}
                                             name='rating'
@@ -291,17 +212,17 @@ class UserProfile extends Component {
                                                 <p>Intercambios</p>
                                                 <div className="swap_rating">
                                                     <div className="swap_rate_content">
-                                                        <p className="number">{this.state.userData.totalExchanges}</p>
+                                                        <p className="number">{this.state.ownerData.totalExchanges}</p>
                                                         <p>Completados exitosamente</p>
                                                     </div>
                                                     <span className="swap_rating_divider"></span>
                                                     <div className="swap_rate_content">
-                                                        <p className="number">{this.state.userData.exchangesCanceled}</p>
+                                                        <p className="number">{this.state.ownerData.exchangesCanceled}</p>
                                                         <p>Cancelados por el usuario</p>
                                                     </div>
                                                     <span className="swap_rating_divider"></span>
                                                     <div className="swap_rate_content">
-                                                        <p className="number">{this.state.userData.exchangesCanceledByOthers}</p>
+                                                        <p className="number">{this.state.ownerData.exchangesCanceledByOthers}</p>
                                                         <p>Cancelados por otros usuarios</p>
                                                     </div>
                                                 </div>
@@ -315,29 +236,19 @@ class UserProfile extends Component {
                      <div className = "tabs_container">       
                         <Tabs value={this.state.index} fullWidth onChange={this.handleChange} >
                             <Tab label="Guardarropa" />
-                            <Tab label="Mis Catalogos" />
-                            <Tab label="Mis Intercambios" />
+                            <Tab label="Intercambios" />
                         </Tabs>
                         <SwipeableViews index={this.state.index} onChangeIndex={this.handleChangeIndex}>
                             <div className= "tab_garment">
-                                <div className="add_clothes_btn_container">
-                                    <button className="icon-btn add_clothes-btn" onClick={this.handleDialogOpen}>
-                                        <div className="add_clothes-icon"></div>
-                                        <div className="add_clothes_btn-txt">Nueva Prenda</div>
-                                    </button>
-                                </div>
+            
                                 <div className="wardrobe_container">
                                     {myElements}
                                 </div>
                             </div>
-                            <div className= "tab_garment">Aca estaran los catalogos del usuario</div>
+                            
                             <div className= "tab_garment">Aca estaran los intercambios del usuario</div>
                         </SwipeableViews>
-                        <Dialog onClose={this.handleDialogClose} aria-labelledby="customized-dialog-title" open={this.state.clothesAssistantDialogOpen} fullWidth={true}>
-                            <DialogContent dividers>
-                                <ClothesAssistant token = {this.state.token} userData ={this.state.userData} parentCallback = {this.callbackFunction}/>
-                            </DialogContent>
-                        </Dialog>
+                        
                      </div>
                  </div>
             </div>
@@ -347,4 +258,4 @@ class UserProfile extends Component {
 }
 
 
-export default UserProfile;
+export default OtherProfile;
