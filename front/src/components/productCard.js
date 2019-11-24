@@ -28,6 +28,7 @@ class ProductCard extends Component {
             content:[],
             productDetailsDialogOpen: false,
             productData: "",
+            ownerData: "",
         };
         this.handleDialogOpen = this.handleDialogOpen.bind(this);
         this.handleDialogClose = this.handleDialogClose.bind(this);
@@ -118,7 +119,7 @@ class ProductCard extends Component {
                     </div>
                     <Dialog className="dialog" onClose={this.handleDialogClose} aria-labelledby="customized-dialog-title" open={this.state.productDetailsDialogOpen} fullWidth={true}>
                         <DialogContent dividers>
-                            <ProductDetails productData = {this.state.productData}/>
+                            <ProductDetails token = {this.props.token} productData = {this.state.productData}/>
                         </DialogContent>
                     </Dialog>
                 </div>

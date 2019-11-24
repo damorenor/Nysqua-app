@@ -5,6 +5,10 @@ import { IconContext } from "react-icons";
 import Slider from 'react-animated-slider';
 import {FaChevronCircleLeft} from "react-icons/fa";
 import {FaChevronCircleRight} from "react-icons/fa";
+import { Link } from 'react-router-dom';
+
+import axios from 'axios';
+
 
 import './ProductDetails.css';
 
@@ -24,12 +28,26 @@ class ProductDetails extends Component {
             color: this.props.productData.color,
             state: this.props.productData.state,
             timeUsed: "entre 6 meses y un año",
+            token: this.props.token,
+            ownerData: "",
+            userData: "",
+
         };
 
         this.handletoSwap = this.handletoSwap.bind(this);
         this.handlecancelSwap = this.handlecancelSwap.bind(this);
         this.handleToUser = this.handleToUser.bind(this);
+        this.isTheSameUser = this.isTheSameUser.bind(this);
         let productDetailsSwipe;
+    }
+
+    isTheSameUser(){
+        if(this.state.userData._id == this.state.idUser){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
     handletoSwap() {
@@ -41,20 +59,53 @@ class ProductDetails extends Component {
     }
 
     handleToUser(event){
-        console.log(event.target.id);
+        if(this.isTheSameUser()){
+            this.LinkToUserProfileElement.click();
+        }
+        else{
+            this.LinkToProfileElement.click();
+        }
+       
     }
     componentDidMount(){
-        let imagesArray = this.state.images;
-        for (var i = 0; i < imagesArray.length; i++) {
-            if (imagesArray[i] == "") {
-                imagesArray.splice(i, 1);
+        const config = {
+            headers: {
+                'authorization': this.state.token
             }
-        }
-        for (i = 0; i < imagesArray.length; i++) {
-            if (imagesArray[i] == "") {
-                imagesArray.splice(i, 1);
+        };
+
+        axios.get('http://localhost:3001/users/me',config).then((response2)=>{
+                    console.log(response2.data);
+                    this.setState({userData : response2.data}); 
+
+                }, (error) => {
+                console.log(error);
+            })
+        axios.post('http://localhost:3001/users/getUser',{
+
+            userid: this.state.idUser
             }
+            ,config).then((response)=>
+            {
+                console.log(response.data);
+                this.setState({ ownerData: response.data});  
+                
+            }, (error) => {
+                console.log(error);
+
+            });
+        
+
+        let imagesArray = [];
+        console.log(this.state.images);
+        for(var i=0;i<this.state.images.length;i++){
+            if(this.state.images[i] != ""){
+            imagesArray.push(this.state.images[i]);
+            }
+            
         }
+
+        console.log(imagesArray);
         this.setState({
             images: imagesArray
         });
@@ -153,8 +204,31 @@ class ProductDetails extends Component {
                                 <h1>{this.state.title}</h1>
                                 <p><span className="bold">Descripcion: </span>{this.state.description}</p>
                                 <p><span className="bold">Subido por: </span> 
-                                    <a id={this.state.idUser}
-                                        onClick={this.handleToUser}>{this.state.idUser}</a></p>
+                                    <a id={this.state.ownerData.username}
+                                        onClick={this.handleToUser}>{this.state.ownerData.username}</a></p>
+                                        <Link to={{
+                                        pathname: '/OtherProfile',
+                                        state: {
+                                            token: this.state.token,
+                                            ownerData: this.state.ownerData,
+                                            userData: this.state.userData,
+                                        }
+                                        }}
+                                        ref={
+                                            LinkToProfile => this.LinkToProfileElement = LinkToProfile
+                                        }>
+                                         </Link>
+                                         <Link to={{
+                                        pathname: '/UserProfile',
+                                        state: {
+                                            token: this.state.token,
+                                            userData: this.state.userData,
+                                        }
+                                        }}
+                                        ref={
+                                            LinkToUserProfile => this.LinkToUserProfileElement = LinkToUserProfile
+                                        }>
+                                         </Link>
                                 <div className="details_header_categories_container">
                                     <div className="details_header_category">
                                         <p>Ropa para {this.state.category}</p>
