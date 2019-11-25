@@ -25,7 +25,7 @@ class PrefAssistant extends Component {
         super(props);
 
         this.state = {
-            token: this.props.location.state.token,
+            token: this.props.location.state.token.token,
             activeStep: 0,
             bio: "",
             userData: "",
@@ -57,7 +57,7 @@ class PrefAssistant extends Component {
     
         this.steps = this.getSteps();
         this.handleClick = this.handleClick.bind(this);
-        this.onImageSubmit = this.onImageSubmit.bind(this);
+        
         this.onImageChange = this.onImageChange.bind(this);
         this.handleNext = this.handleNext.bind(this);
         this.handleBack = this.handleBack.bind(this);
@@ -163,26 +163,7 @@ class PrefAssistant extends Component {
     }
 
 
-    onImageSubmit() {
 
-        const profilePhot = new FormData();
-        console.log(this.state.file);
-
-        profilePhot.append('profilePhoto', this.state.file);
-        console.log(profilePhot.get('profilePhoto'));
-        const config = {
-            headers: {
-                'content-type': 'multipart/form-data',
-            }
-        };
-        
-        axios.post("http://localhost:3001/assistant/upload", profilePhot, config)
-            .then((response) => {
-
-                console.log(response);
-            }).catch((error) => {
-            });
-    }
 
     onImageChange = (event) => {
 
@@ -233,8 +214,7 @@ class PrefAssistant extends Component {
                     console.log(error);
                 });
         } else if (this.state.activeStep == 2) {
-            //Aqui va la logica del request de los demas datos
-            //this.onImageSubmit();
+        
             var subcategoriesChecked = [];
             var categoriesChecked = [];
             var categories = ['Hombre', 'Mujer', 'Niño', 'Niña', 'Bebes'];
@@ -255,7 +235,8 @@ class PrefAssistant extends Component {
                     'authorization': this.state.token,
                 }
             };
-
+            console.log("config");
+            console.log(config);
             axios.post('http://localhost:3001/assistant/prefAssistant', {
                 bio: this.state.bio,
                 categories: categoriesChecked,
@@ -411,7 +392,7 @@ class PrefAssistant extends Component {
                                                 </label>
 
                                                 <input id="file-input" name="profilePhoto" type="file" onChange={this.onImageChange} />
-                                                {/* <Button onClick={this.onImageSubmit}>Enviar Test</Button> */}
+                                               
 
 
                                             </div>
@@ -610,7 +591,7 @@ class PrefAssistant extends Component {
 									pathname: '/Home',
 									state: {
                                         token: this.state.token,
-                                        userData: this.state.userData
+                                        userData: this.state.userData   
 									}
 								}}
 									ref={
