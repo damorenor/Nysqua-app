@@ -33,6 +33,9 @@ class ProductDetails extends Component {
             ownerData: "",
             userData: "",
             garmentList: null,
+            selectedGarmets: [],
+            selectedGarmetsChange: false,
+            garmentObjects: [],
         };
 
         this.handletoSwap = this.handletoSwap.bind(this);
@@ -40,8 +43,8 @@ class ProductDetails extends Component {
         this.handleToUser = this.handleToUser.bind(this);
         this.isTheSameUser = this.isTheSameUser.bind(this);
         this.handleSwapSubmit = this.handleSwapSubmit.bind(this);
+        this.garmentOnClick = this.garmentOnClick.bind(this);
         let productDetailsSwipe;
-        let garmentObjects;
         let wardrobeSliderRef;
     }
 
@@ -72,26 +75,63 @@ class ProductDetails extends Component {
        
     }
 
+    searchSelectedGarment(garmentID){
+        return this.state.selectedGarmets.includes(garmentID);
+    }
+
+    garmentOnClick(event){
+        let garmentID = event.target.id;
+        let selectedGarmets = this.state.selectedGarmets;
+        if (this.searchSelectedGarment(garmentID)){  
+            var index = selectedGarmets.indexOf(garmentID);
+            if (index > -1) {
+                selectedGarmets.splice(index, 1);
+            }
+        }else{
+            if(this.state.selectedGarmets.length == 0){
+                this.state.selectedGarmetsChange = true;
+            }
+            selectedGarmets.push(garmentID);
+        }
+        
+        this.setState({
+            selectedGarmets
+        });
+        this.renderGarmentList();
+    }
+
     handleSwapSubmit(event){
         console.log("submit");
+        if(this.state.selectedGarmets.length > 0){
+            console.log(this.state.selectedGarmets);
+            this.props.parentCallback(true);
+        }else{
+            console.log("error");
+        }
+        
     }
 
     buildGarmentCard(garment){
         let clothesSliderRef;
+        let garmentSelected = this.searchSelectedGarment(garment.garmentID);
         return(
             <div>
                 <div className="garment_clothes_container">
                     <div className="garment_clothes">
-                        <IconContext.Provider value={{ size: "2.2em ", className: 'garment_clothes_left_arrow'}}>
+                        <IconContext.Provider 
+                            value={{ size: "2.2em ", 
+                                        className: 'garment_clothes_left_arrow'}}>
                             <FaChevronCircleLeft onClick={() => clothesSliderRef.previous()}/>
                         </IconContext.Provider>
-                        <IconContext.Provider value={{ size: "2.2em ", className: 'garment_clothes_right_arrow'}}>
+                        <IconContext.Provider 
+                            value={{ size: "2.2em ", 
+                                        className: 'garment_clothes_right_arrow'}}>
                             <FaChevronCircleRight onClick={() => clothesSliderRef.next()}/>
                         </IconContext.Provider>
                         <div className="garment_clothes_size_label">
                             <p><span>{garment.size}</span> </p>
                         </div>
-                        <div className = "garment_clotehs_img_slider_container" >
+                        <div className = {garmentSelected ? "garment_clotehs_img_slider_container_selected" : "garment_clotehs_img_slider_container"} >
                             <Slider duration={300}
                                 ref = {
                                     ref => (clothesSliderRef = ref)
@@ -101,7 +141,9 @@ class ProductDetails extends Component {
                                 {garment.images.map((image) => (
                                     <div className="img_content"
                                         style={{ background: `url('${image}') no-repeat center center` }}>
-                                        < div className = "img_overlay">
+                                        <div id={garment.garmentID} 
+                                            className = "img_overlay"
+                                            onClick={this.garmentOnClick}>
                                         </div>
                                     </div>
                                 ))}
@@ -109,8 +151,8 @@ class ProductDetails extends Component {
                         </div>
                     </div>
                 </div>
-                <div className="garment_clothes_title">
-                    <h1>{garment.title}</h1>
+                <div className={garmentSelected ? "garment_clothes_title_selected" : "garment_clothes_title"}>
+                    <h1>{garmentSelected ? "Seleccionado" : garment.title}</h1>
                 </div>
             </div>
         );
@@ -141,28 +183,29 @@ class ProductDetails extends Component {
                 let garments = response.data.garmentList;
                 let garmentList = [];
                 for (let i = 0; i < garments.length; i++) {
-                    let clothes = {};
+                    let garment = {};
                     axios.post('http://localhost:3001/garment/get', {
                         garmentID: garments[i]
                     }, config).then((response) => {
-                        clothes.size = response.data.size;
-                        clothes.images = response.data.images;
-                        clothes.title = response.data.title;
+                        garment.garmentID = response.data._id;
+                        garment.size = response.data.size;
+                        garment.images = response.data.images;
+                        garment.title = response.data.title;
                         var aux = [];
 
-                        for (var i = 0; i < clothes.images.length; i++) {
-                            if (clothes.images[i] != "") {
-                                aux.push(clothes.images[i]);
+                        for (var i = 0; i < garment.images.length; i++) {
+                            if (garment.images[i] != "") {
+                                aux.push(garment.images[i]);
                             }
 
                         }
 
-                        clothes.images = aux;
+                        garment.images = aux;
 
                     }, (error) => {
                         console.log(error);
                     });
-                    garmentList.push(clothes);
+                    garmentList.push(garment);
                 }
 
                 this.setState({
@@ -179,7 +222,7 @@ class ProductDetails extends Component {
                 if (ctx.state.garmentList != null){
                     if (ctx.state.garmentList[ctx.state.garmentList.length - 1].size != undefined &&
                             ctx.state.garmentList[ctx.state.garmentList.length - 1].images != undefined &&
-                                ctx.state.garmentList[ctx.state.garmentList.length - 1].title != undefined) {
+                            ctx.state.garmentList[ctx.state.garmentList.length - 1].title != undefined) {
                         return resolve();
                     }                    
                 }
@@ -188,13 +231,13 @@ class ProductDetails extends Component {
         });
 
         let maxSize = this.state.garmentList.length;
-        this.garmentObjects = [];
+        let garmentObjects = [];
         for(var i = 0; i < maxSize; i += 4){
-            this.garmentObjects.push(
+            garmentObjects.push(
                 <div className="wardrobe_container_row">
                     <Grid 
                         container
-                        spacing={3}
+                        spacing={0}
                         direction = "row"
                         justify = "center"
                         alignItems = "center">
@@ -215,6 +258,10 @@ class ProductDetails extends Component {
             );
         }
 
+        this.setState({
+            garmentObjects
+        })
+
         let imagesArray = [];
         console.log(this.state.images);
         for(var i=0;i<this.state.images.length;i++){
@@ -229,6 +276,41 @@ class ProductDetails extends Component {
             images: imagesArray
         });
         return Promise.resolve();
+    }
+
+    renderGarmentList() {
+        var ctx = this;
+        let maxSize = this.state.garmentList.length;
+        let garmentObjects = [];
+        for(var i = 0; i < maxSize; i += 4){
+            garmentObjects.push(
+                <div className="wardrobe_container_row">
+                    <Grid 
+                        container
+                        spacing={0}
+                        direction = "row"
+                        justify = "center"
+                        alignItems = "center">
+                        <Grid item xs={3}>
+                            {(i < maxSize) ? ctx.buildGarmentCard(this.state.garmentList[i]) : ""}
+                        </Grid>
+                        <Grid item xs={3}>
+                            {(i + 1 < maxSize) ? ctx.buildGarmentCard(this.state.garmentList[i + 1]) : ""}
+                        </Grid>
+                        <Grid item xs={3}>
+                            {(i + 2 < maxSize) ? ctx.buildGarmentCard(this.state.garmentList[i + 2]) : ""}
+                        </Grid>
+                        <Grid item xs={3}>
+                            {(i + 3 < maxSize) ? ctx.buildGarmentCard(this.state.garmentList[i + 3]) : ""}
+                        </Grid>
+                    </Grid>
+                </div> 
+            );
+        }
+
+        this.setState({
+            garmentObjects
+        })
     }
 
     render(){
@@ -425,7 +507,7 @@ class ProductDetails extends Component {
                         <CustomScrollbars autoHide autoHideTimeout={500} autoHideDuration={200}>
                         <div className="wardrobe_ctx">
                             <div className="wardrobe_container">
-                                    {this.garmentObjects}
+                                    {this.state.garmentObjects}
                             </div>
                         </div>
                         </CustomScrollbars>

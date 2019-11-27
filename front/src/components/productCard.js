@@ -29,9 +29,11 @@ class ProductCard extends Component {
             productDetailsDialogOpen: false,
             productData: "",
             ownerData: "",
+            changeDetails: false,
         };
         this.handleDialogOpen = this.handleDialogOpen.bind(this);
         this.handleDialogClose = this.handleDialogClose.bind(this);
+        this.callbackFunction = this.callbackFunction.bind(this);
         let sliderRef;
     }
 
@@ -45,6 +47,21 @@ class ProductCard extends Component {
         this.setState({
             productDetailsDialogOpen: false
         });
+    }
+
+    callbackFunction(childData) {
+        this.setState({
+            changeDetails: childData
+        });
+    }
+
+    componentDidUpdate() {
+        if (this.state.changeDetails) {
+            this.setState({
+                changeDetails: false
+            });
+            this.handleDialogClose();
+        }
     }
 
     componentDidMount(){
@@ -125,7 +142,16 @@ class ProductCard extends Component {
                         open={this.state.productDetailsDialogOpen} 
                         fullWidth={true}>
                         <DialogContent dividers>
-                            <ProductDetails token = {this.props.token} productData = {this.state.productData}/>
+                            < ProductDetails token = {
+                                this.props.token
+                            }
+                            productData = {
+                                this.state.productData
+                            }
+                            parentCallback = {
+                                this.callbackFunction
+                            }
+                            />
                         </DialogContent>
                     </Dialog>
                 </div>
