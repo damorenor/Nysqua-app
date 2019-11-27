@@ -4,6 +4,7 @@ const multer = require("multer");
 const authenticate = require("../middleware/auth");
 var fs = require('fs');
 const Exchange = require('../models/exchanges');
+const User = require('../models/users');
 const { ObjectID } = require('mongodb');
 
 const router = new express.Router();
@@ -26,12 +27,40 @@ router.post('/create', authenticate, async (req, res) => {
 
     try {
         await exchange.save()
-        req.user.addExchange(exchange)
+        //req.user.addExchange(exchange)
         res.send(exchange);
     } catch (error) {
         console.log(error)
         res.status(400).send()
     }
+})
+
+//para aceptar un intercambio
+
+router.post('/accept', authenticate, async (req, res) => {
+    var user = req.user
+    var exchangeID = req.body.exchangeID
+    try {
+        var exchange = await Exchange.findOne({ _id: { $eq: exchangeID } })
+
+        var otherUser = await User.findOne({ _id: { $eq: exchange.idUserTwo } })
+
+    } catch (error) {
+        console.log(error)
+    }
+    console.log(exchange)
+    console.log(otherUser)
+    console.log(user._id, exchange.idGarmentOne)
+    if (user._id == exchange.idUserOne) {
+        exchange.state = true
+        await exchange.save()
+        user.addExchange(exchange)
+        otherUser.addExchange(exchange)
+        res.send("successfully accepted")
+    } else {
+        res.status(400).send("Error en la solicitud")
+    }
+
 })
 
 //para obtener todas las propuestas que le han hecho a un usuario
