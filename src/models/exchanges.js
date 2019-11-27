@@ -8,7 +8,7 @@ var exchangeSchema = new Schema({
         type: String,
         required: true
     },
-    idUSerTwo: {
+    idUserTwo: {
         type: String,
         required: true
     },
@@ -25,18 +25,13 @@ var exchangeSchema = new Schema({
         required: true
     },
     acceptanceDate: {
-        type: Date,
-        required: true
+        type: Date
     },
     matchDate: {
-        type: Date,
-        required: true
+        type: Date
     },
     state: {
-        type: Number,
-        required: true,
-        min: 1,
-        max: 10
+        type: Boolean
     }
 });
 

@@ -98,12 +98,12 @@ UserSchema.statics.checkValidCredentials = async (email, password) => {
 }
 
 UserSchema.methods.checkPassword = async function (currentPassword) {
-    const user = this 
+    const user = this
     const isMatch = await bcrypt.compare(currentPassword, user.password)
 
     if (!isMatch) {
-        return false 
-        
+        return false
+
     }
 
     return true
@@ -124,7 +124,16 @@ UserSchema.methods.addPreferences = async function (req) {
 UserSchema.methods.addGarment = async function (garment) {
     const user = this
     user.garmentList.push(garment)
+    //console.log(user)
+    console.log("\n\n\n\n\n\n\n\n")
     await user.save()
+}
+
+UserSchema.methods.addExchange = async function (exchange) {
+    const user = this
+    user.exchangeList.push(exchange)
+    await user.save()
+    console.log("save")
 }
 
 //custom method to generate authToken 
