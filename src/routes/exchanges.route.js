@@ -15,7 +15,6 @@ router.post('/create', authenticate, async (req, res) => {
     var garmentInterest = req.body.garmentInterest
     var ownGarment = req.body.ownGarment
     var proposalDate = req.body.proposalDate
-    console.log(idUserOne)
     exchange = new Exchange({
         idUserOne: idUserOne,
         idUserTwo: idUserTwo,
@@ -36,33 +35,76 @@ router.post('/create', authenticate, async (req, res) => {
 })
 
 //para aceptar un intercambio
-
 router.post('/accept', authenticate, async (req, res) => {
     var user = req.user
     var exchangeID = req.body.exchangeID
     try {
         var exchange = await Exchange.findOne({ _id: { $eq: exchangeID } })
-
         var otherUser = await User.findOne({ _id: { $eq: exchange.idUserTwo } })
-
     } catch (error) {
         console.log(error)
     }
-    console.log(exchange)
-    console.log(otherUser)
-    console.log(user._id, exchange.idGarmentOne)
     if (user._id == exchange.idUserOne) {
         exchange.state = true
         await exchange.save()
         user.addExchange(exchange)
         otherUser.addExchange(exchange)
-        res.send("successfully accepted")
+        res.status(200).send("successfully accepted")
     } else {
         res.status(400).send("Error en la solicitud")
     }
 
 })
 
+//para rechazar o cancelar un intercambio 
+
+router.post('/cancel', authenticate, async (req, res) => {
+    var exchangeID = req.body.exchangeID
+    var user = req.user
+    var r = false;
+    try {
+        var exchange = await Exchange.findOne({ _id: { $eq: exchangeID } })
+        if (exchange.state) {
+            if (user._id == exchange.idUserOne) {
+                user.exchangesCanceled += 1
+                await user.save()
+                try {
+                    var otherUser = await User.findOne({ _id: { $eq: exchange.idUserTwo } })
+                    otherUser.exchangesCanceledByOthers += 1
+                    await otherUser.save()
+                } catch (error) {
+                    console.log(error)
+                }
+            } else {
+                user.exchangesCanceled += 1
+                await user.save()
+                try {
+                    var otherUser = await User.findOne({ _id: { $eq: exchange.idUserOne } })
+                    otherUser.exchangesCanceledByOthers += 1
+                    await otherUser.save()
+                } catch (error) {
+                    console.log(error)
+                }
+            }
+            r = await Exchange.deleteOne({ _id: exchangeID }, function (error) {
+                if (error) return handleError(error)
+                return true
+            })
+        } else {
+            r = await Exchange.deleteOne({ _id: exchangeID }, function (error) {
+                if (error) return handleError(error)
+                return true
+            })
+        }
+    } catch (error) {
+        console.log(error)
+    }
+    try {
+        res.status(200).send()
+    } catch (error) {
+        res.status(400).send()
+    }
+})
 //para obtener todas las propuestas que le han hecho a un usuario
 router.post('/proposals', authenticate, async (req, res) => {
     userID = req.body.userID
