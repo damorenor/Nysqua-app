@@ -9,6 +9,7 @@ var oauth = require('./routes/oauth');
 var assistantRouter = require('./routes/assistant.route');
 var garmentRouter = require('./routes/garment.route');
 var bannerRouter = require('./routes/banners.route')
+var exchangeRouter = require('./routes/exchanges.route')
 const bodyParser = require('body-parser');
 
 //settings
@@ -36,5 +37,6 @@ app.use('/authentication', oauth)
 app.use('/assistant', assistantRouter);
 app.use('/garment', garmentRouter);
 app.use('/banner', bannerRouter);
+app.use('/exchange', exchangeRouter)
 
 module.exports = app;
