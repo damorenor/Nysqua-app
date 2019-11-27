@@ -29,9 +29,11 @@ class ProductCard extends Component {
             productDetailsDialogOpen: false,
             productData: "",
             ownerData: "",
+            changeDetails: false,
         };
         this.handleDialogOpen = this.handleDialogOpen.bind(this);
         this.handleDialogClose = this.handleDialogClose.bind(this);
+        this.callbackFunction = this.callbackFunction.bind(this);
         let sliderRef;
     }
 
@@ -47,43 +49,58 @@ class ProductCard extends Component {
         });
     }
 
+    callbackFunction(childData) {
+        this.setState({
+            changeDetails: childData
+        });
+    }
+
+    componentDidUpdate() {
+        if (this.state.changeDetails) {
+            this.setState({
+                changeDetails: false
+            });
+            this.handleDialogClose();
+        }
+    }
+
     componentDidMount(){
         const config = {
         headers: {
             'authorization': this.props.token
         }
-    };
-      axios.post('http://localhost:3001/garment/get',{
-        garmentID: this.props.productData
-        },config).then((response)=>
-            {
-            this.setState({ productData: response.data});  
-            this.setState({ images: response.data.images});
-            this.setState({ category: response.data.category});
-            this.setState({ color: response.data.color});
-            this.setState({ descripton: response.data.description});
-            this.setState({ title: response.data.title});
-            this.setState({ state:response.data.state});
-            this.setState({ size: response.data.size});
-            this.setState({ tags: response.data.tags});
-            this.setState({ idUser: response.data.idUser});
-            var aux = this.state.content;
+        };
+        axios.post('http://localhost:3001/garment/get',{
+            garmentID: this.props.productData
+            },config).then((response)=>
+                {
+                this.setState({ productData: response.data});  
+                this.setState({ images: response.data.images});
+                this.setState({ category: response.data.category});
+                this.setState({ color: response.data.color});
+                this.setState({ descripton: response.data.description});
+                this.setState({ title: response.data.title});
+                this.setState({ state:response.data.state});
+                this.setState({ size: response.data.size});
+                this.setState({ tags: response.data.tags});
+                this.setState({ idUser: response.data.idUser});
+                var aux = this.state.content;
 
-            for(var i=0;i<this.state.images.length;i++){
-                if(this.state.images[i] != ""){
-                aux.push({
-                    image: this.state.images[i],
-                });
+                for(var i=0;i<this.state.images.length;i++){
+                    if(this.state.images[i] != ""){
+                    aux.push({
+                        image: this.state.images[i],
+                    });
+                    }
+                    
                 }
+                this.setState({ content: aux});
+                console.log(this.state.title) ;
                 
-            }
-            this.setState({ content: aux});
-            console.log(this.state.title) ;
-            
-            }, (error) => {
-            console.log(error);
+                }, (error) => {
+                console.log(error);
 
-        });
+            });
     }
  
     render() {
@@ -117,9 +134,24 @@ class ProductCard extends Component {
                             </Slider>
                         </div>
                     </div>
-                    <Dialog className="dialog" onClose={this.handleDialogClose} aria-labelledby="customized-dialog-title" open={this.state.productDetailsDialogOpen} fullWidth={true}>
+                    <Dialog 
+                        className="dialog" 
+                        scroll="body"
+                        onClose={this.handleDialogClose} 
+                        aria-labelledby="customized-dialog-title" 
+                        open={this.state.productDetailsDialogOpen} 
+                        fullWidth={true}>
                         <DialogContent dividers>
-                            <ProductDetails token = {this.props.token} productData = {this.state.productData}/>
+                            < ProductDetails token = {
+                                this.props.token
+                            }
+                            productData = {
+                                this.state.productData
+                            }
+                            parentCallback = {
+                                this.callbackFunction
+                            }
+                            />
                         </DialogContent>
                     </Dialog>
                 </div>

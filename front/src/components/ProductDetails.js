@@ -6,6 +6,7 @@ import Slider from 'react-animated-slider';
 import {FaChevronCircleLeft} from "react-icons/fa";
 import {FaChevronCircleRight} from "react-icons/fa";
 import { Link } from 'react-router-dom';
+import { Scrollbars } from 'react-custom-scrollbars';
 
 import axios from 'axios';
 
@@ -31,14 +32,19 @@ class ProductDetails extends Component {
             token: this.props.token,
             ownerData: "",
             userData: "",
-
+            garmentList: null,
+            selectedGarmets: [],
+            garmentObjects: [],
         };
 
         this.handletoSwap = this.handletoSwap.bind(this);
         this.handlecancelSwap = this.handlecancelSwap.bind(this);
         this.handleToUser = this.handleToUser.bind(this);
         this.isTheSameUser = this.isTheSameUser.bind(this);
+        this.handleSwapSubmit = this.handleSwapSubmit.bind(this);
+        this.garmentOnClick = this.garmentOnClick.bind(this);
         let productDetailsSwipe;
+        let wardrobeSliderRef;
     }
 
     isTheSameUser(){
@@ -67,7 +73,77 @@ class ProductDetails extends Component {
         }
        
     }
-    componentDidMount(){
+
+    searchSelectedGarment(garmentID){
+        return this.state.selectedGarmets.includes(garmentID);
+    }
+
+    garmentOnClick(event){
+        this.state.selectedGarmets.pop();
+        this.state.selectedGarmets.push(event.target.id);
+        this.renderGarmentList();
+        return Promise.resolve();
+    }
+
+    handleSwapSubmit(event){
+        console.log("submit");
+        if(this.state.selectedGarmets.length > 0){
+            console.log(this.state.selectedGarmets);
+            this.props.parentCallback(true);
+        }else{
+            console.log("error");
+        }
+        
+    }
+
+    buildGarmentCard(garment){
+        let clothesSliderRef;
+        let garmentSelected = this.searchSelectedGarment(garment.garmentID);
+        return(
+            <div>
+                <div className="garment_clothes_container">
+                    <div className="garment_clothes">
+                        <IconContext.Provider 
+                            value={{ size: "2.2em ", 
+                                        className: 'garment_clothes_left_arrow'}}>
+                            <FaChevronCircleLeft onClick={() => clothesSliderRef.previous()}/>
+                        </IconContext.Provider>
+                        <IconContext.Provider 
+                            value={{ size: "2.2em ", 
+                                        className: 'garment_clothes_right_arrow'}}>
+                            <FaChevronCircleRight onClick={() => clothesSliderRef.next()}/>
+                        </IconContext.Provider>
+                        <div className="garment_clothes_size_label">
+                            <p><span>{garment.size}</span> </p>
+                        </div>
+                        <div className = {garmentSelected ? "garment_clotehs_img_slider_container_selected" : "garment_clotehs_img_slider_container"} >
+                            <Slider duration={300}
+                                ref = {
+                                    ref => (clothesSliderRef = ref)
+                                }
+                                previousButton={null}
+                                nextButton={null}>
+                                {garment.images.map((image) => (
+                                    <div className="img_content"
+                                        style={{ background: `url('${image}') no-repeat center center` }}>
+                                        <div id={garment.garmentID} 
+                                            className = "img_overlay"
+                                            onClick={this.garmentOnClick}>
+                                        </div>
+                                    </div>
+                                ))}
+                            </Slider>
+                        </div>
+                    </div>
+                </div>
+                <div className={garmentSelected ? "garment_clothes_title_selected" : "garment_clothes_title"}>
+                    <h1>{garmentSelected ? "Seleccionado" : garment.title}</h1>
+                </div>
+            </div>
+        );
+    }
+
+    async componentDidMount(): Promise<void> {
         const config = {
             headers: {
                 'authorization': this.state.token
@@ -80,27 +156,102 @@ class ProductDetails extends Component {
 
                 }, (error) => {
                 console.log(error);
-            })
+            });
+
         axios.post('http://localhost:3001/users/getUser',{
 
             userid: this.state.idUser
             }
             ,config).then((response)=>
             {
-                console.log(response.data);
                 this.setState({ ownerData: response.data});  
-                
+                let garments = response.data.garmentList;
+                let garmentList = [];
+                for (let i = 0; i < garments.length; i++) {
+                    let garment = {};
+                    axios.post('http://localhost:3001/garment/get', {
+                        garmentID: garments[i]
+                    }, config).then((response) => {
+                        garment.garmentID = response.data._id;
+                        garment.size = response.data.size;
+                        garment.images = response.data.images;
+                        garment.title = response.data.title;
+                        var aux = [];
+
+                        for (var i = 0; i < garment.images.length; i++) {
+                            if (garment.images[i] != "") {
+                                aux.push(garment.images[i]);
+                            }
+
+                        }
+
+                        garment.images = aux;
+
+                    }, (error) => {
+                        console.log(error);
+                    });
+                    garmentList.push(garment);
+                }
+
+                this.setState({
+                    garmentList
+                })
             }, (error) => {
                 console.log(error);
 
             });
         
+        var ctx = this;
+        await new Promise(function (resolve, reject) {
+            (function waitForFoo() {
+                if (ctx.state.garmentList != null){
+                    if (ctx.state.garmentList[ctx.state.garmentList.length - 1].size != undefined &&
+                            ctx.state.garmentList[ctx.state.garmentList.length - 1].images != undefined &&
+                            ctx.state.garmentList[ctx.state.garmentList.length - 1].title != undefined) {
+                        return resolve();
+                    }                    
+                }
+                setTimeout(waitForFoo, 200);
+            })();
+        });
+
+        let maxSize = this.state.garmentList.length;
+        let garmentObjects = [];
+        for(var i = 0; i < maxSize; i += 4){
+            garmentObjects.push(
+                <div className="wardrobe_container_row">
+                    <Grid 
+                        container
+                        spacing={0}
+                        direction = "row"
+                        justify = "center"
+                        alignItems = "center">
+                        <Grid item xs={3}>
+                            {(i < maxSize) ? ctx.buildGarmentCard(this.state.garmentList[i]) : ""}
+                        </Grid>
+                        <Grid item xs={3}>
+                            {(i + 1 < maxSize) ? ctx.buildGarmentCard(this.state.garmentList[i + 1]) : ""}
+                        </Grid>
+                        <Grid item xs={3}>
+                            {(i + 2 < maxSize) ? ctx.buildGarmentCard(this.state.garmentList[i + 2]) : ""}
+                        </Grid>
+                        <Grid item xs={3}>
+                            {(i + 3 < maxSize) ? ctx.buildGarmentCard(this.state.garmentList[i + 3]) : ""}
+                        </Grid>
+                    </Grid>
+                </div> 
+            );
+        }
+
+        this.setState({
+            garmentObjects
+        })
 
         let imagesArray = [];
         console.log(this.state.images);
         for(var i=0;i<this.state.images.length;i++){
             if(this.state.images[i] != ""){
-            imagesArray.push(this.state.images[i]);
+                imagesArray.push(this.state.images[i]);
             }
             
         }
@@ -109,6 +260,42 @@ class ProductDetails extends Component {
         this.setState({
             images: imagesArray
         });
+        return Promise.resolve();
+    }
+
+    renderGarmentList() {
+        var ctx = this;
+        let maxSize = this.state.garmentList.length;
+        let garmentObjects = [];
+        for(var i = 0; i < maxSize; i += 4){
+            garmentObjects.push(
+                <div className="wardrobe_container_row">
+                    <Grid 
+                        container
+                        spacing={0}
+                        direction = "row"
+                        justify = "center"
+                        alignItems = "center">
+                        <Grid item xs={3}>
+                            {(i < maxSize) ? ctx.buildGarmentCard(this.state.garmentList[i]) : ""}
+                        </Grid>
+                        <Grid item xs={3}>
+                            {(i + 1 < maxSize) ? ctx.buildGarmentCard(this.state.garmentList[i + 1]) : ""}
+                        </Grid>
+                        <Grid item xs={3}>
+                            {(i + 2 < maxSize) ? ctx.buildGarmentCard(this.state.garmentList[i + 2]) : ""}
+                        </Grid>
+                        <Grid item xs={3}>
+                            {(i + 3 < maxSize) ? ctx.buildGarmentCard(this.state.garmentList[i + 3]) : ""}
+                        </Grid>
+                    </Grid>
+                </div> 
+            );
+        }
+
+        this.setState({
+            garmentObjects
+        })
     }
 
     render(){
@@ -169,6 +356,26 @@ class ProductDetails extends Component {
         }else{
             time = "Utilizada por un tiempo de " + this.state.timeUsed;
         }
+
+        const renderThumb = ({ style, ...props }) => {
+            const thumbStyle = {
+                width: "8px", 
+                height: "0px",
+                marginRight: "0px",
+                cursor: "pointer",
+                borderRadius: 6,
+                backgroundColor: 'rgba(0, 0, 0, 0.5)'
+            };
+            return <div style={{ ...style, ...thumbStyle }} {...props} />;
+        };
+
+        const CustomScrollbars = props => (
+            <Scrollbars
+                renderThumbHorizontal={renderThumb}
+                renderThumbVertical={renderThumb}
+                {...props}
+            />
+        );
 
         return(
             <div className="product_details_main_container">
@@ -278,8 +485,24 @@ class ProductDetails extends Component {
                         </div>
                     </div>
                     <div className="product_details_content">
-                        <div className="product_details_swap_btn" onClick={this.handlecancelSwap}>
-                            <p>Cancelar intercambio</p>
+                        <h1 className="swap_wardrobe_title">Selecciona prendas para realizar el intecambio</h1>
+                        <p className="swap_wardrobe_subtitle">Recuerda que puedes seleccionar <span className="swap_wardrobe_subtitle_bold">1 o mas prendas de tu guardaropa</span>  
+                                                                para realizar un intercambio. cuando hayas terminado de seleccionar las prendas haz 
+                                                                <span className="swap_wardrobe_subtitle_bold">click en enviar propuesta</span> para finalizar el proceso</p>
+                        <CustomScrollbars autoHide autoHideTimeout={500} autoHideDuration={200}>
+                        <div className="wardrobe_ctx">
+                            <div className="wardrobe_container">
+                                    {this.state.garmentObjects}
+                            </div>
+                        </div>
+                        </CustomScrollbars>
+                        <div className="swap_wardrobe_buttons_container">
+                            <div className="product_details_swap_btn" onClick={this.handlecancelSwap}>
+                                <p>Cancelar intercambio</p>
+                            </div>
+                            <div className="product_details_swap_btn" onClick={this.handleSwapSubmit}>
+                                <p>Enviar propuesta</p>
+                            </div>
                         </div>
                     </div>
                 </ReactSwipe>

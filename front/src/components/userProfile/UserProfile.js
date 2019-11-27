@@ -109,6 +109,7 @@ class UserProfile extends Component {
             this.handleDialogClose();
         }
     }
+    
     componentDidMount(){
         const config = {
             headers: {
