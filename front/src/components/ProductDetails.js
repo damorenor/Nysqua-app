@@ -34,7 +34,6 @@ class ProductDetails extends Component {
             userData: "",
             garmentList: null,
             selectedGarmets: [],
-            selectedGarmetsChange: false,
             garmentObjects: [],
         };
 
@@ -80,24 +79,10 @@ class ProductDetails extends Component {
     }
 
     garmentOnClick(event){
-        let garmentID = event.target.id;
-        let selectedGarmets = this.state.selectedGarmets;
-        if (this.searchSelectedGarment(garmentID)){  
-            var index = selectedGarmets.indexOf(garmentID);
-            if (index > -1) {
-                selectedGarmets.splice(index, 1);
-            }
-        }else{
-            if(this.state.selectedGarmets.length == 0){
-                this.state.selectedGarmetsChange = true;
-            }
-            selectedGarmets.push(garmentID);
-        }
-        
-        this.setState({
-            selectedGarmets
-        });
+        this.state.selectedGarmets.pop();
+        this.state.selectedGarmets.push(event.target.id);
         this.renderGarmentList();
+        return Promise.resolve();
     }
 
     handleSwapSubmit(event){
