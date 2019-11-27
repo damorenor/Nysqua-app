@@ -18,6 +18,7 @@ class ProductDetails extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            id: this.props.productData._id,
             images: this.props.productData.images,
             title: this.props.productData.title,
             description: this.props.productData.description,
@@ -88,7 +89,31 @@ class ProductDetails extends Component {
     handleSwapSubmit(event){
         console.log("submit");
         if(this.state.selectedGarmets.length > 0){
+            //ID owner/other user
+            console.log(this.state.ownerData._id);
+
+            //Garment details ID
+            console.log(this.state.id);
+
+            //Selected garment ID
             console.log(this.state.selectedGarmets);
+            const config = {
+                headers: {
+                    'authorization': this.state.token
+                }
+            };
+            axios.post('http://localhost:3001/exchange/create',{
+                otherUser: this.state.ownerData._id,
+                garmentInterest: this.state.id,
+                ownGarment: this.state.selectedGarmets[0],
+                proposalDate: "2019-11-27"
+            },config).then((response)=>
+            {
+                console.log(response.data);
+            }, (error) => {
+                console.log(error);
+
+            });
             this.props.parentCallback(true);
         }else{
             console.log("error");
@@ -153,7 +178,35 @@ class ProductDetails extends Component {
         axios.get('http://localhost:3001/users/me',config).then((response2)=>{
                     console.log(response2.data);
                     this.setState({userData : response2.data}); 
+                    let garments = response2.data.garmentList;
+                    let garmentList = [];
+                    for (let i = 0; i < garments.length; i++) {
+                        let garment = {};
+                        axios.post('http://localhost:3001/garment/get', {
+                            garmentID: garments[i]
+                        }, config).then((response2) => {
+                            garment.garmentID = response2.data._id;
+                            garment.size = response2.data.size;
+                            garment.images = response2.data.images;
+                            garment.title = response2.data.title;
+                            var aux = [];
 
+                            for (var i = 0; i < garment.images.length; i++) {
+                                if (garment.images[i] != "") {
+                                    aux.push(garment.images[i]);
+                                }
+                            }
+                            garment.images = aux;
+
+                        }, (error) => {
+                            console.log(error);
+                        });
+                        garmentList.push(garment);
+                    }
+
+                    this.setState({
+                        garmentList
+                    })
                 }, (error) => {
                 console.log(error);
             });
@@ -165,37 +218,6 @@ class ProductDetails extends Component {
             ,config).then((response)=>
             {
                 this.setState({ ownerData: response.data});  
-                let garments = response.data.garmentList;
-                let garmentList = [];
-                for (let i = 0; i < garments.length; i++) {
-                    let garment = {};
-                    axios.post('http://localhost:3001/garment/get', {
-                        garmentID: garments[i]
-                    }, config).then((response) => {
-                        garment.garmentID = response.data._id;
-                        garment.size = response.data.size;
-                        garment.images = response.data.images;
-                        garment.title = response.data.title;
-                        var aux = [];
-
-                        for (var i = 0; i < garment.images.length; i++) {
-                            if (garment.images[i] != "") {
-                                aux.push(garment.images[i]);
-                            }
-
-                        }
-
-                        garment.images = aux;
-
-                    }, (error) => {
-                        console.log(error);
-                    });
-                    garmentList.push(garment);
-                }
-
-                this.setState({
-                    garmentList
-                })
             }, (error) => {
                 console.log(error);
 
@@ -211,7 +233,7 @@ class ProductDetails extends Component {
                         return resolve();
                     }                    
                 }
-                setTimeout(waitForFoo, 200);
+                setTimeout(waitForFoo, 300);
             })();
         });
 
