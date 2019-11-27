@@ -359,6 +359,244 @@
     text-align: center;
 }
 
+.wardrobe_ctx{
+    width: 100%;
+    height: 50vh !important;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+    margin-left: 0px;
+}
+
+.swap_wardrobe_title {
+    width: 80%;
+    text-align: center;
+    color: white;
+    font-weight: bold;
+    font-size: 2.5em !important;
+    margin: 0;
+    padding: 0;
+    margin-bottom: 2.5vh;
+    margin-top: 2vh;
+}
+
+.swap_wardrobe_subtitle{
+    width: 60%;
+    text-align: center;
+    color: white;
+    font-weight: normal;
+    font-size: 1em !important;
+    margin: 0;
+    padding: 0;
+    margin-bottom: 3.5vh;
+}
+
+.swap_wardrobe_subtitle_bold{
+    font-weight: bold;
+    font-size: 1em !important;
+    margin: 0;
+    padding: 0;
+}
+
+.wardrobe_ctx .wardrobe_container {
+    width: 60vw !important;
+    display: flex;
+    flex-direction: column;
+    margin: 0 !important;
+}
+
+.wardrobe_container_row{
+    width: 100%;
+    height: auto;
+    margin-bottom: 2vh;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
+.garment_clothes_container {
+    width: 100%;
+    height: auto;
+    padding: 0%;
+    margin: 0;
+}
+
+.garment_clothes_container .garment_clothes {
+    position: relative;
+    width: 100%;
+    background-color: transparent;
+    padding: 0;
+    border-radius: 0.5vw;
+    transform: scale(0.93, 0.93);
+    transition: all 0.25s ease-out;
+    cursor: pointer;
+}
+
+.garment_clothes_container .garment_clothes::after {
+    content: "";
+    display: block;
+    padding-bottom: 100%;
+}
+
+.garment_clothes_container .garment_clothes:hover {
+    transform: scale(1, 1);
+    box-shadow: 0 19px 38px rgba(0, 0, 0, 0.30),
+        0 15px 12px rgba(0, 0, 0, 0.22);
+}
+
+.garment_clothes_title {
+    color: transparent;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin: 8px 0px 0px 0px;
+}
+
+.garment_clothes_title h1 {
+    width: 90%;
+    text-align: center;
+    color: white;
+    font-size: 1.2em;
+    font-weight: bold;
+    margin: 0px 0px 2px 0px;
+    padding: 0;
+}
+
+.garment_clothes_container .garment_clotehs_img_slider_container {
+    position: absolute !important;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: stretch;
+    flex-flow: row wrap;
+}
+
+.garment_clotehs_img_slider_container .slider {
+    position: absolute;
+    background-size: cover !important;
+    width: 100%;
+    height: 100% !important;
+    overflow: hidden;
+    border-radius: 0.5vw !important;
+    box-shadow: var(--shadow) !important;
+    z-index: 0;
+}
+
+.garment_clotehs_img_slider_container .slider .animateIn,
+.garment_clotehs_img_slider_container .slider .animateOut {
+    transition: all .3s ease !important;
+}
+
+.garment_clotehs_img_slider_container .Slide-media-446 {
+    border-radius: 0.5vh !important;
+}
+
+.garment_clotehs_img_slider_container .Slide-mediaBackground-449 {
+    border-radius: 0.5vh !important;
+}
+
+.garment_clotehs_img_slider_container .img_content {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    overflow: hidden;
+    text-align: center;
+    background-size: cover !important;
+}
+
+.garment_clotehs_img_slider_container .img_content img {
+    width: 40px;
+    height: 40px;
+    border: solid 2px rgba(255, 255, 255, 0.5);
+    border-radius: 100%;
+    vertical-align: middle;
+    transition: all .5s ease;
+    transform: translateX(-20px);
+    opacity: 0;
+}
+
+.garment_clotehs_img_slider_container .img_overlay {
+    position: absolute;
+    left: 0;
+    right: 0;
+    width: inherit;
+    height: inherit;
+    background-image: radial-gradient(circle, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.6) 70%);
+    z-index: 2;
+}
+
+.garment_clothes_size_label {
+    position: absolute;
+    width: auto;
+    height: auto;
+    top: 0;
+    right: 0 !important;
+    margin: 10px;
+    z-index: 13;
+    background-color: white;
+    box-shadow: none;
+    color: black;
+    border-radius: 0.5vw;
+    font-size: 0.95em;
+    padding: 2px 12px 2px 12px;
+}
+
+.garment_clothes_size_label p {
+    margin: 0;
+    padding: 0;
+}
+
+.garment_clothes_size_label span {
+    font-weight: bold;
+}
+
+.garment_clothes_left_arrow {
+    position: absolute;
+    color: rgba(255, 255, 255, 0.7);
+    top: 50%;
+    left: 0;
+    transform: translate(0%, -40%);
+    margin-left: 10px;
+    cursor: pointer;
+    transition: all .2s ease-out !important;
+    z-index: 12;
+}
+
+.garment_clothes_left_arrow:hover {
+    color: rgba(255, 255, 255, 1);
+}
+
+.garment_clothes_right_arrow {
+    position: absolute;
+    color: rgba(255, 255, 255, 0.7);
+    top: 50%;
+    right: 0;
+    transform: translate(0%, -40%);
+    margin-right: 10px;
+    cursor: pointer;
+    transition: all .2s ease-out !important;
+    z-index: 10;
+}
+
+.garment_clothes_right_arrow:hover {
+    color: rgba(255, 255, 255, 1);
+}
+
+.swap_wardrobe_buttons_container{
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0px 3.4vw 0px 3.4vw;
+}
 
 .product_details_swap_btn {
     width: auto;
