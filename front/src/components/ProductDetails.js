@@ -502,9 +502,13 @@ class ProductDetails extends Component {
                                 </Grid>
                             </Grid>
                         </div>
+                       {this.isTheSameUser() ? 
+                       <div className="product_details_swap_btn" onClick={()=>{console.log("Implementar metodo de eliminar");}}>
+                            <p>Eliminar Prenda</p>
+                        </div>:
                         <div className="product_details_swap_btn" onClick={this.handletoSwap}>
                             <p>Proponer intercambio</p>
-                        </div>
+                        </div>} 
                     </div>
                     <div className="product_details_content">
                         <h1 className="swap_wardrobe_title">Selecciona prendas para realizar el intecambio</h1>

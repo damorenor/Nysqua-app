@@ -11,6 +11,7 @@ import StarRatings from 'react-star-ratings';
 import { FiEdit2 } from 'react-icons/fi';
 import SwipeableViews from 'react-swipeable-views';
 import ProductCard from './../productCard';
+import ExchangeDetails from './../ExchangeDetails';
 import { Link } from 'react-router-dom';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -29,8 +30,10 @@ class UserProfile extends Component {
           index : 0,
           token:this.props.location.state.token,
           userData:this.props.location.state.userData,    
+          proposalsExchanges:[],
           clothesAssistantDialogOpen: false,
           uploadedClothes: false,
+         
       };
 
       this.handleToEdit = this.handleToEdit.bind(this);
@@ -39,6 +42,8 @@ class UserProfile extends Component {
       this.handleDialogOpen = this.handleDialogOpen.bind(this);
       this.handleDialogClose = this.handleDialogClose.bind(this);
       this.callbackFunction = this.callbackFunction.bind(this);
+      this.propExchanges = this.propExchanges.bind(this);
+      this.proposalsIsEmpty = this.proposalsIsEmpty.bind(this);
 
       this.gradient = 'linear-gradient(136deg, rgb(242, 113, 33) 0%, rgb(233, 64, 87) 50%, rgb(138, 35, 135) 100%)';
       this.StyledButton = withStyles({
@@ -67,6 +72,15 @@ class UserProfile extends Component {
         },
     })(Button);
      
+    }
+
+    proposalsIsEmpty(){
+        if(this.state.proposalsExchanges.length == 0){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
     handleChange(event, value){
@@ -120,9 +134,26 @@ class UserProfile extends Component {
                     console.log(response2.data);
                     this.setState({userData : response2.data}); 
 
+                    axios.post('http://localhost:3001/exchange/proposals',{
+                        userID: this.state.userData._id
+                        },config).then((response)=>
+                            {
+                                console.log(response.data); 
+                                this.setState({proposalsExchanges: response.data});
+                           
+                            }, (error) => {
+                            console.log(error);
+                        });
+
                 }, (error) => {
                 console.log(error);
             })
+    }
+
+    propExchanges(element){
+        return(
+            <ExchangeDetails token= {this.state.token} userData={this.state.userData} exchangeData={element}/>
+        )
     }
 
     render(){
@@ -228,6 +259,8 @@ class UserProfile extends Component {
             );
             completes = completes +1;
         }
+
+
         
 
 
@@ -332,7 +365,13 @@ class UserProfile extends Component {
                                 </div>
                             </div>
                             <div className= "tab_garment">Aca estaran los catalogos del usuario</div>
-                            <div className= "tab_garment">Aca estaran los intercambios del usuario</div>
+                            <div className= "tab_garment">
+                            {this.proposalsIsEmpty() ? <p>No tienes solicitudes de intercambio por el momento</p> : <div>{this.state.proposalsExchanges.map(this.propExchanges, this)}</div>}
+                               
+                                
+                               
+                                
+                            </div>
                         </SwipeableViews>
                         <Dialog onClose={this.handleDialogClose} aria-labelledby="customized-dialog-title" open={this.state.clothesAssistantDialogOpen} fullWidth={true}>
                             <DialogContent dividers>
