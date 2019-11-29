@@ -1,0 +1,350 @@
+:root {
+    --step_size: 55px;
+    --primary: #E94057;
+    --shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    --transition-duration: 0.2s;
+    --gradient: linear-gradient(136deg, rgb(242, 113, 33) 0%, rgb(233, 64, 87) 50%, rgb(138, 35, 135) 100%);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+.exchange_details_card{
+    width: 68vw !important;
+    height: auto;
+    padding: 3vh 0 3vh 0;
+    background-color: white;
+    box-shadow: var(--shadow);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.5vw;
+    margin-top: 2vh;
+    margin-bottom: 2vh;
+}
+
+.exchange_details_user_content{
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+}
+
+.exchange_details_user_info_container{
+    width: auto;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+}
+
+.exchange_user_profile_photo {
+    width: 12.5vw;
+    height: 12.5vw;
+    border-radius: 50%;
+    max-width: 100%;
+    overflow: hidden;
+    margin: 0 auto;
+    padding: 0;
+    position: relative;
+}
+
+.exchange_user_profile_photo .adjust_photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top right;
+}
+
+.exchange_details_user_info_container p{
+    font-size: 1.1em;
+    color: black;
+    font-weight: bold;
+    margin: 0;
+    margin-top: 1vh;
+}
+
+.exchange_user_link {
+    font-size: 1.1em;
+    color: black;
+    font-weight: bold;
+    margin: 0;
+    margin-top: 1vh;
+    cursor: pointer;
+    text-decoration: underline;
+    text-decoration-color: transparent;
+    transition: all .05s linear;
+}
+
+.exchange_user_link:hover{
+    text-decoration-color: black;
+}
+
+.exchange_user_info_margin{
+    width: 1vw;
+}
+
+.exchange_garment_container {
+    width: 11.5vw;
+    height: auto;
+    padding: 0%;
+    margin: 0;
+}
+
+.exchange_garment_container .garment {
+    position: relative;
+    width: 100%;
+    background-color: transparent;
+    padding: 0;
+    border-radius: 0.5vw;
+    transform: scale(0.87, 0.87);
+    transition: all 0.25s ease-out;
+    cursor: pointer;
+}
+
+.exchange_garment_container .garment::after {
+    content: "";
+    display: block;
+    padding-bottom: 100%;
+}
+
+.exchange_garment_container .garment:hover {
+    transform: scale(0.93, 0.93);
+    box-shadow: 0 19px 38px rgba(0, 0, 0, 0.30),
+        0 15px 12px rgba(0, 0, 0, 0.22);
+}
+
+.exchange_garment_title {
+    color: transparent;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin: 0px 0px 0px 0px;
+}
+
+.exchange_garment_title h1 {
+    width: 100%;
+    text-align: center;
+    color: black !important;
+    font-size: 1em;
+    font-weight: bold;
+    margin: 0px 0px 0px 0px;
+    padding: 0;
+}
+
+.exchange_garment_container .exchange_garment_img_slider_container {
+    position: absolute !important;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: stretch;
+    border-radius: 0.5vw;
+}
+
+.exchange_garment_img_slider_container .slider {
+    position: absolute;
+    background-size: cover !important;
+    width: 100%;
+    height: 100% !important;
+    overflow: hidden;
+    border-radius: 0.5vw !important;
+    box-shadow: var(--shadow) !important;
+    z-index: 0;
+}
+
+.exchange_garment_img_slider_container .slider .animateIn,
+.exchange_garment_img_slider_container .slider .animateOut {
+    transition: all .3s ease !important;
+}
+
+.exchange_garment_img_slider_container .Slide-media-446 {
+    border-radius: 0.5vh !important;
+}
+
+.exchange_garment_img_slider_container .img_content {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    overflow: hidden;
+    text-align: center;
+    background-size: cover !important;
+}
+
+.exchange_garment_img_slider_container .img_content img {
+    width: 40px;
+    height: 40px;
+    border: solid 2px rgba(255, 255, 255, 0.5);
+    border-radius: 100%;
+    vertical-align: middle;
+    transition: all .5s ease;
+    transform: translateX(-20px);
+    opacity: 0;
+}
+
+.exchange_garment_img_slider_container .img_overlay {
+    position: absolute;
+    left: 0;
+    right: 0;
+    width: inherit;
+    height: inherit;
+    background-image: radial-gradient(circle, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.5) 70%);
+    color: transparent;
+    z-index: 2;
+}
+
+.exchange_garment_size_label {
+    position: absolute;
+    width: auto;
+    height: auto;
+    top: 0;
+    right: 0 !important;
+    margin: 10px;
+    z-index: 13;
+    background-color: white;
+    box-shadow: none;
+    color: black;
+    border-radius: 0.5vw;
+    font-size: 0.95em;
+    padding: 2px 12px 2px 12px;
+}
+
+.exchange_garment_size_label p {
+    margin: 0;
+    padding: 0;
+}
+
+.exchange_garment_size_label span {
+    font-weight: bold;
+}
+
+.exchange_garment_left_arrow {
+    position: absolute;
+    color: rgba(255, 255, 255, 0.7);
+    top: 50%;
+    left: 0;
+    transform: translate(0%, -40%);
+    margin-left: 10px;
+    cursor: pointer;
+    transition: all .2s ease-out !important;
+    z-index: 12;
+}
+
+.exchange_garment_left_arrow:hover {
+    color: rgba(255, 255, 255, 1);
+}
+
+.exchange_garment_right_arrow {
+    position: absolute;
+    color: rgba(255, 255, 255, 0.7);
+    top: 50%;
+    right: 0;
+    transform: translate(0%, -40%);
+    margin-right: 10px;
+    cursor: pointer;
+    transition: all .2s ease-out !important;
+    z-index: 10;
+}
+
+.exchange_garment_right_arrow:hover {
+    color: rgba(255, 255, 255, 1);
+}
+
+.exchange_details_exchange_content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+    border-radius: 0.5vw;
+    background: var(--gradient);
+    box-shadow: var(--shadow);
+}
+
+.exchange_details_exchange_info_container{
+    width: auto;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    margin: 0;
+}
+
+.exchange_details_exchange_info_container h1{
+    font-size: 1.2em;
+    font-weight: bold;
+    color: white;
+    margin: 0;
+    margin-bottom: 1vh;
+}
+
+.exchange_details_icon{
+    color: white;
+}
+
+.exchange_buttons_container{
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1vh;
+}
+
+.exchange_buttons_margin{
+    width: 1.5vw;
+}
+
+.exchange_buttons_container p {
+    color: white;
+    font-size: 0.9em;
+    font-weight: normal;
+    margin: 0;
+    margin-top: 0.5vh;
+    text-align: center;
+}
+
+.exchange_button_container{
+    width: auto;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.exchange_button{
+    width: 3vw;
+    height: 3vw;
+    background-color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.15s linear;
+}
+
+.exchange_button:hover{
+    transform: scale(0.85, 0.85);
+}
+
+.exchange_button_icon{
+    color: var(--primary);
+}

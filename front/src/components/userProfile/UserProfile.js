@@ -31,9 +31,11 @@ class UserProfile extends Component {
           token:this.props.location.state.token,
           userData:this.props.location.state.userData,    
           proposalsExchanges:[],
+          offersExchanges: [],
+          activeExchanges: [],
           clothesAssistantDialogOpen: false,
           uploadedClothes: false,
-         
+          uploadedProposal: false,
       };
 
       this.handleToEdit = this.handleToEdit.bind(this);
@@ -42,8 +44,9 @@ class UserProfile extends Component {
       this.handleDialogOpen = this.handleDialogOpen.bind(this);
       this.handleDialogClose = this.handleDialogClose.bind(this);
       this.callbackFunction = this.callbackFunction.bind(this);
-      this.propExchanges = this.propExchanges.bind(this);
+      this.propExchanges = this.propProposalsExchanges.bind(this);
       this.proposalsIsEmpty = this.proposalsIsEmpty.bind(this);
+      this.callbackFunctionExchange = this.callbackFunctionExchange.bind(this);
 
       this.gradient = 'linear-gradient(136deg, rgb(242, 113, 33) 0%, rgb(233, 64, 87) 50%, rgb(138, 35, 135) 100%)';
       this.StyledButton = withStyles({
@@ -75,12 +78,15 @@ class UserProfile extends Component {
     }
 
     proposalsIsEmpty(){
-        if(this.state.proposalsExchanges.length == 0){
-            return true;
-        }
-        else{
-            return false;
-        }
+        return (this.state.proposalsExchanges.length == 0);
+    }
+
+    offersIsEmpty() {
+        return (this.state.offersExchanges.length == 0);
+    }
+
+    activeIsEmpty() {
+        return (this.state.activeExchanges.length == 0);
     }
 
     handleChange(event, value){
@@ -116,11 +122,21 @@ class UserProfile extends Component {
         });
     }
 
+    callbackFunctionExchange(childData) {
+        this.setState({
+            uploadedProposal: childData[0],
+        });
+    }
+
     componentDidUpdate(){
         if (this.state.uploadedClothes){
-            console.log(this.state.userData.garmentList);
             this.setState({uploadedClothes: false});
             this.handleDialogClose();
+        }
+
+        if(this.state.uploadedProposal){
+            console.log("Uploaded proposal");
+            this.setState({uploadedProposal: false});
         }
     }
     
@@ -145,21 +161,71 @@ class UserProfile extends Component {
                             console.log(error);
                         });
 
+                    axios.post('http://localhost:3001/exchange/offers', {
+                        userID: this.state.userData._id
+                        },config).then((response)=>
+                            {
+                                console.log(response.data); 
+                                this.setState({offersExchanges: response.data});
+                           
+                            }, (error) => {
+                            console.log(error);
+                        });
+
+                    axios.post('http://localhost:3001/exchange/active', {
+                        userID: this.state.userData._id
+                        },config).then((response)=>
+                            {
+                                console.log(response.data); 
+                                this.setState({
+                                    activeExchanges: response.data
+                                });
+                           
+                            }, (error) => {
+                            console.log(error);
+                        });
+
                 }, (error) => {
                 console.log(error);
-            })
+            });
     }
 
-    propExchanges(element){
+    propProposalsExchanges(element){
         return(
-            <ExchangeDetails token= {this.state.token} userData={this.state.userData} exchangeData={element}/>
-        )
+            <ExchangeDetails 
+                token= {this.state.token} 
+                userData={this.state.userData} 
+                exchangeData={element} 
+                exchangeType={"other proposal"} 
+                parentCallback = {this.callbackFunctionExchange}/>
+        );
+    }
+
+    propOffersExchanges(element){
+        return(
+            <ExchangeDetails 
+                token= {this.state.token} 
+                userData={this.state.userData} 
+                exchangeData={element} 
+                exchangeType={"my proposal"}
+                parentCallback = {this.callbackFunctionExchange}/>
+        );
+    }
+
+    propActiveExchanges(element){
+        return(
+            <ExchangeDetails 
+                token= {this.state.token} 
+                userData={this.state.userData} 
+                exchangeData={element} 
+                exchangeType={"exchange"}
+                parentCallback = {this.callbackFunctionExchange}/>
+        );
     }
 
     render(){
         var myElements = [];
         var completes= 0;
-        console.log(this.state.userData.garmentList);
         for(var i = 0; i < Math.floor(this.state.userData.garmentList.length/4) ; i++) {
             myElements.push(
                 <Grid container 
@@ -270,7 +336,7 @@ class UserProfile extends Component {
                  <Navbar token = {this.state.token} userData ={this.state.userData} />
                  <div className = "userProfile">
                      <div className = "info_container">
-                         <div className = "profilephoto">
+                        <div className = "profilephoto">
                             <img  className ="adjust_photo"  src ={this.state.userData.profilePhoto} ></img>
                         </div>
                         <div className = "text_info">
@@ -366,11 +432,33 @@ class UserProfile extends Component {
                             </div>
                             <div className= "tab_garment">Aca estaran los catalogos del usuario</div>
                             <div className= "tab_garment">
-                            {this.proposalsIsEmpty() ? <p>No tienes solicitudes de intercambio por el momento</p> : <div>{this.state.proposalsExchanges.map(this.propExchanges, this)}</div>}
-                               
-                                
-                               
-                                
+                                <h1 className="exchanges_heading">Intercambios activos</h1>
+                                <div className="exchanges_heading_divider"> <span></span></div>
+                                {
+                                    this.activeIsEmpty() ? 
+                                        <p>No tienes intercambios activos actualmente</p> :
+                                        <div>
+                                            {this.state.activeExchanges.map(this.propActiveExchanges, this)}
+                                        </div>
+                                }
+                                <h1 className="exchanges_heading">Solicitudes de intercambio para ti</h1>
+                                <div className="exchanges_heading_divider"> <span></span></div>
+                                {
+                                    this.proposalsIsEmpty() ? 
+                                        <p>No tienes solicitudes de intercambio por el momento</p> :
+                                        <div>
+                                            {this.state.proposalsExchanges.map(this.propProposalsExchanges, this)}
+                                        </div>
+                                }
+                                <h1 className="exchanges_heading">Solicitudes de intercambio realizadas por ti</h1>
+                                <div className="exchanges_heading_divider"> <span></span></div>
+                                {
+                                    this.offersIsEmpty() ? 
+                                        <p>No tienes intercambios solicitados para mostrar</p> :
+                                        <div>
+                                            {this.state.offersExchanges.map(this.propOffersExchanges, this)}
+                                        </div>
+                                }
                             </div>
                         </SwipeableViews>
                         <Dialog onClose={this.handleDialogClose} aria-labelledby="customized-dialog-title" open={this.state.clothesAssistantDialogOpen} fullWidth={true}>
