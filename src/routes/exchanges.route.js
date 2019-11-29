@@ -41,7 +41,7 @@ router.post('/accept', authenticate, async (req, res) => {
     try {
         var exchange = await Exchange.findOne({ _id: { $eq: exchangeID } })
         var otherUser = await User.findOne({ _id: { $eq: exchange.idUserTwo } })
-    } catch (error) {
+    } catch (error) {   
         console.log(error)
     }
     if (user._id == exchange.idUserOne) {
@@ -148,7 +148,7 @@ router.post('/active', authenticate, async (req, res) => {
     userID = req.body.userID
     console.log(userID)
     try {
-        var r = await Exchange.find({ $and: [{ idUserTwo: userID }, { state: true }] })
+        var r = await Exchange.find({ $and: [{ $or: [{idUserTwo: userID}, {idUserOne: userID} ] }, { state: true }] })
         console.log(r)
 
     } catch (error) {

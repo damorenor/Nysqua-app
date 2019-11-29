@@ -30,12 +30,14 @@ class OtherProfile extends Component {
           token:this.props.location.state.token,
           ownerData:this.props.location.state.ownerData,    
           userData:this.props.location.state.userData,
+          garmentList: [],
 
       };
 
       this.handleToEdit = this.handleToEdit.bind(this);
       this.handleChange = this.handleChange.bind(this);
       this.handleChangeIndex = this.handleChangeIndex.bind(this);
+      this.renderGarmentList = this.renderGarmentList.bind(this);
 
 
       this.gradient = 'linear-gradient(136deg, rgb(242, 113, 33) 0%, rgb(233, 64, 87) 50%, rgb(138, 35, 135) 100%)';
@@ -61,115 +63,48 @@ class OtherProfile extends Component {
         this.LinkToEditElement.click();
     }
 
+    componentDidMount(){
+        this.renderGarmentList();
+    }
+
+    
+    renderGarmentList() {
+        var ctx = this;
+        let maxSize = this.state.ownerData.garmentList.length;
+        let garmentObjects = [];
+        for(var i = 0; i < maxSize; i += 4){
+            garmentObjects.push(
+        
+                    <Grid 
+                        container
+                        spacing={4}
+                        direction = "row"
+                        justify = "center">
+                        <Grid item xs={3}>
+                            {(i < maxSize) ? <ProductCard token= {this.state.token} productData={this.state.ownerData.garmentList[i]} /> : ""}
+                        </Grid>
+                        <Grid item xs={3}>
+                            {(i + 1 < maxSize) ? <ProductCard token= {this.state.token} productData={this.state.ownerData.garmentList[i+1]} /> : ""}
+                        </Grid>
+                        <Grid item xs={3}>
+                            {(i + 2 < maxSize) ?<ProductCard token= {this.state.token} productData={this.state.ownerData.garmentList[i+2]} /> : ""}
+                        </Grid>
+                        <Grid item xs={3}>
+                            {(i + 3 < maxSize) ? <ProductCard token= {this.state.token} productData={this.state.ownerData.garmentList[i+3]} /> : ""}
+                        </Grid>
+                    </Grid>
+              
+            );
+        }
+
+        this.setState({
+            garmentList:garmentObjects
+        })
+    }
+
 
 
     render(){
-        var myElements = [];
-        var completes= 0;
-        console.log(this.state.ownerData.garmentList);
-        for(var i = 0; i < Math.floor(this.state.ownerData.garmentList.length/4) ; i++) {
-            myElements.push(
-                <Grid container 
-                        spacing={4}
-                        direction = "row"
-                        justify = "center">
-
-                        <Grid item xs={3}>
-                            <ProductCard token= {this.state.token} productData={this.state.ownerData.garmentList[completes]} />
-                        </Grid>
-                        <Grid item xs={3}>
-                            <ProductCard  token={this.state.token} productData={this.state.ownerData.garmentList[completes+1]}/>
-                        </Grid>
-                        <Grid item xs={3}>
-                            <ProductCard token= {this.state.token} productData={this.state.ownerData.garmentList[completes+2]}/>
-                        </Grid>
-                        <Grid item xs={3}>
-                            <ProductCard token= {this.state.token} productData={this.state.ownerData.garmentList[completes+3]}/>
-                        </Grid>
-                </Grid>
-                
-            );
-            completes += 4;
-        };
-        
-  
-
-        
-        for(var j = 0; j < Math.floor((this.state.ownerData.garmentList.length-completes)/3) ; j++){
-            myElements.push(
-                <Grid container 
-                        spacing={4}
-                        direction = "row"
-                        justify = "center">
-
-                        <Grid item xs={3}>
-                            <ProductCard token= {this.state.token} productData={this.state.ownerData.garmentList[completes]} />
-                        </Grid>
-                        <Grid item xs={3}>
-                            <ProductCard  token={this.state.token} productData={this.state.ownerData.garmentList[completes+1]}/>
-                        </Grid>
-                        <Grid item xs={3}>
-                            <ProductCard token= {this.state.token} productData={this.state.ownerData.garmentList[completes+2]}/>
-                        </Grid>
-                        <Grid item xs={3}>
-                            
-                        </Grid>
-                </Grid>
-            );
-            completes= completes + 3;
-        }
-      
-        for(var j = 0; j < Math.floor((this.state.ownerData.garmentList.length-completes)/2) ; j++){
-            
-            myElements.push(
-                <Grid container 
-                        spacing={4}
-                        direction = "row"
-                        justify = "center">
-
-                        <Grid item xs={3}>
-                            <ProductCard token= {this.state.token} productData={this.state.ownerData.garmentList[completes]} />
-                        </Grid>
-                        <Grid item xs={3}>
-                            <ProductCard  token={this.state.token} productData={this.state.ownerData.garmentList[completes+1]}/>
-                        </Grid>
-                        <Grid item xs={3}>
-                            
-                        </Grid>
-                        <Grid item xs={3}>
-                            
-                        </Grid>
-                </Grid>
-            );
-            completes = completes +2;
-        }
-        for(var j = 0; j < Math.floor((this.state.ownerData.garmentList.length-completes)) ; j++){
-            myElements.push(
-                <Grid container 
-                        spacing={4}
-                        direction = "row"
-                        justify = "center">
-
-                        <Grid item xs={3}>
-                            <ProductCard token= {this.state.token} productData={this.state.ownerData.garmentList[completes]} />
-                        </Grid>
-                        <Grid item xs={3}>
-                            
-                        </Grid>
-                        <Grid item xs={3}>
-                            
-                        </Grid>
-                        <Grid item xs={3}>
-                            
-                        </Grid>
-                </Grid>
-            );
-            completes = completes +1;
-        }
-        
-
-
-
         return(
             <div className = "profile_container">
                  <Navbar token = {this.state.token} userData ={this.state.userData} />
@@ -242,7 +177,8 @@ class OtherProfile extends Component {
                             <div className= "tab_garment">
             
                                 <div className="wardrobe_container">
-                                    {myElements}
+                            
+                                   {this.state.garmentList}
                                 </div>
                             </div>
                             

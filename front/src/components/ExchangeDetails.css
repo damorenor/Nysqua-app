@@ -72,6 +72,7 @@
 }
 
 .exchange_user_link {
+    display: flex;
     font-size: 1.1em;
     color: black;
     font-weight: bold;
@@ -81,6 +82,7 @@
     text-decoration: underline;
     text-decoration-color: transparent;
     transition: all .05s linear;
+    text-align: center; 
 }
 
 .exchange_user_link:hover{

@@ -23,6 +23,8 @@ class ExchangeDetails extends Component {
         this.state={
             exchangeType: this.props.exchangeType,
             token: this.props.token,
+            exchangeID: this.props.exchangeData._id,
+            userData: this.props.userData,
 
             user1ID: this.props.exchangeData.idUserOne,
             user2ID: this.props.exchangeData.idUserTwo,
@@ -68,12 +70,44 @@ class ExchangeDetails extends Component {
     }
 
     handleAcceptProposal(event){
+        const config = {
+            headers: {
+                'authorization': this.state.token,
+            }
+        };
+
         console.log("Accept");
+        axios.post('http://localhost:3001/exchange/accept',{
+            exchangeID: this.state.exchangeID,
+            },config).then((response)=>
+                {
+                    console.log(response.data); 
+                    
+               
+                }, (error) => {
+                console.log(error);
+            });
         this.props.parentCallback([true]);
     }
 
     handleDeclineProposal(event) {
         console.log("Decline");
+        const config = {
+            headers: {
+                'authorization': this.state.token,
+            }
+        };
+
+        axios.post('http://localhost:3001/exchange/cancel',{
+            exchangeID: this.state.exchangeID,
+            },config).then((response)=>
+                {
+                    console.log(response.data); 
+                    
+               
+                }, (error) => {
+                console.log(error);
+            });
         this.props.parentCallback([true]);
     }
 
@@ -166,14 +200,22 @@ class ExchangeDetails extends Component {
                         <p>Tu</p>
                     </div> ;
         }else{
+            var user = this.state.user2Data;;
+            var owner  = this.state.user1Data;;
+
+            if(this.state.userData._id == this.state.user1Data._id){
+                user = this.state.user1Data;
+                owner = this.state.user2Data;
+            }
+
             ret = <div>
                         <p><a className="exchange_user_link" id={this.state.user2Name} onClick={this.handleToUser}>{name}</a></p>
                         <Link to={{
                                 pathname: '/OtherProfile',
                                 state: {
                                     token: this.state.token,
-                                    ownerData: this.state.user2Data,
-                                    userData: this.state.user1Data,
+                                    ownerData: owner,
+                                    userData: user,
                                 }
                             }}
                             ref={
@@ -342,7 +384,7 @@ class ExchangeDetails extends Component {
                             <div className="exchange_details_exchange_info_container">
                                 < h1 > {
                                         (this.state.exchangeType == "exchange") ?
-                                            "Intercambio" :
+                                            "Intercambio" : 
                                             "Propuesta"
                                         } </h1>
                                 <IconContext.Provider value={{ size: "4.5em ", className: 'exchange_details_icon' }}>
@@ -418,6 +460,9 @@ class ExchangeDetails extends Component {
                         parentCallback = {
                             this.callbackFunctionGarment1
                         }
+                        detailsType={
+                            "exchange"
+                        }
                         />
                     </DialogContent>
                 </Dialog>
@@ -437,6 +482,9 @@ class ExchangeDetails extends Component {
                         }
                         parentCallback = {
                             this.callbackFunctionGarment2
+                        }
+                        detailsType={
+                            "exchange"
                         }
                         />
                     </DialogContent>
