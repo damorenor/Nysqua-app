@@ -27,6 +27,10 @@ class CategoriesBar extends Component {
       }
       this.handleToFind= this.handleToFind.bind(this);
       this.manSubcategories = this.manSubcategories.bind(this);
+      this.womanSubcategories = this.womanSubcategories.bind(this);
+      this.boySubcategories = this.boySubcategories.bind(this);
+      this.girlSubcategories = this.girlSubcategories.bind(this);
+      this.babySubcategories = this.babySubcategories.bind(this);
      
     };
     handleToFind(categorie,subcategorie){
@@ -194,12 +198,12 @@ class CategoriesBar extends Component {
                         <Grid item xs={2}>
                         <PopupMenu token= {this.state.token} userData ={this.state.userData} id="PopupMenuUnder" menuLabel="Menu Under" title="Niño" position="under">
                                 <div className ="MenuTitle">
-                                    <p onClick = {() => {this.handleToFind("a","b")}}>SUBCATEGORÍAS</p>
+                                    <p>SUBCATEGORÍAS</p>
                                     <hr></hr>
                                 </div>
                                 <ul className="Menu">
                                 {this.state.categories.Ninos.map(this.boySubcategories, this)}
-                                </ul>
+                                </ul>   
                             </PopupMenu>
                 
                         </Grid>

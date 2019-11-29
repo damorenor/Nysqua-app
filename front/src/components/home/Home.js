@@ -21,9 +21,11 @@ class Home extends Component {
             userData: this.props.location.state.userData,
             token: this.props.location.state.token,
             clothes : [],
+            garmentList: [],
         };
 
         this.handleToUser = this.handleToUser.bind(this);
+        this.renderGarmentList = this.renderGarmentList.bind(this);
     }
 
     handleToUser(){
@@ -42,7 +44,8 @@ class Home extends Component {
         axios.get('http://localhost:3001/users/me',config).then((response2)=>{
                     console.log(response2.data);
                      
-                    this.setState({userData : response2.data});    
+                    this.setState({userData : response2.data});   
+                    
                     const head = {
                         headers: {
                             'authorization': this.state.token,
@@ -59,6 +62,7 @@ class Home extends Component {
                     },head).then((response)=>{
                         console.log(response.data);
                         this.setState({clothes : response.data});    
+                        this.renderGarmentList();    
 
                     }     , (error) => {
                         console.log(error);
@@ -74,120 +78,42 @@ class Home extends Component {
 
     }
 
+    renderGarmentList() {
+        var ctx = this;
+        let maxSize = this.state.clothes.length;
+        let garmentObjects = [];
+        for(var i = 0; i < maxSize; i += 4){
+            garmentObjects.push(
+        
+                    <Grid 
+                        container
+                        spacing={4}
+                        direction = "row"
+                        justify = "center">
+                        <Grid item xs={3}>
+                            {(i < maxSize) ? <ProductCard token= {this.state.token} productData={this.state.clothes[i]} /> : ""}
+                        </Grid>
+                        <Grid item xs={3}>
+                            {(i + 1 < maxSize) ? <ProductCard token= {this.state.token} productData={this.state.clothes[i+1]} /> : ""}
+                        </Grid>
+                        <Grid item xs={3}>
+                            {(i + 2 < maxSize) ?<ProductCard token= {this.state.token} productData={this.state.clothes[i+2]} /> : ""}
+                        </Grid>
+                        <Grid item xs={3}>
+                            {(i + 3 < maxSize) ? <ProductCard token= {this.state.token} productData={this.state.clothes[i+3]} /> : ""}
+                        </Grid>
+                    </Grid>
+              
+            );
+        }
+
+        this.setState({
+            garmentList:garmentObjects
+        })
+    }
+
     render(){
-        var myElements = [];
-        var completes= 0;
-        for(var i = 0; i < Math.floor(this.state.clothes.length/4) ; i++) {
-            myElements.push(
-                <Grid container 
-                        spacing={4}
-                        direction = "row"
-                        justify = "center">
 
-                        <Grid item xs={3}>
-                            <ProductCard token= {this.state.token} productData={this.state.clothes[completes]._id} />
-                        </Grid>
-                        <Grid item xs={3}>
-                            <ProductCard  token={this.state.token} productData={this.state.clothes[completes+1]._id}/>
-                        </Grid>
-                        <Grid item xs={3}>
-                            <ProductCard token= {this.state.token} productData={this.state.clothes[completes+2]._id}/>
-                        </Grid>
-                        <Grid item xs={3}>
-                            <ProductCard token= {this.state.token} productData={this.state.clothes[completes+3]._id}/>
-                        </Grid>
-                </Grid>
-                
-            );
-            completes += 4;
-        }
-        
-  
-
-        
-        for(var j = 0; j < Math.floor((this.state.clothes.length-completes)/3) ; j++){
-            myElements.push(
-                <Grid container 
-                        spacing={4}
-                        direction = "row"
-                        justify = "center">
-
-                        <Grid item xs={3}>
-                            <ProductCard token= {this.state.token} productData={this.state.clothes[completes]._id} />
-                        </Grid>
-                        <Grid item xs={3}>
-                            <ProductCard  token={this.state.token} productData={this.state.clothes[completes+1]._id}/>
-                        </Grid>
-                        <Grid item xs={3}>
-                            <ProductCard token= {this.state.token} productData={this.state.clothes[completes+2]._id}/>
-                        </Grid>
-                        <Grid item xs={3}>
-                            
-                        </Grid>
-                </Grid>
-            );
-            completes= completes + 3;
-        }
-      
-        for(var j = 0; j < Math.floor((this.state.clothes.length-completes)/2) ; j++){
-            myElements.push(
-                <Grid container 
-                        spacing={4}
-                        direction = "row"
-                        justify = "center">
-
-                        <Grid item xs={3}>
-                            <ProductCard token= {this.state.token} productData={this.state.clothes[completes]._id} />
-                        </Grid>
-                        <Grid item xs={3}>
-                            <ProductCard  token={this.state.token} productData={this.state.clothes[completes+1]._id}/>
-                        </Grid>
-                        <Grid item xs={3}>
-                            
-                        </Grid>
-                        <Grid item xs={3}>
-                            
-                        </Grid>
-                </Grid>
-            );
-            completes = completes +2;
-        }
-        for(var j = 0; j < Math.floor((this.state.clothes.length-completes)) ; j++){
-            myElements.push(
-                <Grid container 
-                        spacing={4}
-                        direction = "row"
-                        justify = "center">
-
-                        <Grid item xs={3}>
-                            <ProductCard token= {this.state.token} productData={this.state.clothes[completes]._id} />
-                        </Grid>
-                        <Grid item xs={3}>
-                            
-                        </Grid>
-                        <Grid item xs={3}>
-                            
-                        </Grid>
-                        <Grid item xs={3}>
-                            
-                        </Grid>
-                </Grid>
-            );
-            completes = completes +1;
-        }
-
-
-
-        console.log(this.state.clothes);
-        console.log("datos que llegan");
-        console.log(this.props.location.state);
-        var count = 0;
-        var tok = this.state.token;
-        const listItems = this.state.clothes.map(function (d) {
-            return  (<Grid item xs={3}>
-                        <ProductCard token = {tok} productData={d._id}/>
-                    </Grid>);
-        });
         return(
             <div className="home_container">
                 <Navbar token = {this.state.token} userData ={this.state.userData} />
@@ -203,7 +129,10 @@ class Home extends Component {
                                  userData ={this.state.userData}/>
                     <h1 className="heading-1">Recomendado para ti</h1>
                     <div className="divider-1"> <span></span></div>
-                    {myElements}
+                   
+                   {this.state.garmentList} 
+         
+                  
                    
                 </div>
                 <Footer />

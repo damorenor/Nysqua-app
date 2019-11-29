@@ -36,16 +36,27 @@ class ProductDetails extends Component {
             garmentList: null,
             selectedGarmets: [],
             garmentObjects: [],
+            detailsType: this.props.detailsType,
         };
 
         this.handletoSwap = this.handletoSwap.bind(this);
         this.handlecancelSwap = this.handlecancelSwap.bind(this);
         this.handleToUser = this.handleToUser.bind(this);
         this.isTheSameUser = this.isTheSameUser.bind(this);
+        this.isExchangeType = this.isExchangeType.bind(this);
         this.handleSwapSubmit = this.handleSwapSubmit.bind(this);
         this.garmentOnClick = this.garmentOnClick.bind(this);
         let productDetailsSwipe;
         let wardrobeSliderRef;
+    }
+
+    isExchangeType(){
+        if(this.state.detailsType == "exchange"){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
     isTheSameUser(){
@@ -502,9 +513,20 @@ class ProductDetails extends Component {
                                 </Grid>
                             </Grid>
                         </div>
-                        <div className="product_details_swap_btn" onClick={this.handletoSwap}>
-                            <p>Proponer intercambio</p>
-                        </div>
+                        {this.isExchangeType()?
+                            <div></div> :
+                            <div>
+                                 {this.isTheSameUser() ? 
+                                    <div className="product_details_swap_btn" onClick={()=>{console.log("Implementar metodo de eliminar");}}>
+                                        <p>Eliminar Prenda</p>
+                                    </div>:
+                                    <div className="product_details_swap_btn" onClick={this.handletoSwap}>
+                                        <p>Proponer intercambio</p>
+                                    </div>} 
+                            </div>}
+
+                      
+
                     </div>
                     <div className="product_details_content">
                         <h1 className="swap_wardrobe_title">Selecciona prendas para realizar el intecambio</h1>

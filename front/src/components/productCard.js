@@ -151,6 +151,9 @@ class ProductCard extends Component {
                             parentCallback = {
                                 this.callbackFunction
                             }
+                            detailsType={
+                                "default"
+                            }
                             />
                         </DialogContent>
                     </Dialog>
