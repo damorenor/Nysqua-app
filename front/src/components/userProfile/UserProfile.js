@@ -135,6 +135,7 @@ class UserProfile extends Component {
         if (this.state.uploadedClothes){
             this.setState({uploadedClothes: false});
             this.handleDialogClose();
+            this.componentDidMount();
         }
 
         if(this.state.uploadedProposal){
