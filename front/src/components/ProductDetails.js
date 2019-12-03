@@ -137,48 +137,56 @@ class ProductDetails extends Component {
     buildGarmentCard(garment){
         let clothesSliderRef;
         let garmentSelected = this.searchSelectedGarment(garment.garmentID);
-        return(
-            <div>
-                <div className="garment_clothes_container">
-                    <div className="garment_clothes">
-                        <IconContext.Provider 
-                            value={{ size: "2.2em ", 
-                                        className: 'garment_clothes_left_arrow'}}>
-                            <FaChevronCircleLeft onClick={() => clothesSliderRef.previous()}/>
-                        </IconContext.Provider>
-                        <IconContext.Provider 
-                            value={{ size: "2.2em ", 
-                                        className: 'garment_clothes_right_arrow'}}>
-                            <FaChevronCircleRight onClick={() => clothesSliderRef.next()}/>
-                        </IconContext.Provider>
-                        <div className="garment_clothes_size_label">
-                            <p><span>{garment.size}</span> </p>
-                        </div>
-                        <div className = {garmentSelected ? "garment_clotehs_img_slider_container_selected" : "garment_clotehs_img_slider_container"} >
-                            <Slider duration={300}
-                                ref = {
-                                    ref => (clothesSliderRef = ref)
-                                }
-                                previousButton={null}
-                                nextButton={null}>
-                                {garment.images.map((image) => (
-                                    <div className="img_content"
-                                        style={{ background: `url('${image}') no-repeat center center` }}>
-                                        <div id={garment.garmentID} 
-                                            className = "img_overlay"
-                                            onClick={this.garmentOnClick}>
+        if (garment.images != undefined){
+            return (
+                <div>
+                    <div className="garment_clothes_container">
+                        <div className="garment_clothes">
+                            <IconContext.Provider
+                                value={{
+                                    size: "2.2em ",
+                                    className: 'garment_clothes_left_arrow'
+                                }}>
+                                <FaChevronCircleLeft onClick={() => clothesSliderRef.previous()} />
+                            </IconContext.Provider>
+                            <IconContext.Provider
+                                value={{
+                                    size: "2.2em ",
+                                    className: 'garment_clothes_right_arrow'
+                                }}>
+                                <FaChevronCircleRight onClick={() => clothesSliderRef.next()} />
+                            </IconContext.Provider>
+                            <div className="garment_clothes_size_label">
+                                <p><span>{garment.size}</span> </p>
+                            </div>
+                            <div className={garmentSelected ? "garment_clotehs_img_slider_container_selected" : "garment_clotehs_img_slider_container"} >
+                                <Slider duration={300}
+                                    ref={
+                                        ref => (clothesSliderRef = ref)
+                                    }
+                                    previousButton={null}
+                                    nextButton={null}>
+                                    {garment.images.map((image) => (
+                                        <div className="img_content"
+                                            style={{ background: `url('${image}') no-repeat center center` }}>
+                                            <div id={garment.garmentID}
+                                                className="img_overlay"
+                                                onClick={this.garmentOnClick}>
+                                            </div>
                                         </div>
-                                    </div>
-                                ))}
-                            </Slider>
+                                    ))}
+                                </Slider>
+                            </div>
                         </div>
                     </div>
+                    <div className={garmentSelected ? "garment_clothes_title_selected" : "garment_clothes_title"}>
+                        <h1>{garmentSelected ? "Seleccionado" : garment.title}</h1>
+                    </div>
                 </div>
-                <div className={garmentSelected ? "garment_clothes_title_selected" : "garment_clothes_title"}>
-                    <h1>{garmentSelected ? "Seleccionado" : garment.title}</h1>
-                </div>
-            </div>
-        );
+            );
+        }else{
+            return(<div></div>);
+        }
     }
 
     async componentDidMount(): Promise<void> {
@@ -236,10 +244,11 @@ class ProductDetails extends Component {
 
             });
         
+        //await new Promise(resolve => { setTimeout(resolve, 2000); });
         var ctx = this;
         await new Promise(function (resolve, reject) {
             (function waitForFoo() {
-                if (ctx.state.garmentList != []){
+                if (ctx.state.garmentList[ctx.state.garmentList.length - 1] != undefined){
                     if (ctx.state.garmentList[ctx.state.garmentList.length - 1].size != undefined &&
                             ctx.state.garmentList[ctx.state.garmentList.length - 1].images != undefined &&
                             ctx.state.garmentList[ctx.state.garmentList.length - 1].title != undefined) {
