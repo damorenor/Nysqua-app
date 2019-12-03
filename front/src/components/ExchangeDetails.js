@@ -13,6 +13,7 @@ import { FiMessageSquare } from "react-icons/fi";
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import ProductDetails from './ProductDetails';
+import route from './Route';
 
 import './ExchangeDetails.css';
 class ExchangeDetails extends Component {
@@ -77,7 +78,7 @@ class ExchangeDetails extends Component {
         };
 
         console.log("Accept");
-        axios.post('http://localhost:3001/exchange/accept',{
+        axios.post(route.url+'/exchange/accept',{
             exchangeID: this.state.exchangeID,
             },config).then((response)=>
                 {
@@ -98,7 +99,7 @@ class ExchangeDetails extends Component {
             }
         };
 
-        axios.post('http://localhost:3001/exchange/cancel',{
+        axios.post(route.url+'/exchange/cancel',{
             exchangeID: this.state.exchangeID,
             },config).then((response)=>
                 {
@@ -234,7 +235,7 @@ class ExchangeDetails extends Component {
                 'authorization': this.state.token
             }
             };
-            axios.post('http://localhost:3001/garment/get',{
+            axios.post(route.url+'/garment/get',{
                 garmentID: this.state.user1GarmentID
                 },config).then((response)=>
                     {
@@ -259,7 +260,7 @@ class ExchangeDetails extends Component {
     
                 });
 
-            axios.post('http://localhost:3001/garment/get',{
+            axios.post(route.url+'/garment/get',{
             garmentID: this.state.user2GarmentID
             },config).then((response)=>
                 {
@@ -284,7 +285,7 @@ class ExchangeDetails extends Component {
 
               });
 
-            axios.post('http://localhost:3001/users/getUser',{
+            axios.post(route.url+'/users/getUser',{
 
                 userid: this.state.user1ID
                 }
@@ -301,7 +302,7 @@ class ExchangeDetails extends Component {
         
                 });
 
-            axios.post('http://localhost:3001/users/getUser',{
+            axios.post(route.url+'/users/getUser',{
 
                 userid: this.state.user2ID
                 }

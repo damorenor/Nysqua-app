@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import route from '../Route';
 import './PopupMenu.css';
 
 class PopupMenu extends Component {
@@ -58,7 +59,7 @@ class PopupMenu extends Component {
             }
         }
 
-        axios.post('http://localhost:3001/garment/preferences',{
+        axios.post(route.url+'/garment/preferences',{
             categories: categorie,
             subcategories: subcategorie,
         

@@ -8,6 +8,7 @@ import CategoriesBar from './CategoriesBar';
 import { Grid } from "@material-ui/core";
 import ProductCard from './../productCard';
 import axios from 'axios';
+import route from '../Route';
 
 
 
@@ -41,7 +42,7 @@ class Home extends Component {
                 'authorization': this.state.token,
             }
         };
-        axios.get('http://localhost:3001/users/me',config).then((response2)=>{
+        axios.get(route.url+'/users/me',config).then((response2)=>{
                     console.log(response2.data);
                      
                     this.setState({userData : response2.data});   
@@ -54,7 +55,7 @@ class Home extends Component {
 
 
                     console.log(this.state.userData.subCategories);
-                    axios.post('http://localhost:3001/garment/preferences',{
+                    axios.post(route.url+'/garment/preferences',{
                         categories: this.state.userData.categories,
                         subcategories: this.state.userData.subCategories,
                     

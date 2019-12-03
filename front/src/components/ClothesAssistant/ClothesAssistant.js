@@ -16,6 +16,7 @@ import { ThemeProvider } from '@material-ui/styles';
 import { FiUpload } from 'react-icons/fi';
 import { FiEdit2 } from 'react-icons/fi';
 import { TagInput } from 'reactjs-tag-input'
+import route from '../Route';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
@@ -140,7 +141,7 @@ class ClothesAssistant extends Component {
             console.log(this.state.checked5);
             console.log("\n");
 
-            axios.post('http://localhost:3001/assistant/categories', {
+            axios.post(route.url+'/assistant/categories', {
                 checked1: this.state.checked1,
                 checked2: this.state.checked2,
                 checked3: this.state.checked3,
@@ -364,9 +365,8 @@ class ClothesAssistant extends Component {
         console.log(colorCheck);
         console.log(tagsCheck);
 
-        
-        //aqui va el axios 
-        axios.post('http://localhost:3001/garment/add', {
+       
+        axios.post(route.url+'/garment/add', {
             category: categorieCheck,
             subcategory: subCategorieCheck,
             title: this.state.productTitle,
@@ -383,7 +383,7 @@ class ClothesAssistant extends Component {
             .then((response) => {
                 //añadir logica
                 console.log(response.data);
-                axios.get('http://localhost:3001/users/me',config).then((response2)=>{
+                axios.get(route.url+'/users/me',config).then((response2)=>{
                     console.log(response2.data);
                     this.setState({userData : response2.data});
                     this.props.parentCallback([this.state.userData, true]);

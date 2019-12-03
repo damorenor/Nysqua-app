@@ -25,6 +25,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
 import GoogleLogin from 'react-google-login';
+import route from '../Route';
 
 import './SignIn.css';
 
@@ -195,7 +196,7 @@ class SignIn extends Component {
                       fields="name,email,picture,id"
                         callback={(response) => {
                           console.log(response.accessToken);
-                          axios.post('http://localhost:3001/authentication/oauth/facebook', {
+                          axios.post(route.url+'/authentication/oauth/facebook', {
                             access_token: response.accessToken
                     
                           }).then((resp) => {
@@ -257,7 +258,7 @@ class SignIn extends Component {
                           )}
                         onSuccess={(response) => {
                           console.log(response.Zi.access_token);
-                          axios.post('http://localhost:3001/authentication/oauth/google', {
+                          axios.post(route.url+'/authentication/oauth/google', {
                             access_token: response.Zi.access_token
                           }).then((resp) => {
                             var data = "";
@@ -369,7 +370,7 @@ class SignIn extends Component {
             </ThemeProvider>
             <div>
               < this.StyledButton onClick={() => {
-                axios.post('http://localhost:3001/users/login', {
+                axios.post(route.url+'/users/login', {
                   email: this.state.email,
                   password: this.state.password,
                   })

@@ -3,6 +3,7 @@ import Grid from '@material-ui/core/Grid';
 import PopupMenu from './PopupMenu';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import route from '../Route';
 import './CategoriesBar.css';
 
 
@@ -42,7 +43,7 @@ class CategoriesBar extends Component {
             }
         }
 
-        axios.post('http://localhost:3001/garment/preferences',{
+        axios.post(route.url+'/garment/preferences',{
             categories: categorie,
             subcategories: subcategorie,
         
@@ -153,7 +154,6 @@ class CategoriesBar extends Component {
                    
                     alignItems="center"
                     wrap = "nowrap" >   
-
                         <Grid item xs={2}>
                             <PopupMenu token= {this.state.token} userData ={this.state.userData} id="PopupMenuUnder" menuLabel="Menu Under" title="Hombre" position="under">
                                 <div className ="MenuTitle">

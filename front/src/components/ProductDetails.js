@@ -7,6 +7,7 @@ import {FaChevronCircleLeft} from "react-icons/fa";
 import {FaChevronCircleRight} from "react-icons/fa";
 import { Link } from 'react-router-dom';
 import { Scrollbars } from 'react-custom-scrollbars';
+import route from './Route';
 
 import axios from 'axios';
 
@@ -113,7 +114,7 @@ class ProductDetails extends Component {
                     'authorization': this.state.token
                 }
             };
-            axios.post('http://localhost:3001/exchange/create',{
+            axios.post(route.url+'/exchange/create',{
                 otherUser: this.state.ownerData._id,
                 garmentInterest: this.state.id,
                 ownGarment: this.state.selectedGarmets[0],
@@ -186,14 +187,14 @@ class ProductDetails extends Component {
             }
         };
 
-        axios.get('http://localhost:3001/users/me',config).then((response2)=>{
+        axios.get(route.url+'/users/me',config).then((response2)=>{
                     console.log(response2.data);
                     this.setState({userData : response2.data}); 
                     let garments = response2.data.garmentList;
                     let garmentList = [];
                     for (let i = 0; i < garments.length; i++) {
                         let garment = {};
-                        axios.post('http://localhost:3001/garment/get', {
+                        axios.post(route.url+'/garment/get', {
                             garmentID: garments[i]
                         }, config).then((response2) => {
                             garment.garmentID = response2.data._id;
@@ -222,7 +223,7 @@ class ProductDetails extends Component {
                 console.log(error);
             });
 
-        axios.post('http://localhost:3001/users/getUser',{
+        axios.post(route.url+'/users/getUser',{
 
             userid: this.state.idUser
             }

@@ -17,6 +17,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import Navbar from '../home/Navbar';
 import ClothesAssistant from '../ClothesAssistant/ClothesAssistant';
 import axios from 'axios';
+import route from '../Route';
 import './OtherProfile.css';
 
 

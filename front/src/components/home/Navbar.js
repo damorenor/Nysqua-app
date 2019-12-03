@@ -4,9 +4,12 @@ import { withStyles } from '@material-ui/styles';
 import Button from '@material-ui/core/Button';
 import { FiBell } from 'react-icons/fi';
 import { FiUser } from 'react-icons/fi';
+import { FiLogOut } from 'react-icons/fi';
+import axios from 'axios';
 import { FiMessageSquare} from 'react-icons/fi';
 import { IconContext } from "react-icons";
 import { Link } from 'react-router-dom';
+import route from '../Route';
 
 import './Navbar.css';
 class Navbar extends Component {
@@ -21,6 +24,7 @@ class Navbar extends Component {
           this.handleClick = this.handleClick.bind(this);
           this.handleToUser = this.handleToUser.bind(this);
           this.handleToHome = this.handleToHome.bind(this);
+          this.handleToSignIn = this.handleToSignIn.bind(this);
 
     }
     handleClick() {
@@ -32,7 +36,25 @@ class Navbar extends Component {
     handleToHome(){
         this.LinkHomeElement.click();
     }
+    handleToSignIn(){
+        const head = {
+            headers: {
+                'authorization': this.state.token,
+            }
+        }
+        axios.post(route.url+'/users/logout',{}
+        ,head).then((response)=>{
+            console.log(response.data);
+            this.SignInElement.click();
+              
+
+        }     , (error) => {    
+            console.log(error);
+        })
+        
+    }
       render(){
+          console.log(route.url);   
           return(      <div className="nav_bar">
           <div className="nav_bar_container">
             <Grid container 
@@ -59,6 +81,9 @@ class Navbar extends Component {
                             <div onClick={this.handleClick}>
                                 <FiUser/>
                             </div>
+                            <div onClick={this.handleToSignIn}>
+                                <FiLogOut/>
+                            </div>
                             <Link to={{
 									pathname: '/UserProfile',
 									state: {
@@ -79,6 +104,17 @@ class Navbar extends Component {
 								}}
 									ref={
 										LinkHome => this.LinkHomeElement = LinkHome
+									}>
+							</Link>
+                            <Link to={{
+									pathname: '/SignIn',
+									state: {
+                                        token: this.state.token,
+                                        userData: this.state.userData
+									}
+								}}
+									ref={
+										LinkSignIn => this.SignInElement = LinkSignIn
 									}>
 							</Link>
                             
