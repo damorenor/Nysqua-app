@@ -34,7 +34,7 @@ class ProductDetails extends Component {
             token: this.props.token,
             ownerData: "",
             userData: "",
-            garmentList: null,
+            garmentList: [],
             selectedGarmets: [],
             garmentObjects: [],
             detailsType: this.props.detailsType,
@@ -239,14 +239,14 @@ class ProductDetails extends Component {
         var ctx = this;
         await new Promise(function (resolve, reject) {
             (function waitForFoo() {
-                if (ctx.state.garmentList != null){
+                if (ctx.state.garmentList != []){
                     if (ctx.state.garmentList[ctx.state.garmentList.length - 1].size != undefined &&
                             ctx.state.garmentList[ctx.state.garmentList.length - 1].images != undefined &&
                             ctx.state.garmentList[ctx.state.garmentList.length - 1].title != undefined) {
                         return resolve();
                     }                    
                 }
-                setTimeout(waitForFoo, 300);
+                setTimeout(waitForFoo, 500);
             })();
         });
 
