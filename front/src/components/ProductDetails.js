@@ -47,6 +47,7 @@ class ProductDetails extends Component {
         this.isExchangeType = this.isExchangeType.bind(this);
         this.handleSwapSubmit = this.handleSwapSubmit.bind(this);
         this.garmentOnClick = this.garmentOnClick.bind(this);
+        this.handleDelete = this.handleDelete.bind(this);
         let productDetailsSwipe;
         let wardrobeSliderRef;
     }
@@ -296,6 +297,28 @@ class ProductDetails extends Component {
         });
         return Promise.resolve();
     }
+    handleDelete(){
+        console.log(this.state.id);
+        const config = {
+            headers: {
+                'authorization': this.state.token
+            }
+        };
+        axios.post(route.url+'/garment/delete',{
+            garmentID: this.state.id,
+            
+            
+        },config).then((response)=>
+        {
+            console.log(response.data);
+        }, (error) => {
+            console.log(error);
+
+        });
+        this.props.parentCallback(true);
+
+
+    }
 
     renderGarmentList() {
         var ctx = this;
@@ -518,7 +541,7 @@ class ProductDetails extends Component {
                             <div></div> :
                             <div>
                                  {this.isTheSameUser() ? 
-                                    <div className="product_details_swap_btn" onClick={()=>{console.log("Implementar metodo de eliminar");}}>
+                                    <div className="product_details_swap_btn" onClick={this.handleDelete}>
                                         <p>Eliminar Prenda</p>
                                     </div>:
                                     <div className="product_details_swap_btn" onClick={this.handletoSwap}>

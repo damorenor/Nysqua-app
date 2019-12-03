@@ -58,10 +58,15 @@ router.post('/preferences', authenticate, async (req, res) => {
 });
 
 //delete the garment associated to garmentID
-router.delete('/delete', authenticate, async (req, res) => {
-    var garmentId = req.body.garmentID
-    var r = await Garment.deleteOne({ _id: garmentId }, function (error) {
+router.post('/delete', authenticate, async (req, res) => {
+    var garmentID = req.body.garmentID
+    var user  = req.user
+    console.log(garmentID);
+    var r = await Garment.deleteOne({ _id: garmentID },async function (error) {
         if (error) return handleError(error)
+
+        user.garmentList.splice(user.garmentList.indexOf(garmentID), 1);
+        await user.save()
         return true
     })
     console.log(r)
