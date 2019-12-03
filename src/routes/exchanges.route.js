@@ -41,7 +41,7 @@ router.post('/accept', authenticate, async (req, res) => {
     try {
         var exchange = await Exchange.findOne({ _id: { $eq: exchangeID } })
         var otherUser = await User.findOne({ _id: { $eq: exchange.idUserTwo } })
-    } catch (error) {   
+    } catch (error) {
         console.log(error)
     }
     if (user._id == exchange.idUserOne) {
@@ -56,7 +56,7 @@ router.post('/accept', authenticate, async (req, res) => {
 
 })
 
-//para rechazar o cancelar un intercambio 
+//para rechazar o cancelar un intercambio
 
 router.post('/cancel', authenticate, async (req, res) => {
     var exchangeID = req.body.exchangeID
@@ -67,11 +67,15 @@ router.post('/cancel', authenticate, async (req, res) => {
         if (exchange.state) {
             if (user._id == exchange.idUserOne) {
                 user.exchangesCanceled += 1
+
+
                 await user.save()
                 try {
                     var otherUser = await User.findOne({ _id: { $eq: exchange.idUserTwo } })
                     otherUser.exchangesCanceledByOthers += 1
                     await otherUser.save()
+                    otherUser.deleteExchange(exchange)
+                    res.status(200).send("Deleted exchange successfully (user two)")
                 } catch (error) {
                     console.log(error)
                 }
@@ -82,6 +86,8 @@ router.post('/cancel', authenticate, async (req, res) => {
                     var otherUser = await User.findOne({ _id: { $eq: exchange.idUserOne } })
                     otherUser.exchangesCanceledByOthers += 1
                     await otherUser.save()
+                    otherUser.deleteExchange(exchange)
+                    res.status(200).send("Deleted exchange successfully (user one)")
                 } catch (error) {
                     console.log(error)
                 }
