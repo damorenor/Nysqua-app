@@ -194,6 +194,16 @@ class ExchangeDetails extends Component {
         return ret;
     }
 
+    selectExchangeTitle(){
+        if (this.state.exchangeType == "exchange"){
+            return "Intercambio";
+        }else if(this.state.exchangeType == "none"){
+            return "Intercambio";
+        }else{
+            return "Propuesta";
+        }
+    }
+
     selectUsersName(name){
         let ret = null;
         if(name === this.props.userData.username){
@@ -228,6 +238,7 @@ class ExchangeDetails extends Component {
 
         return ret;
     }
+    
 
     componentDidMount(){
         const config = {
@@ -384,9 +395,7 @@ class ExchangeDetails extends Component {
                         <div className="exchange_details_exchange_content">
                             <div className="exchange_details_exchange_info_container">
                                 < h1 > {
-                                        (this.state.exchangeType == "exchange") ?
-                                            "Intercambio" : 
-                                            "Propuesta"
+                                        this.selectExchangeTitle()
                                         } </h1>
                                 <IconContext.Provider value={{ size: "4.5em ", className: 'exchange_details_icon' }}>
                                     <FaExchangeAlt/>

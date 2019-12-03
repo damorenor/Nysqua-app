@@ -16,6 +16,7 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import Navbar from '../home/Navbar';
 import ClothesAssistant from '../ClothesAssistant/ClothesAssistant';
+import ExchangeDetails from './../ExchangeDetails';
 import axios from 'axios';
 import route from '../Route';
 import './OtherProfile.css';
@@ -32,7 +33,7 @@ class OtherProfile extends Component {
           ownerData:this.props.location.state.ownerData,    
           userData:this.props.location.state.userData,
           garmentList: [],
-
+          activeExchanges: [],
       };
 
       this.handleToEdit = this.handleToEdit.bind(this);
@@ -44,6 +45,10 @@ class OtherProfile extends Component {
       this.gradient = 'linear-gradient(136deg, rgb(242, 113, 33) 0%, rgb(233, 64, 87) 50%, rgb(138, 35, 135) 100%)';
 
      
+    }
+
+    activeIsEmpty() {
+        return (this.state.activeExchanges.length == 0);
     }
 
     handleChange(event, value){
@@ -64,8 +69,36 @@ class OtherProfile extends Component {
         this.LinkToEditElement.click();
     }
 
+    propActiveExchanges(element){
+        return(
+            <ExchangeDetails 
+                token= {this.state.token} 
+                userData={this.state.userData} 
+                exchangeData={element} 
+                exchangeType={"none"}
+                parentCallback = {this.callbackFunctionExchange}/>
+        );
+    }
+
     componentDidMount(){
         this.renderGarmentList();
+
+        const config = {
+            headers: {
+                'authorization': this.state.token,
+            }
+        };
+        axios.post(route.url + '/exchange/active', {
+            userID: this.state.userData._id
+        }, config).then((response) => {
+            console.log(response.data);
+            this.setState({
+                activeExchanges: response.data
+            });
+
+        }, (error) => {
+            console.log(error);
+        });
     }
 
     
@@ -176,14 +209,20 @@ class OtherProfile extends Component {
                         </Tabs>
                         <SwipeableViews index={this.state.index} onChangeIndex={this.handleChangeIndex}>
                             <div className= "tab_garment">
-            
                                 <div className="wardrobe_container">
-                            
                                    {this.state.garmentList}
                                 </div>
                             </div>
                             
-                            <div className= "tab_garment">Aca estaran los intercambios del usuario</div>
+                            <div className= "tab_garment">
+                                {
+                                    this.activeIsEmpty() ? 
+                                    <p>No tienes intercambios activos actualmente</p> :
+                                    <div>
+                                        {this.state.activeExchanges.map(this.propActiveExchanges, this)}
+                                    </div>
+                                }
+                            </div>
                         </SwipeableViews>
                         
                      </div>
