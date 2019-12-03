@@ -6,12 +6,10 @@ import { FiBell } from 'react-icons/fi';
 import { FiUser } from 'react-icons/fi';
 import { FiLogOut } from 'react-icons/fi';
 import axios from 'axios';
-
-
-
 import { FiMessageSquare} from 'react-icons/fi';
 import { IconContext } from "react-icons";
 import { Link } from 'react-router-dom';
+import route from '../Route';
 
 import './Navbar.css';
 class Navbar extends Component {
@@ -44,7 +42,7 @@ class Navbar extends Component {
                 'authorization': this.state.token,
             }
         }
-        axios.post('http://localhost:3001/users/logout',{}
+        axios.post(route.url+'/users/logout',{}
         ,head).then((response)=>{
             console.log(response.data);
             this.SignInElement.click();
@@ -56,6 +54,7 @@ class Navbar extends Component {
         
     }
       render(){
+          console.log(route.url);   
           return(      <div className="nav_bar">
           <div className="nav_bar_container">
             <Grid container 

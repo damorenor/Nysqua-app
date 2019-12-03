@@ -18,6 +18,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import Navbar from '../home/Navbar';
 import ClothesAssistant from '../ClothesAssistant/ClothesAssistant';
 import axios from 'axios';
+import route from '../Route';
 import './UserProfile.css';
 
 
@@ -149,12 +150,12 @@ class UserProfile extends Component {
                 'authorization': this.state.token,
             }
         };
-        axios.get('http://localhost:3001/users/me',config).then((response2)=>{
+        axios.get(route.url+'/users/me',config).then((response2)=>{
                     console.log(response2.data);
                     this.setState({userData : response2.data}); 
                     this.renderGarmentList();
 
-                    axios.post('http://localhost:3001/exchange/proposals',{
+                    axios.post(route.url+'/exchange/proposals',{
                         userID: this.state.userData._id
                         },config).then((response)=>
                             {
@@ -166,7 +167,7 @@ class UserProfile extends Component {
                             console.log(error);
                         });
 
-                    axios.post('http://localhost:3001/exchange/offers', {
+                    axios.post(route.url+'/exchange/offers', {
                         userID: this.state.userData._id
                         },config).then((response)=>
                             {
@@ -177,7 +178,7 @@ class UserProfile extends Component {
                             console.log(error);
                         });
 
-                    axios.post('http://localhost:3001/exchange/active', {
+                    axios.post(route.url+'/exchange/active', {
                         userID: this.state.userData._id
                         },config).then((response)=>
                             {

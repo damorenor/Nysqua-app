@@ -17,6 +17,7 @@ import ReactSwipe from 'react-swipe';
 import 'react-animated-slider/build/horizontal.css';
 import Grid from '@material-ui/core/Grid';
 import axios from 'axios';
+import route from '../Route';
 import { Link } from 'react-router-dom';
 
 
@@ -188,7 +189,7 @@ class PrefAssistant extends Component {
         if (this.state.activeStep == 1) {
 
 
-            axios.post('http://localhost:3001/assistant/categories', {
+            axios.post(route.url+'/assistant/categories', {
                 checked1: this.state.checked1,
                 checked2: this.state.checked2,
                 checked3: this.state.checked3,
@@ -237,7 +238,7 @@ class PrefAssistant extends Component {
             };
             console.log("config");
             console.log(config);
-            axios.post('http://localhost:3001/assistant/prefAssistant', {
+            axios.post(route.url+'/assistant/prefAssistant', {
                 bio: this.state.bio,
                 categories: categoriesChecked,
                 subCategories: subcategoriesChecked,

@@ -29,7 +29,7 @@
     padding-right: 5vh;
     padding-bottom: 1vh;
   }
- ul{
+ .container-cat ul{
     -webkit-column-count: 2;
      -moz-column-count: 2;
      -o-column-count: 2;

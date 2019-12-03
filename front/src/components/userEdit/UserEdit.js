@@ -18,6 +18,7 @@ import { Link } from 'react-router-dom';
 import FormControl from '@material-ui/core/FormControl';
 import Button from '@material-ui/core/Button';
 import axios from 'axios';
+import route from '../Route';
 import Grid from '@material-ui/core/Grid';
 
 import './UserEdit.css';
@@ -178,7 +179,7 @@ class UserEdit extends Component {
         });
         this.initializeCategories();
         
-        axios.post('http://localhost:3001/assistant/categories', {
+        axios.post(route.url+'/assistant/categories', {
             checked1: this.state.checked1,
             checked2: this.state.checked2,
             checked3: this.state.checked3,
@@ -702,7 +703,7 @@ class UserEdit extends Component {
                         console.log("//////////////////////");
                         console.log(subcategoriesChecked);
                         console.log(this.state.subcategories);
-                        axios.patch('http://localhost:3001/users/me ', {
+                        axios.patch(route.url+'/users/me ', {
                             
                             profilePhoto: this.state.profilePhoto,
                             biography: this.state.bio,

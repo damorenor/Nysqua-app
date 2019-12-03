@@ -8,6 +8,7 @@ import {FaChevronCircleRight} from "react-icons/fa";
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import ProductDetails from './ProductDetails';
+import route from './Route';
 import axios from 'axios';
 
 class ProductCard extends Component {
@@ -70,7 +71,7 @@ class ProductCard extends Component {
             'authorization': this.props.token
         }
         };
-        axios.post('http://localhost:3001/garment/get',{
+        axios.post(route.url+'/garment/get',{
             garmentID: this.props.productData
             },config).then((response)=>
                 {
