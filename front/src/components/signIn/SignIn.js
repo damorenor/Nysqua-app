@@ -411,7 +411,7 @@ class SignIn extends Component {
                 <Link  to={{
                     pathname: '/PrefAssistant',
                     state: {
-                        token: this.state.userData.token,
+                        token: this.state.userData,
                         userData: this.state.userData.user
                     }}} 
                     ref={
