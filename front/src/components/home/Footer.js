@@ -24,7 +24,7 @@ function Footer() {
                     <div className="footer_contact">
                         <h1>Contacto</h1>
                         <p>+57 (350)-826-3720</p>
-                        <p>jfmorantesf@unal.edu.co</p>
+                        <p>nysqua@hotmail.com</p>
                         <p>Bogota, Colombia</p>
                     </div>
                 </div>

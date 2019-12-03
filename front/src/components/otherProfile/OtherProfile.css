@@ -267,117 +267,7 @@
     padding-top: 3px;
 }
 
-.add_clothes_btn_container{
-    text-align: center;
-}
 
-.icon-btn {
-    width: 70px;
-    height: 70px;
-    background: var(--gradient);
-    border: none;
-    border-radius: 35px;
-    overflow: hidden;
-    position: relative;
-    transition: width var(--transition-duration) ease-in-out;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-}
-
-.add_clothes-btn:hover {
-    width: 230px;
-}
-
-.add_clothes-btn::before,
-.add_clothes-btn::after {
-    transition: width var(--transition-duration) ease-in-out, border-radius var(--transition-duration) ease-in-out;
-    content: "";
-    position: absolute;
-    height: 6px;
-    width: 14px;
-    top: calc(50% - 2px);
-    background: white;
-}
-
-.add_clothes-btn::after {
-    right: 20px;
-    overflow: hidden;
-    border-top-right-radius: 3px;
-    border-bottom-right-radius: 3px;
-}
-
-.add_clothes-btn::before {
-    left: 20px;
-    border-top-left-radius: 3px;
-    border-bottom-left-radius: 3px;
-}
-
-.icon-btn:focus {
-    outline: none;
-}
-
-.add_clothes_btn-txt {
-    font-family: 'Product Sans';
-    width: 120px !important;
-    min-width: 120px;
-    max-width: 120px;
-    opacity: 0;
-    transition: opacity 0.15s;
-    color: white;
-    font-size: 1.4em;
-    letter-spacing: 0;
-}
-
-.add_clothes-btn:hover::before,
-.add_clothes-btn:hover::after {
-    width: 6px;
-    border-radius: 3px;
-}
-
-.add_clothes-btn:hover .add_clothes_btn-txt {
-    opacity: 1;
-}
-
-.add_clothes-icon::after,
-.add_clothes-icon::before {
-    transition: all var(--transition-duration) ease-in-out;
-    content: "";
-    position: absolute;
-    height: 28px;
-    width: 6px;
-    border-radius: 3px;
-    top: calc(50% - 12px);
-    background: white;
-    overflow: hidden;
-}
-
-.add_clothes-icon::before {
-    left: 32px;
-    border-top-left-radius: 3px;
-    border-bottom-left-radius: 3px;
-}
-
-.add_clothes-icon::after {
-    right: 32px;
-    border-top-right-radius: 3px;
-    border-bottom-right-radius: 3px;
-}
-
-.add_clothes-btn:hover .add_clothes-icon::before {
-    left: 21px;
-    height: 6px;
-    border-radius: 3px;
-    top: calc(50% - 2px);
-}
-
-.add_clothes-btn:hover .add_clothes-icon::after {
-    right: 21px;
-    height: 6px;
-    border-radius: 3px;
-    top: calc(50% - 2px);
-}
 
 .wardrobe_container{
     margin-top: 32px;
@@ -385,70 +275,14 @@
     height: auto;
 }
 
-.user_name_container{
+.user_name_container_otherProfile{
     width: auto;
     height: auto;
     display: flex;
     flex-direction: row;
-    padding-left: 120px;
+    padding-left: 0!important;
 }
 
-.user_edit_btn_container{
-    width: 130px;
-    height: auto;
-    margin-left: 12px;
-}
-.user_edit_btn {
-    width: 35px;
-    height: 35px;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    padding: 0;
-    border-radius: 18px;
-    border: solid 1px rgba(0, 0, 0, 0.75);
-    cursor: pointer;
-    background-color: transparent;
-    color: rgba(0, 0, 0, 0.75);
-    transition: all 0.2s linear 0s;
-    margin-top: 5px;
-    cursor: pointer;
-}
-
-.user_edit_btn_label{
-    width: 110px;
-    min-width: 110px;
-    max-width: 110px;
-    position: absolute;
-    color: rgba(0, 0, 0, 0.75);
-    font-size: 0.85em;
-    padding-left: 24px !important;
-    opacity: 0;
-    margin: 0;
-    padding: 0;
-    /* transition mouse out */
-    transition: all 0.05s linear 0s;
-    content: "";
-    pointer-events: none;
-}
-
-.user_edit_icon{
-    vertical-align: middle;
-    margin-left: 8px;
-    padding: 0;
-}
-
-.user_edit_btn:hover {
-    width: 120px;
-}
-
-.user_edit_btn:hover .user_edit_btn_label {
-    /* transition mouse in */
-    /* property| duration | function | delay */
-    transition: all 0.1s linear 0.18s;
-    opacity: 1;
-    content: "Editar perfil";
-}
 
 .MuiDialogContent-root:first-child {
     padding: 0 !important;
@@ -463,31 +297,4 @@
     min-width: 72vw !important;
     margin: 0 !important;
     border-radius: 0.5vw !important;
-}
-
-.exchanges_heading {
-    font-size: 1.4em;
-    letter-spacing: 0.08em;
-    font-weight: 500;
-    float: left;
-    width: 100%;
-    margin-top: 4vh;
-    text-align: left;
-    color: var(--primary);
-    text-shadow: 0 1px 1px #FFFFFF;
-    text-transform: uppercase;
-}
-
-.exchanges_heading_divider {
-    border-bottom: 1.2px solid rgba(0, 0, 0, 0.25) !important;
-    width: 100%;
-    height: 1.2px;
-    margin: 0px 0px 1.5em 0px;
-}
-
-.exchanges_heading_divider span {
-    display: block;
-    width: 50px;
-    height: 1.2px;
-    background-color: var(--primary);
 }

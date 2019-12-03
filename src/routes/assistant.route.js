@@ -14,7 +14,7 @@ const Categories = {
     "Mujer": ["Blusas", "Zapatos", "Buzos", "Chalecos", "Jeans", "Camisetas", "Pantalones", "Shorts", "Vestidos y Faldas", "Chaquetas y Blazers", "Sweaters y Cardigans", "Accesorios", "Pijamas"],
     "Ninos": ["Camisas", "Camisetas", "Pantalones", "Sweaters y Cardigans", "Bermudas", "Chaquetas y Blazers", "Zapatos", "Buzos", "Jeans", "Accesorios", "Pijamas"],
     "Ninas": ["Blusas", "Zapatos", "Buzos", "Chalecos", "Jeans", "Camisetas", "Pantalones", "Shorts", "Vestidos y Faldas", "Chaquetas y Blazers", "Sweaters y Cardigans", "Accesorios", "Pijamas"],
-    "Bebes": ["Camisas", "Blusas", "Camisetas", "Pantalones", "Sweaters y Cardigans", "Bermudas", "Chaquetas y Blazers", "Zapatos", "Buzos", "Jeans", "Accesorios", "Pijamas ", "Shorts", "Vestidos y Faldas"]
+    "Bebes": ["Camisas", "Blusas", "Camisetas", "Pantalones", "Sweaters y Cardigans", "Bermudas", "Chaquetas y Blazers", "Zapatos", "Buzos", "Jeans", "Accesorios", "Pijamas", "Shorts", "Vestidos y Faldas"]
 };
 // Image storage
 const storage = multer.diskStorage({
@@ -48,24 +48,19 @@ router.post('/upload', upload.single('profilePhoto'), (req, res, next) => {
 router.post('/prefAssistant', authenticate, async (req, res) => {
     //find an existing user
     var user = req.user
-    //console.log(user)
-    try {
-        user.tokens = user.tokens.filter((token) => {
-            return token.token !== req.token
-        })
-        try {
-            user.tokens = user.tokens.filter((token) => {
-                return token.token !== req.token
-            })
-            console.log(req.body.profilePhoto)
-            user.addPreferences(req);
-            res.status(201).send(user)
-        } catch (error) {
-            res.status(500).send();
-        }
-    } catch (error) {
-        res.status(500).send()
-    }
+    console.log(user._id);
+
+     
+           // console.log(req.body.profilePhoto)
+           const nombre = await user.addPreferences(req);
+           console.log(nombre);
+           res.status(201).send(user)
+         
+            
+          
+       
+      
+    
 })
 
 router.post('/categories', async (req, res) => {

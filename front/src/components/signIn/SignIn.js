@@ -25,6 +25,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
 import GoogleLogin from 'react-google-login';
+import route from '../Route';
 
 import './SignIn.css';
 
@@ -52,6 +53,7 @@ class SignIn extends Component {
     this.handleClickShowPassword = this.handleClickShowPassword.bind(this);
     this.handleDialogOpen = this.handleDialogOpen.bind(this);
     this.handleDialogClose = this.handleDialogClose.bind(this);
+    this.handleToAssistant = this.handleToAssistant.bind(this);
 
     this.handleMouseDownPassword = event => {
       event.preventDefault();
@@ -157,6 +159,13 @@ class SignIn extends Component {
       this.LinkElement.click();
   }
 
+  handleToAssistant(udata){
+    this.setState({
+      userData: udata
+    });
+    this.LinkToAssistantElement.click();
+  }
+
   handleDialogOpen(){
       this.setState({ dialogOpen: true});
   }
@@ -187,7 +196,7 @@ class SignIn extends Component {
                       fields="name,email,picture,id"
                         callback={(response) => {
                           console.log(response.accessToken);
-                          axios.post('http://localhost:3001/authentication/oauth/facebook', {
+                          axios.post(route.url+'/authentication/oauth/facebook', {
                             access_token: response.accessToken
                     
                           }).then((resp) => {
@@ -195,8 +204,12 @@ class SignIn extends Component {
                             var data = "";
                             console.log(resp.data);
                             data = resp.data;
-                            this.handleClick(data);
-                            
+                            if(data.user.profilePhoto == "undefined"){
+                              this.handleToAssistant(data)
+                            }
+                            else{
+                              this.handleClick(data);
+                            }
                     
                           }, (error) => {
                             console.log(error);
@@ -245,13 +258,19 @@ class SignIn extends Component {
                           )}
                         onSuccess={(response) => {
                           console.log(response.Zi.access_token);
-                          axios.post('http://localhost:3001/authentication/oauth/google', {
+                          axios.post(route.url+'/authentication/oauth/google', {
                             access_token: response.Zi.access_token
                           }).then((resp) => {
                             var data = "";
                             console.log(resp.data);
                             data = resp.data;
-                            this.handleClick(data);
+                            if(data.user.profilePhoto == "undefined"){
+                              this.handleToAssistant(data)
+                            }
+                            else{
+                              this.handleClick(data);
+                            }
+                            
                           }, (error) => {
                             console.log(error);
                     
@@ -351,7 +370,7 @@ class SignIn extends Component {
             </ThemeProvider>
             <div>
               < this.StyledButton onClick={() => {
-                axios.post('http://localhost:3001/users/login', {
+                axios.post(route.url+'/users/login', {
                   email: this.state.email,
                   password: this.state.password,
                   })
@@ -387,6 +406,16 @@ class SignIn extends Component {
                     }}} 
                     ref={
                         Link => this.LinkElement = Link
+                        }>		
+                </Link>
+                <Link  to={{
+                    pathname: '/PrefAssistant',
+                    state: {
+                        token: this.state.userData,
+                        userData: this.state.userData.user
+                    }}} 
+                    ref={
+                        Link => this.LinkToAssistantElement = Link
                         }>		
                 </Link>
             </div>    

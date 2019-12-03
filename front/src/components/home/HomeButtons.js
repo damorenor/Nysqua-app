@@ -45,7 +45,6 @@ class HomeButtons extends Component {
     }
 
     handleDialogOpen(){
-        console.log("entra");
         this.setState({ clothesAssistantDialogOpen: true});
     }
 

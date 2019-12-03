@@ -35,14 +35,21 @@ router.post('/add', authenticate, async (req, res) => {
 });
 
 //get all the garments that meet with categories, subcategories
-router.get('/preferences', authenticate, async (req, res) => {
+router.post('/preferences', authenticate, async (req, res) => {
     req.user
     var categories = req.body.categories
     var subcategories = req.body.subcategories
+    var user = req.user._id
+    console.log(user)
     console.log(categories)
     console.log(subcategories)
-    var r = await Garment.find({ $and: [{ category: { categories } }, { subcategory: { subcategories } }] });
-    console.log(r);
+    try {
+        var r = await Garment.find({ $and: [{ category: { $in: categories } }, { subcategory: { $in: subcategories } }, { idUser: { $not: { $eq: user } } }] });
+        console.log(r);
+    } catch (error) {
+        console.log(error)
+    }
+
     try {
         res.send(r);
     } catch (error) {
@@ -51,10 +58,15 @@ router.get('/preferences', authenticate, async (req, res) => {
 });
 
 //delete the garment associated to garmentID
-router.delete('/delete', authenticate, async (req, res) => {
-    var garmentId = req.body.garmentID
-    var r = await Garment.deleteOne({ _id: garmentId }, function (error) {
+router.post('/delete', authenticate, async (req, res) => {
+    var garmentID = req.body.garmentID
+    var user  = req.user
+    console.log(garmentID);
+    var r = await Garment.deleteOne({ _id: garmentID },async function (error) {
         if (error) return handleError(error)
+
+        user.garmentList.splice(user.garmentList.indexOf(garmentID), 1);
+        await user.save()
         return true
     })
     console.log(r)

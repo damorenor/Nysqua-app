@@ -32,6 +32,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import { FaQuestionCircle } from 'react-icons/fa';
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
 import GoogleLogin from 'react-google-login';
+import route from '../Route';
 
 import './SignUp.css';
 
@@ -270,7 +271,7 @@ class SignUp extends Component {
 
 		const responseFacebook = (response) => {
 			console.log(response.accessToken);
-			axios.post('http://localhost:3001/authentication/oauth/facebook', {
+			axios.post(route.url+'/authentication/oauth/facebook', {
 				access_token: response.accessToken
 
 			}).then((resp) => {
@@ -306,7 +307,7 @@ class SignUp extends Component {
 										fields="name,email,picture,id"
 											callback={(response) => {
 												console.log(response.accessToken);
-												axios.post('http://localhost:3001/authentication/oauth/facebook', {
+												axios.post(route.url+'/authentication/oauth/facebook', {
 													access_token: response.accessToken
 									
 												}).then((resp) => {
@@ -364,7 +365,7 @@ class SignUp extends Component {
 											  )}
 											onSuccess={(response) => {
 												console.log(response.Zi.access_token);
-												axios.post('http://localhost:3001/authentication/oauth/google', {
+												axios.post(route.url+'/authentication/oauth/google', {
 													access_token: response.Zi.access_token
 												}).then((resp) => {
 													var data = "";
@@ -580,7 +581,7 @@ class SignUp extends Component {
 											});
 										}
 
-										axios.post('http://localhost:3001/users', {
+										axios.post(route.url+'/users', {
 											email: this.state.email,
 											password: this.state.password,
 											username: this.state.username,

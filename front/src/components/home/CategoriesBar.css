@@ -14,6 +14,71 @@
     color: black;
 }
 
-.container-cat p:hover{
+
+
+
+
+
+.Menu {
+    margin: 0;
+    
+    list-style: none;
+    white-space: nowrap;
+    text-align: left;
+    padding-left: 5vh;
+    padding-right: 5vh;
+    padding-bottom: 1vh;
+  }
+ .container-cat ul{
+    -webkit-column-count: 2;
+     -moz-column-count: 2;
+     -o-column-count: 2;
+    column-count: 2;
+  }
+  
+  .Menu button {
+    border: 0;
+    background: none;
+  }
+  
+  .Menu li + li {
+    margin-top: 0.5em;
+  }
+  .Menu p:hover{
     color: var(--primary);
 }
+  
+  .PopupMenuWrapper.-under {
+    padding-bottom: 8em;
+  }
+  
+  .PopupMenuWrapper.-over {
+    padding-top: 8em;
+  }
+  .Menu-item p{
+      padding: 0px!important;
+      margin: 0px!important;
+      cursor: pointer;  
+      
+  }
+
+  .MenuTitle{
+    font-size: 1.5em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-bottom: 1.7vh;
+  }
+  .MenuTitle p{
+    margin-bottom: 0vh!important;
+    
+  }
+
+  .MenuTitle hr{
+    margin-top: 0.5vh;
+    height: 0.3vh;
+    width: 50%;
+    background-color: var(--primary);
+    border-color:var(--primary);
+  }

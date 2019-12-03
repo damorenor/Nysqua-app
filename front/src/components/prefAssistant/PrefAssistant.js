@@ -17,6 +17,7 @@ import ReactSwipe from 'react-swipe';
 import 'react-animated-slider/build/horizontal.css';
 import Grid from '@material-ui/core/Grid';
 import axios from 'axios';
+import route from '../Route';
 import { Link } from 'react-router-dom';
 
 
@@ -25,7 +26,7 @@ class PrefAssistant extends Component {
         super(props);
 
         this.state = {
-            token: "",
+            token: this.props.location.state.token.token,
             activeStep: 0,
             bio: "",
             userData: "",
@@ -54,10 +55,10 @@ class PrefAssistant extends Component {
 
         this.gradient = 'linear-gradient(136deg, rgb(242, 113, 33) 0%, rgb(233, 64, 87) 50%, rgb(138, 35, 135) 100%)';
         this.primaryColor = '#E94057';
-        this.token = this.props.location.state;
+    
         this.steps = this.getSteps();
         this.handleClick = this.handleClick.bind(this);
-        this.onImageSubmit = this.onImageSubmit.bind(this);
+        
         this.onImageChange = this.onImageChange.bind(this);
         this.handleNext = this.handleNext.bind(this);
         this.handleBack = this.handleBack.bind(this);
@@ -163,26 +164,7 @@ class PrefAssistant extends Component {
     }
 
 
-    onImageSubmit() {
 
-        const profilePhot = new FormData();
-        console.log(this.state.file);
-
-        profilePhot.append('profilePhoto', this.state.file);
-        console.log(profilePhot.get('profilePhoto'));
-        const config = {
-            headers: {
-                'content-type': 'multipart/form-data',
-            }
-        };
-        
-        axios.post("http://localhost:3001/assistant/upload", profilePhot, config)
-            .then((response) => {
-
-                console.log(response);
-            }).catch((error) => {
-            });
-    }
 
     onImageChange = (event) => {
 
@@ -207,7 +189,7 @@ class PrefAssistant extends Component {
         if (this.state.activeStep == 1) {
 
 
-            axios.post('http://localhost:3001/assistant/categories', {
+            axios.post(route.url+'/assistant/categories', {
                 checked1: this.state.checked1,
                 checked2: this.state.checked2,
                 checked3: this.state.checked3,
@@ -233,8 +215,7 @@ class PrefAssistant extends Component {
                     console.log(error);
                 });
         } else if (this.state.activeStep == 2) {
-            //Aqui va la logica del request de los demas datos
-            //this.onImageSubmit();
+        
             var subcategoriesChecked = [];
             var categoriesChecked = [];
             var categories = ['Hombre', 'Mujer', 'Niño', 'Niña', 'Bebes'];
@@ -252,11 +233,12 @@ class PrefAssistant extends Component {
 
             const config = {
                 headers: {
-                    'authorization': this.props.location.state.token.token,
+                    'authorization': this.state.token,
                 }
             };
-
-            axios.post('http://localhost:3001/assistant/prefAssistant', {
+            console.log("config");
+            console.log(config);
+            axios.post(route.url+'/assistant/prefAssistant', {
                 bio: this.state.bio,
                 categories: categoriesChecked,
                 subCategories: subcategoriesChecked,
@@ -265,6 +247,8 @@ class PrefAssistant extends Component {
             }, config)
                 .then((response) => {
                     //añadir logica
+                    console.log("Actual / Nueva");
+                    console.log(this.state.userData);
                     console.log(response.data);
                     var data = "";
                     //aca meter el link
@@ -409,7 +393,7 @@ class PrefAssistant extends Component {
                                                 </label>
 
                                                 <input id="file-input" name="profilePhoto" type="file" onChange={this.onImageChange} />
-                                                {/* <Button onClick={this.onImageSubmit}>Enviar Test</Button> */}
+                                               
 
 
                                             </div>
@@ -607,8 +591,8 @@ class PrefAssistant extends Component {
                                 <Link to={{
 									pathname: '/Home',
 									state: {
-                                        token: this.props.location.state.token.token,
-                                        userData: this.state.userData
+                                        token: this.state.token,
+                                        userData: this.state.userData   
 									}
 								}}
 									ref={

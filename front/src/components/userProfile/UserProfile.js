@@ -11,12 +11,14 @@ import StarRatings from 'react-star-ratings';
 import { FiEdit2 } from 'react-icons/fi';
 import SwipeableViews from 'react-swipeable-views';
 import ProductCard from './../productCard';
+import ExchangeDetails from './../ExchangeDetails';
 import { Link } from 'react-router-dom';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import Navbar from '../home/Navbar';
 import ClothesAssistant from '../ClothesAssistant/ClothesAssistant';
 import axios from 'axios';
+import route from '../Route';
 import './UserProfile.css';
 
 
@@ -29,23 +31,25 @@ class UserProfile extends Component {
           index : 0,
           token:this.props.location.state.token,
           userData:this.props.location.state.userData,    
-          userDataC : {
-              biography: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliquased do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-              username: "Nombre de Usuario",
-              rating : 3,
-              exchangeList :[],
-              garmentList: ["prenda1","prenda2","prenda3","prenda4","prenda5","prenda6","prenda7","prenda8" ,"prenda9","prenda10","prenda11"     ],
-              profilePhoto : "https://www.rogowaylaw.com/wp-content/uploads/Blank-Employee.jpg",
-          },
+          proposalsExchanges:[],
+          offersExchanges: [],
+          activeExchanges: [],
+          garmentList: [],
           clothesAssistantDialogOpen: false,
           uploadedClothes: false,
+          uploadedProposal: false,
       };
 
       this.handleToEdit = this.handleToEdit.bind(this);
-
+      this.handleChange = this.handleChange.bind(this);
+      this.handleChangeIndex = this.handleChangeIndex.bind(this);
       this.handleDialogOpen = this.handleDialogOpen.bind(this);
       this.handleDialogClose = this.handleDialogClose.bind(this);
       this.callbackFunction = this.callbackFunction.bind(this);
+      this.propExchanges = this.propProposalsExchanges.bind(this);
+      this.proposalsIsEmpty = this.proposalsIsEmpty.bind(this);
+      this.callbackFunctionExchange = this.callbackFunctionExchange.bind(this);
+      this.renderGarmentList = this.renderGarmentList.bind(this);
 
       this.gradient = 'linear-gradient(136deg, rgb(242, 113, 33) 0%, rgb(233, 64, 87) 50%, rgb(138, 35, 135) 100%)';
       this.StyledButton = withStyles({
@@ -74,6 +78,18 @@ class UserProfile extends Component {
         },
     })(Button);
      
+    }
+
+    proposalsIsEmpty(){
+        return (this.state.proposalsExchanges.length == 0);
+    }
+
+    offersIsEmpty() {
+        return (this.state.offersExchanges.length == 0);
+    }
+
+    activeIsEmpty() {
+        return (this.state.activeExchanges.length == 0);
     }
 
     handleChange(event, value){
@@ -109,142 +125,153 @@ class UserProfile extends Component {
         });
     }
 
+    callbackFunctionExchange(childData) {
+        this.setState({
+            uploadedProposal: childData[0],
+        });
+    }
+
     componentDidUpdate(){
         if (this.state.uploadedClothes){
-            console.log(this.state.userData.garmentList);
             this.setState({uploadedClothes: false});
             this.handleDialogClose();
+            this.componentDidMount();
+        }
+
+        if(this.state.uploadedProposal){
+            console.log("Uploaded proposal");
+            this.setState({uploadedProposal: false});
+            this.componentDidMount();
         }
     }
+    
     componentDidMount(){
         const config = {
             headers: {
                 'authorization': this.state.token,
             }
         };
-        axios.get('http://localhost:3001/users/me',config).then((response2)=>{
+        axios.get(route.url+'/users/me',config).then((response2)=>{
                     console.log(response2.data);
                     this.setState({userData : response2.data}); 
+                    this.renderGarmentList();
+
+                    axios.post(route.url+'/exchange/proposals',{
+                        userID: this.state.userData._id
+                        },config).then((response)=>
+                            {
+                                console.log(response.data); 
+                                this.setState({proposalsExchanges: response.data});
+                                
+                           
+                            }, (error) => {
+                            console.log(error);
+                        });
+
+                    axios.post(route.url+'/exchange/offers', {
+                        userID: this.state.userData._id
+                        },config).then((response)=>
+                            {
+                                console.log(response.data); 
+                                this.setState({offersExchanges: response.data});
+                           
+                            }, (error) => {
+                            console.log(error);
+                        });
+
+                    axios.post(route.url+'/exchange/active', {
+                        userID: this.state.userData._id
+                        },config).then((response)=>
+                            {
+                                console.log(response.data); 
+                                this.setState({
+                                    activeExchanges: response.data
+                                });
+                           
+                            }, (error) => {
+                            console.log(error);
+                        });
 
                 }, (error) => {
                 console.log(error);
-            })
+            });
     }
 
+    propProposalsExchanges(element){
+        return(
+            <ExchangeDetails 
+                token= {this.state.token} 
+                userData={this.state.userData} 
+                exchangeData={element} 
+                exchangeType={"other proposal"} 
+                parentCallback = {this.callbackFunctionExchange}/>
+        );
+    }
+
+    propOffersExchanges(element){
+        return(
+            <ExchangeDetails 
+                token= {this.state.token} 
+                userData={this.state.userData} 
+                exchangeData={element} 
+                exchangeType={"my proposal"}
+                parentCallback = {this.callbackFunctionExchange}/>
+        );
+    }
+
+    propActiveExchanges(element){
+        return(
+            <ExchangeDetails 
+                token= {this.state.token} 
+                userData={this.state.userData} 
+                exchangeData={element} 
+                exchangeType={"exchange"}
+                parentCallback = {this.callbackFunctionExchange}/>
+        );
+    }
+
+    renderGarmentList() {
+        var ctx = this;
+        let maxSize = this.state.userData.garmentList.length;
+        let garmentObjects = [];
+        for(var i = 0; i < maxSize; i += 4){
+            garmentObjects.push(
+        
+                    <Grid 
+                        container
+                        spacing={4}
+                        direction = "row"
+                        justify = "center">
+                        <Grid item xs={3}>
+                            {(i < maxSize) ? <ProductCard token= {this.state.token} productData={this.state.userData.garmentList[i]} /> : ""}
+                        </Grid>
+                        <Grid item xs={3}>
+                            {(i + 1 < maxSize) ? <ProductCard token= {this.state.token} productData={this.state.userData.garmentList[i+1]} /> : ""}
+                        </Grid>
+                        <Grid item xs={3}>
+                            {(i + 2 < maxSize) ?<ProductCard token= {this.state.token} productData={this.state.userData.garmentList[i+2]} /> : ""}
+                        </Grid>
+                        <Grid item xs={3}>
+                            {(i + 3 < maxSize) ? <ProductCard token= {this.state.token} productData={this.state.userData.garmentList[i+3]} /> : ""}
+                        </Grid>
+                    </Grid>
+              
+            );
+        }
+
+        this.setState({
+            garmentList:garmentObjects
+        })
+    }
+
+
     render(){
-        var myElements = [];
-        var completes= 0;
-        console.log(this.state.userData.garmentList);
-        for(var i = 0; i < Math.floor(this.state.userData.garmentList.length/4) ; i++) {
-            myElements.push(
-                <Grid container 
-                        spacing={4}
-                        direction = "row"
-                        justify = "center">
-
-                        <Grid item xs={3}>
-                            <ProductCard token= {this.state.token} productData={this.state.userData.garmentList[completes]} />
-                        </Grid>
-                        <Grid item xs={3}>
-                            <ProductCard  token={this.state.token} productData={this.state.userData.garmentList[completes+1]}/>
-                        </Grid>
-                        <Grid item xs={3}>
-                            <ProductCard token= {this.state.token} productData={this.state.userData.garmentList[completes+2]}/>
-                        </Grid>
-                        <Grid item xs={3}>
-                            <ProductCard token= {this.state.token} productData={this.state.userData.garmentList[completes+3]}/>
-                        </Grid>
-                </Grid>
-                
-            );
-            completes += 4;
-        };
-        
-        console.log("aca fercho");
-        console.log(completes);
-
-        
-        for(var j = 0; j < Math.floor((this.state.userData.garmentList.length-completes)/3) ; j++){
-            myElements.push(
-                <Grid container 
-                        spacing={4}
-                        direction = "row"
-                        justify = "center">
-
-                        <Grid item xs={3}>
-                            <ProductCard token= {this.state.token} productData={this.state.userData.garmentList[completes]} />
-                        </Grid>
-                        <Grid item xs={3}>
-                            <ProductCard  token={this.state.token} productData={this.state.userData.garmentList[completes+1]}/>
-                        </Grid>
-                        <Grid item xs={3}>
-                            <ProductCard token= {this.state.token} productData={this.state.userData.garmentList[completes+2]}/>
-                        </Grid>
-                        <Grid item xs={3}>
-                            
-                        </Grid>
-                </Grid>
-            );
-            completes= completes + 3;
-        }
-      
-        for(var j = 0; j < Math.floor((this.state.userData.garmentList.length-completes)/2) ; j++){
-            console.log("esto no deberia ejecutarse");
-            myElements.push(
-                <Grid container 
-                        spacing={4}
-                        direction = "row"
-                        justify = "center">
-
-                        <Grid item xs={3}>
-                            <ProductCard token= {this.state.token} productData={this.state.userData.garmentList[completes]} />
-                        </Grid>
-                        <Grid item xs={3}>
-                            <ProductCard  token={this.state.token} productData={this.state.userData.garmentList[completes+1]}/>
-                        </Grid>
-                        <Grid item xs={3}>
-                            
-                        </Grid>
-                        <Grid item xs={3}>
-                            
-                        </Grid>
-                </Grid>
-            );
-            completes = completes +2;
-        }
-        for(var j = 0; j < Math.floor((this.state.userData.garmentList.length-completes)) ; j++){
-            myElements.push(
-                <Grid container 
-                        spacing={4}
-                        direction = "row"
-                        justify = "center">
-
-                        <Grid item xs={3}>
-                            <ProductCard token= {this.state.token} productData={this.state.userData.garmentList[completes]} />
-                        </Grid>
-                        <Grid item xs={3}>
-                            
-                        </Grid>
-                        <Grid item xs={3}>
-                            
-                        </Grid>
-                        <Grid item xs={3}>
-                            
-                        </Grid>
-                </Grid>
-            );
-            completes = completes +1;
-        }
-        
-
-
-
         return(
             <div className = "profile_container">
                  <Navbar token = {this.state.token} userData ={this.state.userData} />
                  <div className = "userProfile">
                      <div className = "info_container">
-                         <div className = "profilephoto">
+                        <div className = "profilephoto">
                             <img  className ="adjust_photo"  src ={this.state.userData.profilePhoto} ></img>
                         </div>
                         <div className = "text_info">
@@ -283,7 +310,7 @@ class UserProfile extends Component {
                                         <div className="user_rating_container">
                                             <p>Confiabilidad</p>
                                             <StarRatings
-                                            rating={5}
+                                            rating={this.state.userData.rating}
                                             starRatedColor="black"
                                             numberOfStars={5}
                                             name='rating'
@@ -299,17 +326,17 @@ class UserProfile extends Component {
                                                 <p>Intercambios</p>
                                                 <div className="swap_rating">
                                                     <div className="swap_rate_content">
-                                                        <p className="number">100</p>
+                                                        <p className="number">{this.state.userData.totalExchanges}</p>
                                                         <p>Completados exitosamente</p>
                                                     </div>
                                                     <span className="swap_rating_divider"></span>
                                                     <div className="swap_rate_content">
-                                                        <p className="number">15</p>
+                                                        <p className="number">{this.state.userData.exchangesCanceled}</p>
                                                         <p>Cancelados por el usuario</p>
                                                     </div>
                                                     <span className="swap_rating_divider"></span>
                                                     <div className="swap_rate_content">
-                                                        <p className="number">9</p>
+                                                        <p className="number">{this.state.userData.exchangesCanceledByOthers}</p>
                                                         <p>Cancelados por otros usuarios</p>
                                                     </div>
                                                 </div>
@@ -335,11 +362,39 @@ class UserProfile extends Component {
                                     </button>
                                 </div>
                                 <div className="wardrobe_container">
-                                    {myElements}
+                                   {this.state.garmentList}
                                 </div>
                             </div>
                             <div className= "tab_garment">Aca estaran los catalogos del usuario</div>
-                            <div className= "tab_garment">Aca estaran los intercambios del usuario</div>
+                            <div className= "tab_garment">
+                                <h1 className="exchanges_heading">Intercambios activos</h1>
+                                <div className="exchanges_heading_divider"> <span></span></div>
+                                {
+                                    this.activeIsEmpty() ? 
+                                        <p>No tienes intercambios activos actualmente</p> :
+                                        <div>
+                                            {this.state.activeExchanges.map(this.propActiveExchanges, this)}
+                                        </div>
+                                }
+                                <h1 className="exchanges_heading">Solicitudes de intercambio para ti</h1>
+                                <div className="exchanges_heading_divider"> <span></span></div>
+                                {
+                                    this.proposalsIsEmpty() ? 
+                                        <p>No tienes solicitudes de intercambio por el momento</p> :
+                                        <div>
+                                            {this.state.proposalsExchanges.map(this.propProposalsExchanges, this)}
+                                        </div>
+                                }
+                                <h1 className="exchanges_heading">Solicitudes de intercambio realizadas por ti</h1>
+                                <div className="exchanges_heading_divider"> <span></span></div>
+                                {
+                                    this.offersIsEmpty() ? 
+                                        <p>No tienes intercambios solicitados para mostrar</p> :
+                                        <div>
+                                            {this.state.offersExchanges.map(this.propOffersExchanges, this)}
+                                        </div>
+                                }
+                            </div>
                         </SwipeableViews>
                         <Dialog onClose={this.handleDialogClose} aria-labelledby="customized-dialog-title" open={this.state.clothesAssistantDialogOpen} fullWidth={true}>
                             <DialogContent dividers>

@@ -57,7 +57,7 @@ router.patch('/me', authenticate, async (req, res) => {
         }
     }
 
-    const allowedUpdates = ["usesrname", "password", "currentPassword","age", "birthDate", "gender", "biography", "rating", "categories", "subCategories", "profilePhoto"]
+    const allowedUpdates = ["username", "password", "currentPassword","age", "birthDate", "gender", "biography", "rating", "categories", "subCategories", "profilePhoto"]
     const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
     const _id = req.user._id
 
