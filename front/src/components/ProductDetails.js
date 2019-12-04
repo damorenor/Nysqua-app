@@ -127,7 +127,7 @@ class ProductDetails extends Component {
                 console.log(error);
 
             });
-            this.props.parentCallback(true);
+            this.props.parentCallback([true,false]);
         }else{
             console.log("error");
         }
@@ -320,11 +320,12 @@ class ProductDetails extends Component {
         },config).then((response)=>
         {
             console.log(response.data);
+            this.props.parentCallback([false,true]);
         }, (error) => {
             console.log(error);
 
         });
-        this.props.parentCallback(true);
+       
 
 
     }

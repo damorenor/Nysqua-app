@@ -31,6 +31,7 @@ class ProductCard extends Component {
             productData: "",
             ownerData: "",
             changeDetails: false,
+            erasedGarment: false,
         };
         this.handleDialogOpen = this.handleDialogOpen.bind(this);
         this.handleDialogClose = this.handleDialogClose.bind(this);
@@ -52,14 +53,25 @@ class ProductCard extends Component {
 
     callbackFunction(childData) {
         this.setState({
-            changeDetails: childData
+            changeDetails: childData[0],
+            erasedGarment : childData[1],
         });
+       
     }
 
     componentDidUpdate() {
         if (this.state.changeDetails) {
             this.setState({
                 changeDetails: false
+            });
+            this.handleDialogClose();
+        }
+        
+
+        if (this.state.erasedGarment) {
+            this.props.parentCallback(true);
+            this.setState({
+                erasedGarment: false
             });
             this.handleDialogClose();
         }
