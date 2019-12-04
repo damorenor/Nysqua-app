@@ -38,6 +38,7 @@ class UserProfile extends Component {
           clothesAssistantDialogOpen: false,
           uploadedClothes: false,
           uploadedProposal: false,
+          erasedGarment : false,
       };
 
       this.handleToEdit = this.handleToEdit.bind(this);
@@ -50,6 +51,8 @@ class UserProfile extends Component {
       this.proposalsIsEmpty = this.proposalsIsEmpty.bind(this);
       this.callbackFunctionExchange = this.callbackFunctionExchange.bind(this);
       this.renderGarmentList = this.renderGarmentList.bind(this);
+      this.callbackFunctionErase = this.callbackFunctionErase.bind(this);
+
 
       this.gradient = 'linear-gradient(136deg, rgb(242, 113, 33) 0%, rgb(233, 64, 87) 50%, rgb(138, 35, 135) 100%)';
       this.StyledButton = withStyles({
@@ -66,6 +69,7 @@ class UserProfile extends Component {
             fontSize: '1.05rem',
             transitionProperty: 'opacity',
             transitionDuration: '0.1s',
+            
             '&:hover': {
                 opacity: 0.9,
             },
@@ -98,6 +102,14 @@ class UserProfile extends Component {
         this.setState({
             index: value,
         });
+    }
+
+    callbackFunctionErase(childData){
+        this.setState({
+       
+            erasedGarment : childData,
+        });
+
     }
     
     handleChangeIndex(index) {
@@ -143,6 +155,27 @@ class UserProfile extends Component {
             this.setState({uploadedProposal: false});
             this.componentDidMount();
         }
+   /*      if(this.state.erasedGarment){
+            
+            console.log("Erased proposal");
+            this.setState({erasedGarment: false});
+           
+            const config = {
+                headers: {
+                    'authorization': this.state.token,
+                }
+            };
+            axios.get(route.url+'/users/me',config).then((response2)=>{
+                        console.log(response2.data);
+                        this.setState({userData : response2.data}); 
+                        this.renderGarmentList();
+                    }, (error) => {
+                    console.log(error);
+                });
+
+            
+
+        }    */
     }
     
     componentDidMount(){
@@ -243,16 +276,24 @@ class UserProfile extends Component {
                         direction = "row"
                         justify = "center">
                         <Grid item xs={3}>
-                            {(i < maxSize) ? <ProductCard token= {this.state.token} productData={this.state.userData.garmentList[i]} /> : ""}
+                            {(i < maxSize) ? <ProductCard token= {this.state.token} 
+                                                          productData={this.state.userData.garmentList[i]} 
+                                                          parentCallback = {this.callbackFunctionErase} /> : ""}
                         </Grid>
                         <Grid item xs={3}>
-                            {(i + 1 < maxSize) ? <ProductCard token= {this.state.token} productData={this.state.userData.garmentList[i+1]} /> : ""}
+                            {(i + 1 < maxSize) ? <ProductCard token= {this.state.token} 
+                                                              productData={this.state.userData.garmentList[i+1]} 
+                                                              parentCallback = {this.callbackFunctionErase}/> : ""}
                         </Grid>
                         <Grid item xs={3}>
-                            {(i + 2 < maxSize) ?<ProductCard token= {this.state.token} productData={this.state.userData.garmentList[i+2]} /> : ""}
+                            {(i + 2 < maxSize) ?<ProductCard token= {this.state.token} 
+                                                             productData={this.state.userData.garmentList[i+2]} 
+                                                             parentCallback = {this.callbackFunctionErase}/> : ""}
                         </Grid>
                         <Grid item xs={3}>
-                            {(i + 3 < maxSize) ? <ProductCard token= {this.state.token} productData={this.state.userData.garmentList[i+3]} /> : ""}
+                            {(i + 3 < maxSize) ? <ProductCard token= {this.state.token} 
+                                                              productData={this.state.userData.garmentList[i+3]} 
+                                                              parentCallback = {this.callbackFunctionErase}/> : ""}
                         </Grid>
                     </Grid>
               
