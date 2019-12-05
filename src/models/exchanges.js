@@ -32,6 +32,12 @@ var exchangeSchema = new Schema({
     },
     state: {
         type: Boolean
+    },
+    completeUserOne: {
+        type: Boolean
+    },
+    completeUserTwo: {
+        type: Boolean
     }
 });
 
