@@ -13,6 +13,7 @@ import { FiMessageSquare } from "react-icons/fi";
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import ProductDetails from './ProductDetails';
+import ChatDialog from './ChatDialog';
 import route from './Route';
 
 import './ExchangeDetails.css';
@@ -51,6 +52,9 @@ class ExchangeDetails extends Component {
 
             garment1DialogOpen: false,
             garment2DialogOpen: false,
+
+            chatDialogOpen : false,
+            finishExchange : false,
         };
 
         this.handleToUser = this.handleToUser.bind(this);
@@ -66,8 +70,25 @@ class ExchangeDetails extends Component {
         this.handleDialogGarment2Close = this.handleDialogGarment2Close.bind(this);
         this.callbackFunctionGarment1 = this.callbackFunctionGarment1.bind(this);
 
+        this.handleDialogChatOpen = this.handleDialogChatOpen.bind(this);
+        this.handleDialogChatClose = this.handleDialogChatClose.bind(this);
+
+        this.callbackFunctionChat = this.callbackFunctionChat.bind(this);
+
         let userGarmentSliderRef;
         let exuserGarmentSliderRef;
+    }
+
+    handleDialogChatOpen() {
+        this.setState({
+            chatDialogOpen : true
+        });
+    }
+
+    handleDialogChatClose() {
+        this.setState({
+            chatDialogOpen : false
+        });
     }
 
     handleAcceptProposal(event){
@@ -114,6 +135,14 @@ class ExchangeDetails extends Component {
 
     callbackFunctionGarment1(childData) {
         console.log(childData);
+    }
+
+    callbackFunctionChat(childData){
+        this.setState({
+            finishExchange: childData,
+           
+        });
+        
     }
 
     handleDialogGarment1Open() {
@@ -167,7 +196,7 @@ class ExchangeDetails extends Component {
 
         const exchangeButtons = <div className="exchange_buttons_container">
                                         <div className="exchange_button_container">
-                                            <div className="exchange_button">
+                                            <div className="exchange_button" onClick = {this.handleDialogChatOpen}>
                                                 <IconContext.Provider value={{ size: "1.7em ", className: 'exchange_button_icon' }}>
                                                     <FiMessageSquare/>
                                                 </IconContext.Provider>
@@ -330,6 +359,20 @@ class ExchangeDetails extends Component {
         
                 });
 
+    }
+
+    componentDidUpdate() {
+        if (this.state.finishExchange) {
+            console.log("Intercambio Finalizado - ExchangeDetailsFlag")
+
+            this.setState({
+                finishExchange : false
+            });
+            this.handleDialogChatClose();
+        }
+        
+
+     
     }
 
     handleToUser(event){
@@ -499,6 +542,23 @@ class ExchangeDetails extends Component {
                         />
                     </DialogContent>
                 </Dialog>
+                <Dialog 
+                        className="dialog" 
+                        scroll="body"
+                        onClose={this.handleDialogChatClose} 
+                        aria-labelledby="customized-dialog-title" 
+                        open={this.state.chatDialogOpen} 
+                        fullWidth={true}>
+                        <DialogContent dividers>
+                            < ChatDialog token = {
+                                this.props.token
+                            }
+                            parentCallback = {
+                                this.callbackFunctionChat
+                            }
+                            />
+                        </DialogContent>
+                    </Dialog>
             </div>
         );
     }

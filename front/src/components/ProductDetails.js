@@ -564,9 +564,9 @@ class ProductDetails extends Component {
                     </div>
                     <div className="product_details_content">
                         <h1 className="swap_wardrobe_title">Selecciona prendas para realizar el intecambio</h1>
-                        <p className="swap_wardrobe_subtitle">Recuerda que puedes seleccionar <span className="swap_wardrobe_subtitle_bold">1 o mas prendas de tu guardaropa</span>  
-                                                                para realizar un intercambio. cuando hayas terminado de seleccionar las prendas haz 
-                                                                <span className="swap_wardrobe_subtitle_bold">click en enviar propuesta</span> para finalizar el proceso</p>
+                        <p className="swap_wardrobe_subtitle">Recuerda que puedes seleccionar <span className="swap_wardrobe_subtitle_bold">1 o mas prendas de tu guardaropa </span>  
+                                                                para realizar un intercambio. Cuando hayas terminado de seleccionar las prendas haz 
+                                                                <span className="swap_wardrobe_subtitle_bold"> click en enviar propuesta</span> para finalizar el proceso</p>
                         <CustomScrollbars autoHide autoHideTimeout={500} autoHideDuration={200}>
                         <div className="wardrobe_ctx">
                             <div className="wardrobe_container">

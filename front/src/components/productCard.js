@@ -74,6 +74,8 @@ class ProductCard extends Component {
                 erasedGarment: false
             });
             this.handleDialogClose();
+           
+
         }
     }
 
