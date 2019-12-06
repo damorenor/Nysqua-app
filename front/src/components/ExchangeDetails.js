@@ -556,6 +556,7 @@ class ExchangeDetails extends Component {
                             parentCallback = {
                                 this.callbackFunctionChat
                             }
+                            exchangeID = {this.state.exchangeID}
                             />
                         </DialogContent>
                     </Dialog>

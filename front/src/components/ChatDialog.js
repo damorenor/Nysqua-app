@@ -21,6 +21,7 @@ class ChatDialog extends Component {
         this.state={
             chatDialog: "",
             token: this.props.token,
+            exchangeID: this.props.exchangeID,
             
         
         };
@@ -35,11 +36,48 @@ class ChatDialog extends Component {
     }
 
     handleToCancel() {
-        this.chatSwipe.prev();
+        //this.chatSwipe.prev();
+        // poner en cancelado
+        const config = {
+            headers: {
+                'authorization': this.state.token,
+            }
+        };
+
+        axios.post(route.url+'/exchange/cancel',{
+            exchangeID: this.state.exchangeID,
+            },config).then((response)=>
+                {
+                    console.log(response.data); 
+                    this.props.parentCallback(true);
+                    
+               
+                }, (error) => {
+                console.log(error);
+            });
     }
 
     handleToFinish(){
-        this.props.parentCallback(true);
+        console.log(this.state.exchangeID);
+        console.log(this.state.token);
+
+        const config = {
+            headers: {
+                'authorization': this.state.token,
+            }
+        };
+        axios.post(route.url+'/exchange/close',{
+            exchangeID: this.state.exchangeID,
+            },config).then((response)=>
+                {
+                  console.log(response.data);
+                    this.props.parentCallback(true);
+                    
+               
+                }, (error) => {
+                console.log(error);
+            });
+       
     }
     
         
@@ -71,7 +109,7 @@ class ChatDialog extends Component {
                         <p className="chat_subtitle">Una vez se finalizado el intercambio el canal de chat será cerrado para ambos usuarios, así que es muy importante que solo 
                                                     finalices el intercambio cuando todo está en orden.</p>
 
-                        </div>
+                        </div>f
                         
                       
                         <p className="chat_subtitle">#Nombre de Usuario aún no ha finalizado el intercambio, el intercambio no dejara de estar activo hasta que esto suceda. </p>
