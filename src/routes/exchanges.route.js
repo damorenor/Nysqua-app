@@ -173,7 +173,7 @@ router.post('/active', authenticate, async (req, res) => {
 router.post('/close', authenticate, async (req, res) => {
     var user = req.user
     var otherUser
-    var exchangeId = req.body.exchangeID
+    var exchangeID = req.body.exchangeID
     try {
         var exchange = await Exchange.findOne({ _id: { $eq: exchangeID } })
         console.log(exchangeID)
@@ -191,6 +191,12 @@ router.post('/close', authenticate, async (req, res) => {
             otherUser.totalExchanges += 1
             user.exchangeList.splice(user.exchangeList.indexOf(exchangeID), 1);
             otherUser.exchangeList.splice(user.exchangeList.indexOf(exchangeID), 1);
+
+            var r = await Exchange.deleteOne({ _id: exchangeID }, async function (error) {
+                if (error) return handleError(error)
+                return true
+            })
+
             await user.save()
             await otherUser.save()
             await exchange.save()
