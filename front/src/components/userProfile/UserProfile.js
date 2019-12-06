@@ -231,6 +231,7 @@ class UserProfile extends Component {
     }
 
     propProposalsExchanges(element){
+        console.log(element);
         return(
             <ExchangeDetails 
                 token= {this.state.token} 
@@ -253,6 +254,7 @@ class UserProfile extends Component {
     }
 
     propActiveExchanges(element){
+        console.log(element);
         return(
             <ExchangeDetails 
                 token= {this.state.token} 
