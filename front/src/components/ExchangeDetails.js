@@ -109,7 +109,7 @@ class ExchangeDetails extends Component {
                 }, (error) => {
                 console.log(error);
             });
-        this.props.parentCallback([true]);
+        this.props.parentCallback([true, false]);
     }
 
     handleDeclineProposal(event) {
@@ -368,11 +368,9 @@ class ExchangeDetails extends Component {
             this.setState({
                 finishExchange : false
             });
+            this.props.parentCallback([false, true]);
             this.handleDialogChatClose();
         }
-        
-
-     
     }
 
     handleToUser(event){
@@ -556,6 +554,11 @@ class ExchangeDetails extends Component {
                             parentCallback = {
                                 this.callbackFunctionChat
                             }
+                            exchangeID = {this.state.exchangeID}
+                            exchangeData = {this.props.exchangeData}
+                            userData = {this.state.userData}
+                            user1Name={this.state.user1Name}
+                            user2Name={this.state.user2Name}
                             />
                         </DialogContent>
                     </Dialog>

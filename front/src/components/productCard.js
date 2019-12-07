@@ -89,6 +89,7 @@ class ProductCard extends Component {
             garmentID: this.props.productData
             },config).then((response)=>
                 {
+
                 this.setState({ productData: response.data});  
                 this.setState({ images: response.data.images});
                 this.setState({ category: response.data.category});
@@ -101,16 +102,18 @@ class ProductCard extends Component {
                 this.setState({ idUser: response.data.idUser});
                 var aux = this.state.content;
 
-                for(var i=0;i<this.state.images.length;i++){
-                    if(this.state.images[i] != ""){
-                    aux.push({
-                        image: this.state.images[i],
-                    });
+                if (this.state.images != undefined){
+                    for (var i = 0; i < this.state.images.length; i++) {
+                        if (this.state.images[i] != "") {
+                            aux.push({
+                                image: this.state.images[i],
+                            });
+                        }
+
                     }
-                    
+                    this.setState({ content: aux });
+                    console.log(this.state.title);
                 }
-                this.setState({ content: aux});
-                console.log(this.state.title) ;
                 
                 }, (error) => {
                 console.log(error);

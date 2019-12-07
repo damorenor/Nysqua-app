@@ -5,6 +5,7 @@ const authenticate = require("../middleware/auth");
 var fs = require('fs');
 const Exchange = require('../models/exchanges');
 const User = require('../models/users');
+const Garment = require('../models/garments');
 const { ObjectID } = require('mongodb');
 
 const router = new express.Router();
@@ -174,14 +175,20 @@ router.post('/close', authenticate, async (req, res) => {
     var user = req.user
     var otherUser
     var exchangeID = req.body.exchangeID
+    var garmentOne, garmentTwo
+
     try {
         var exchange = await Exchange.findOne({ _id: { $eq: exchangeID } })
         console.log(exchangeID)
-        if (user == exchange.idUserOne) {
+        if (user._id == exchange.idUserOne) {
             exchange.completeUserOne = true
+            garmentOne = exchange.idGarmentOne
+            garmentTwo = exchange.idGarmentTwo
             otherUser = await User.findOne({ _id: { $eq: exchange.idUserTwo } })
-        } else if (user == exchange.idUserTwo) {
+        } else if (user._id == exchange.idUserTwo) {
             exchange.completeUserTwo = true
+            garmentOne = exchange.idGarmentTwo
+            garmentTwo = exchange.idGarmentOne
             otherUser = await User.findOne({ _id: { $eq: exchange.idUserOne } })
         } else {
             console.log("usuario invalido")
@@ -191,7 +198,22 @@ router.post('/close', authenticate, async (req, res) => {
             otherUser.totalExchanges += 1
             user.exchangeList.splice(user.exchangeList.indexOf(exchangeID), 1);
             otherUser.exchangeList.splice(user.exchangeList.indexOf(exchangeID), 1);
+            user.garmentList.splice(user.garmentList.indexOf(garmentOne), 1);
+            otherUser.garmentList.splice(user.garmentList.indexOf(garmentTwo), 1);
 
+            var one = await Garment.deleteOne({ _id: garmentOne }, async function (error) {
+                if (error) return handleError(error)
+
+               
+         
+                return true
+            })
+            var two = await Garment.deleteOne({ _id: garmentTwo }, async function (error) {
+                if (error) return handleError(error)
+
+           
+                return true
+            })
             var r = await Exchange.deleteOne({ _id: exchangeID }, async function (error) {
                 if (error) return handleError(error)
                 return true

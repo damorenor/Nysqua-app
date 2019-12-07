@@ -39,6 +39,7 @@ class UserProfile extends Component {
           uploadedClothes: false,
           uploadedProposal: false,
           erasedGarment : false,
+          cancelOrCompleteEx: false,
       };
 
       this.handleToEdit = this.handleToEdit.bind(this);
@@ -106,7 +107,6 @@ class UserProfile extends Component {
 
     callbackFunctionErase(childData){
         this.setState({
-       
             erasedGarment : childData,
         });
 
@@ -140,6 +140,7 @@ class UserProfile extends Component {
     callbackFunctionExchange(childData) {
         this.setState({
             uploadedProposal: childData[0],
+            cancelOrCompleteEx: childData[1],
         });
     }
 
@@ -153,6 +154,12 @@ class UserProfile extends Component {
         if(this.state.uploadedProposal){
             console.log("Uploaded proposal");
             this.setState({uploadedProposal: false});
+            this.componentDidMount();
+        }
+
+        if (this.state.cancelOrCompleteEx) {
+            console.log("Cancel or finish exchange");
+            this.setState({ cancelOrCompleteEx: false });
             this.componentDidMount();
         }
    /*      if(this.state.erasedGarment){
@@ -179,6 +186,12 @@ class UserProfile extends Component {
     }
     
     componentDidMount(){
+        console.log(this.props.location.state);
+        if(this.props.location.state.index != undefined){
+            this.setState({index: this.props.location.state.index});
+            
+        }
+
         const config = {
             headers: {
                 'authorization': this.state.token,

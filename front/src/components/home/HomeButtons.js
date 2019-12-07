@@ -8,6 +8,8 @@ import { FaCompass } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
+import axios from 'axios';
+import route from '../Route';
 import ClothesAssistant from '../ClothesAssistant/ClothesAssistant';
 
 import './HomeButtons.css';
@@ -22,12 +24,16 @@ class HomeButtons extends Component {
             token: this.props.token,
             clothesAssistantDialogOpen: false,
             uploadedClothes: false,
+            clothes : [],
         };
 
         this.handleToUser = this.handleToUser.bind(this);
         this.handleDialogOpen = this.handleDialogOpen.bind(this);
         this.handleDialogClose = this.handleDialogClose.bind(this);
         this.callbackFunction = this.callbackFunction.bind(this);
+        this.handleToUserSwap = this.handleToUserSwap.bind(this);
+        this.handleToFind = this.handleToFind.bind(this);
+        this.handleToSearch = this.handleToSearch.bind(this);
     }
 
     componentDidUpdate() {
@@ -43,6 +49,10 @@ class HomeButtons extends Component {
     handleToUser(){
         this.LinkToUserElement.click();
     }
+    handleToUserSwap(){
+        this.LinkToUserSwipeElement.click();
+    }
+    
 
     handleDialogOpen(){
         this.setState({ clothesAssistantDialogOpen: true});
@@ -51,12 +61,42 @@ class HomeButtons extends Component {
     handleDialogClose(){
         this.setState({ clothesAssistantDialogOpen: false});
     }
+    handleToSearch(){
+        if(this.LinkToResultElement != null){
+            this.LinkToResultElement.click();
+        }
+      
+    }
 
     callbackFunction(childData) {
         this.setState({
             userData: childData[0],
             uploadedClothes: childData[1]
         });
+    }
+    handleToFind(categorie,subcategorie){
+        categorie = ["Hombre","Mujer","Ninos","Ninas","Bebes"];
+        subcategorie = ["Camisas", "Blusas", "Camisetas", "Pantalones", "Bermudas", "Zapatos", "Buzos", "Jeans", "Accesorios", "Pijamas ", "Shorts", "Vestidos y Faldas", "Sweaters y Cardigans", "Chaquetas y Blazers"];  
+        const head = {
+            headers: {
+                'authorization': this.state.token,
+            }
+        }
+
+        axios.post(route.url+'/garment/preferences',{
+            categories: categorie,
+            subcategories: subcategorie,
+        
+            
+        },head).then((response)=>{
+            console.log(response.data);
+            this.setState({clothes : response.data});    
+            this.handleToSearch();
+            
+
+        }     , (error) => {
+            console.log(error);
+        }) 
     }
 
     render(){
@@ -95,10 +135,11 @@ class HomeButtons extends Component {
                                     LinkToUser => this.LinkToUserElement = LinkToUser
                                 }>
                                 </Link>
+                               
                           </div>
                       </Grid>
                       <Grid item xs={4}>
-                          <div className="home_button_centered">
+                          <div className="home_button_centered" onClick={this.handleToUserSwap}>
                               <li>
                                   <div className="ch-item ch-img-2">
                                   <IconContext.Provider value={{ size: "4.5em ", className: 'home-button-icons' }}>
@@ -129,10 +170,22 @@ class HomeButtons extends Component {
                                   </div>
                                   </div>
                               </li>
+                              <Link to={{
+                                    pathname: '/UserProfile',
+                                    state: {
+                                        token: this.state.token,
+                                        userData: this.state.userData,
+                                        index: 2,
+                                    }
+                                }}
+                                ref={
+                                    LinkToUserSwipe => this.LinkToUserSwipeElement = LinkToUserSwipe
+                                }>
+                                </Link>
                           </div>
                       </Grid>
                       <Grid item xs={4}>
-                          <div className="home_button_centered">
+                          <div className="home_button_centered" onClick={this.handleToFind}>
                               <li>
                                   <div className="ch-item ch-img-4">
                                   <IconContext.Provider value={{ size: "4.5em ", className: 'home-button-icons' }}>
@@ -146,6 +199,21 @@ class HomeButtons extends Component {
                                   </div>
                                   </div>
                               </li>
+                              <Link to={{
+									pathname: '/SearchResult',
+									state: {
+                                        token: this.state.token,
+                                        userData: this.state.userData,
+                                        clothes: this.state.clothes,
+                                        labelCategorie: "Todas las Prendas",
+                                        labelSubcategorie: "",
+                                        
+									}
+								}}
+									ref={
+										LinkToResult => this.LinkToResultElement = LinkToResult
+									}>
+				                </Link>
                           </div>
                       </Grid>
                   </Grid>
