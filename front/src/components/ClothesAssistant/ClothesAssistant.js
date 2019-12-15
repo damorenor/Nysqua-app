@@ -256,7 +256,7 @@ class ClothesAssistant extends Component {
             };
             reader.readAsDataURL(event.target.files[0]);
         }
-        
+
     }
     onImageChange2 = (event) => {
 
@@ -268,7 +268,7 @@ class ClothesAssistant extends Component {
             };
             reader.readAsDataURL(event.target.files[0]);
         }
-        
+
     }
     onImageChange3 = (event) => {
 
@@ -280,7 +280,7 @@ class ClothesAssistant extends Component {
             };
             reader.readAsDataURL(event.target.files[0]);
         }
-        
+
     }
     onImageChange4 = (event) => {
 
@@ -292,7 +292,7 @@ class ClothesAssistant extends Component {
             };
             reader.readAsDataURL(event.target.files[0]);
         }
-        
+
     }
     onImageChange5 = (event) => {
 
@@ -304,7 +304,7 @@ class ClothesAssistant extends Component {
             };
             reader.readAsDataURL(event.target.files[0]);
         }
-        
+
     }
 
     onTagsChanged(tags) {
@@ -345,7 +345,7 @@ class ClothesAssistant extends Component {
             if(this.state.colors[l].checked){
                 colorCheck = this.state.colors[l].name;
             }
-            
+
         }
         for (var m = 0; m < this.state.sizes.length; m++){
             if(this.state.sizes[m].checked){
@@ -365,7 +365,7 @@ class ClothesAssistant extends Component {
         console.log(colorCheck);
         console.log(tagsCheck);
 
-       
+
         axios.post(route.url+'/garment/add', {
             category: categorieCheck,
             subcategory: subCategorieCheck,
@@ -377,7 +377,7 @@ class ClothesAssistant extends Component {
             state: clotheStateCheck,
             images:[this.state.clothe_img_1,this.state.clothe_img_2,this.state.clothe_img_3,this.state.clothe_img_4,this.state.clothe_img_5],
             tags:tagsCheck
-            
+
 
         }, config)
             .then((response) => {
@@ -391,7 +391,7 @@ class ClothesAssistant extends Component {
                 }, (error) => {
                 console.log(error);
             })
-           
+
 
             }, (error) => {
                 console.log(error);
@@ -435,7 +435,7 @@ class ClothesAssistant extends Component {
                 </ul>);
             });
         }else{
-            subcategoriesList = <p>Debes seleccionar una categoria primero para ver las posibles subcategorias a las que se ajusta la prenda</p>
+            subcategoriesList = <p>Debes seleccionar una categoría primero para ver las posibles subcategorías a las que se ajusta la prenda</p>
         }
 
         let sizesList;
@@ -473,7 +473,7 @@ class ClothesAssistant extends Component {
                 </ul>);
             });
         }else{
-            sizesList = <p className="clothes_assistant_detail_warning">Debes seleccionar una categoria primero para ver las posibles tallas a las que se ajusta la prenda</p>
+            sizesList = <p className="clothes_assistant_detail_warning">Debes seleccionar una categoría primero para ver las posibles tallas a las que se ajusta la prenda</p>
         }
 
         let colorsList;
@@ -509,7 +509,7 @@ class ClothesAssistant extends Component {
         }
 
         colorsList = this.state.colors.map(function (d) {
-            
+
             const colorStyle = {
                 backgroundColor: colorsMap[d.name],
             }
@@ -527,7 +527,7 @@ class ClothesAssistant extends Component {
 
             return (
                 <div id={d.name}
-                     className = {d.checked ? colorCssClassChecked : colorCssClass} 
+                     className = {d.checked ? colorCssClassChecked : colorCssClass}
                      style = {colorStyle}
                      onClick={handleColorCheckChange}>
                 </div>
@@ -568,7 +568,7 @@ class ClothesAssistant extends Component {
             </ul>);
         });
 
-        return(      
+        return(
             <div className="clothes_assistant_container">
                 <div className="clothes_assistant">
                     <IconContext.Provider value={{ size: "2.5em ", className: 'clothes_assistant_left_arrow'}}>
@@ -597,15 +597,15 @@ class ClothesAssistant extends Component {
                             />
                         </div>
                         <div className="clothes_assistant_content">
-                            <h1>¿A que categoría pertenece la prenda?</h1>
+                            <h1>¿A qué categoría pertenece la prenda?</h1>
                             <div className="clothes_assistant_categories_container">
-                                <Grid 
+                                <Grid
                                     container
                                     spacing={6}
                                     direction = "row"
                                     justify = "center"
                                     alignItems = "center">
-                                    
+
                                     <Grid item xs={4}>
                                         <div className="clothes_categories" id="1" onClick={this.handleCategorySelected}>
                                             <div className={this.state.checked1 ? "clothes_categories_img_overlay_selected" : "clothes_categories_img_overlay"}>
@@ -642,13 +642,13 @@ class ClothesAssistant extends Component {
                                 </Grid>
                             </div>
                             <div className="clothes_assistant_categories_container_2">
-                                <Grid 
+                                <Grid
                                     container
                                     spacing={6}
                                     direction = "row"
                                     justify = "center"
                                     alignItems = "center">
-                                    
+
                                     <Grid item xs={6}>
                                         <div className="clothes_categories" id="4" onClick={this.handleCategorySelected}>
                                             <div className={this.state.checked4 ? "clothes_categories_img_overlay_selected" : "clothes_categories_img_overlay"}>
@@ -664,7 +664,7 @@ class ClothesAssistant extends Component {
                                         <div className="clothes_categories" id="5" onClick={this.handleCategorySelected}>
                                             <div className={this.state.checked5 ? "clothes_categories_img_overlay_selected" : "clothes_categories_img_overlay"}>
                                                 <h6 className="clothes_categories_txt_1">Ropa para</h6>
-                                                <h6 className="clothes_categories_txt left">bebes</h6>
+                                                <h6 className="clothes_categories_txt left">bebés</h6>
                                             </div>
                                             <img className="clothes_categories_img"
                                                 src="http://www.babyfashions.us/wp-content/uploads/2018/09/Baby-Fashion-Buying-the-Trendiest-Infant-Clothes.jpeg">
@@ -675,7 +675,7 @@ class ClothesAssistant extends Component {
                             </div>
                         </div>
                         <div className="clothes_assistant_content">
-                            <h1>¿A que subcategoría pertenece la prenda?</h1>
+                            <h1>¿A qué subcategoría pertenece la prenda?</h1>
                             <div className="clothes_subcategories_container">
                                 {subcategoriesList}
                             </div>
@@ -684,13 +684,13 @@ class ClothesAssistant extends Component {
                             <h1>Detalles de la prenda</h1>
                             <div className="clothes_assistant_details_container">
                                 <div className="clothes_assistant_detail_content">
-                                    <h3>¿De que talla es la prenda?</h3>
+                                    <h3>¿De qué talla es la prenda?</h3>
                                     <div className="clothes_assistant_details_sizes_container">
                                         {sizesList}
                                     </div>
                                 </div>
                                 <div className="clothes_assistant_detail_content">
-                                    <h3>¿De que color es la prenda?</h3>
+                                    <h3>¿De qué color es la prenda?</h3>
                                     <div className="clothes_assistant_details_sizes_container">
                                         <div className="clothes_assistant_colors_container">
                                             {colorsList}
@@ -715,14 +715,14 @@ class ClothesAssistant extends Component {
                                                     <MenuItem value="3">Entre 1 y 2 años</MenuItem>
                                                     <MenuItem value="4">Entre 2 y 3 años</MenuItem>
                                                     <MenuItem value="5">Entre 3 y 4 años</MenuItem>
-                                                    <MenuItem value="6">Mas de 5 años</MenuItem>
+                                                    <MenuItem value="6">Más de 5 años</MenuItem>
                                                 </Select>
                                             </FormControl>
                                         </ThemeProvider>
                                     </div>
                                 </div>
                                 <div className="clothes_assistant_detail_content">
-                                    <h3>¿En que estado se encuentra la prenda?</h3>
+                                    <h3>¿En qué estado se encuentra la prenda?</h3>
                                     <div className="clothes_assistant_details_sizes_container">
                                         {statesList}
                                     </div>
@@ -844,11 +844,11 @@ class ClothesAssistant extends Component {
                         </div>
                         <div className="clothes_assistant_content">
                             <h1>Agrega etiquetas que identifique esta prenda (opcional)</h1>
-                            <p className="p_fullwidth">Las etiquetas son palabras clave que definen la prenda que estas subiendo, estas ayudaran a otros usuarios
+                            <p className="p_fullwidth">Las etiquetas son palabras clave que definen la prenda que estás subiendo, estas ayudarán a otros usuarios
                                  a encontrarla más rápido. Recuerda que este paso es OPCIONAL.</p>
                             <div className="clothes_assistant_tags_container">
-                                <TagInput 
-                                    tags={this.state.tags} 
+                                <TagInput
+                                    tags={this.state.tags}
                                     onTagsChanged={this.onTagsChanged}
                                     wrapperStyle = {`
                                         background: transparent;
@@ -914,5 +914,4 @@ class ClothesAssistant extends Component {
         );
     }
 }
-export default ClothesAssistant;  
-
+export default ClothesAssistant;
