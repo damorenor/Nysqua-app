@@ -37,7 +37,7 @@ class UserEdit extends Component {
             checked4: false,
             checked5: false,
             token: this.props.location.state.token,
-            userData: this.props.location.state.userData, 
+            userData: this.props.location.state.userData,
             profilePhoto: this.props.location.state.userData.profilePhoto,
             bio: this.props.location.state.userData.biography,
             password:"",
@@ -49,7 +49,7 @@ class UserEdit extends Component {
             subcategories: [],
             categories: [],
             initialCategories:this.props.location.state.userData.categories,
-            initialSubCategories:this.props.location.state.userData.subCategories   
+            initialSubCategories:this.props.location.state.userData.subCategories
 
         }
         this.gradient = 'linear-gradient(136deg, rgb(242, 113, 33) 0%, rgb(233, 64, 87) 50%, rgb(138, 35, 135) 100%)';
@@ -172,13 +172,13 @@ class UserEdit extends Component {
 		this.LinkToUserElement.click();
 	}
     handleChange = (event, value) => {
-        
+
 
         this.setState({
             index: value,
         });
         this.initializeCategories();
-        
+
         axios.post(route.url+'/assistant/categories', {
             checked1: this.state.checked1,
             checked2: this.state.checked2,
@@ -198,12 +198,12 @@ class UserEdit extends Component {
                     if(this.state.initialSubCategories.includes(serverSubCategories[i])){
                         console.log(serverSubCategories[i]);
                         subCategories.push({ name: serverSubCategories[i], checked: true });
-                    } 
+                    }
                     else{
                         subCategories.push({ name: serverSubCategories[i], checked: false });
                     }
-                    
-                    
+
+
                 }
                 console.log(subCategories);
                 this.setState({ subcategories: subCategories });
@@ -211,10 +211,10 @@ class UserEdit extends Component {
             }, (error) => {
                 console.log(error);
             });
-       
-        
-            
-      
+
+
+
+
     };
     handleGenderChange(event) {
 		this.setState({
@@ -231,7 +231,7 @@ class UserEdit extends Component {
         this.setState({
             index,
         });
-        
+
     };
     onImageChange = (event) => {
 
@@ -244,7 +244,7 @@ class UserEdit extends Component {
         }
     }
     handleCheckChange(event) {
-        //aca toca 
+        //aca toca
         var changedProp = "checked" + event.currentTarget.value.toString();
         if(event.currentTarget.value.toString() == "1"){
             if(this.state[changedProp]){
@@ -261,9 +261,9 @@ class UserEdit extends Component {
                 this.setState({
                     initialCategories: aux
                 });
-              
+
             }
-   
+
 
         }
         if(event.currentTarget.value.toString() == "2"){
@@ -282,9 +282,9 @@ class UserEdit extends Component {
                 this.setState({
                     initialCategories: aux
                 });
-              
+
             }
-            
+
         }
         if(event.currentTarget.value.toString() == "3"){
             if(this.state[changedProp]){
@@ -301,13 +301,13 @@ class UserEdit extends Component {
                 this.setState({
                     initialCategories: aux
                 });
-              
+
             }
-            
+
         }
         if(event.currentTarget.value.toString() == "4"){
             if(this.state[changedProp]){
-              
+
                 var aux = this.state.initialCategories;
                 var i = aux.indexOf("Niña");
                 aux.splice( i, 1 );
@@ -321,9 +321,9 @@ class UserEdit extends Component {
                 this.setState({
                     initialCategories: aux
                 });
-              
+
             }
-            
+
         }
         if(event.currentTarget.value.toString() == "5"){
             if(this.state[changedProp]){
@@ -340,11 +340,11 @@ class UserEdit extends Component {
                 this.setState({
                     initialCategories: aux
                 });
-              
+
             }
-            
+
         }
-        
+
         this.setState({
             [changedProp]: !this.state[changedProp]
         });
@@ -360,15 +360,15 @@ class UserEdit extends Component {
 			showPasswordPrev: !this.state.showPasswordPrev
 		});
 	}
-    
+
     handleChangeBio(event) {
         this.setState({
             bio: event.target.value
         });
     }
-  
+
     render(){
-        
+
         const handleCheckChangeSub = (event) => {
             for (var i = 0; i < this.state.subcategories.length; i++) {
                 if (this.state.subcategories[i].name == event.currentTarget.value.toString()) {
@@ -380,7 +380,7 @@ class UserEdit extends Component {
         const checkeditems = this.state.initialSubCategories;
         const listItems = this.state.subcategories.map(function (d) {
             var idstr = "checkbox" + d.name;
-            
+
             if(checkeditems.includes(d.name)){
                 return <ul className="ks-cboxtags-checked">
                 <li>
@@ -404,16 +404,16 @@ class UserEdit extends Component {
             </ul>
             }
 
-            
+
         });
         console.log(this.state.userData);
-        
+
         return(
     <div className ="editProfile_container">
         <Navbar token = {this.state.token} userData ={this.state.userData} />
         <div className="userEdit">
 
-            <div className = "tabs_container">       
+            <div className = "tabs_container">
                 <Tabs value={this.state.index} fullWidth onChange={this.handleChange} >
                     <Tab label="Información Basica" />
                     <Tab label="Categorias Preferidas" />
@@ -430,7 +430,7 @@ class UserEdit extends Component {
                             <input id="file-input" name="profilePhoto" type="file" onChange={this.onImageChange} />
                             <p className="user_name_text">{this.state.userData.username}</p>
                         </div>
-                            
+
                         < this.StyledTextField
                                 variant="outlined"
                                 margin="normal"
@@ -503,14 +503,14 @@ class UserEdit extends Component {
                                         }}
                                 />
                             </div>
-                            
+
                             <div className="gender_container">
                                 <ThemeProvider theme={this.theme}>
                                     <FormControl
                                     variant="outlined"
                                     fullWidth>
                                         <InputLabel htmlFor="outlined-age-simple">
-                                            Genero
+                                            Género
                                         </InputLabel>
                                         <Select
                                             fullWidth
@@ -557,7 +557,7 @@ class UserEdit extends Component {
                                         checked={!this.state.checked1}
                                         onChange={this.handleCheckChange}></input>
                                     <div id="switch_1">
-                                        <label htmlFor="yes_1">Si</label>
+                                        <label htmlFor="yes_1">Sí</label>
                                         <label htmlFor="no_1">No</label>
                                         <span></span>
                                     </div>
@@ -584,7 +584,7 @@ class UserEdit extends Component {
                                         checked={!this.state.checked2}
                                         onChange={this.handleCheckChange}></input>
                                     <div id="switch_2">
-                                        <label htmlFor="yes_2">Si</label>
+                                        <label htmlFor="yes_2">Sí</label>
                                         <label htmlFor="no_2">No</label>
                                         <span></span>
                                     </div>
@@ -611,7 +611,7 @@ class UserEdit extends Component {
                                         checked={!this.state.checked3}
                                         onChange={this.handleCheckChange}></input>
                                     <div id="switch_3">
-                                        <label htmlFor="yes_3">Si</label>
+                                        <label htmlFor="yes_3">Sí</label>
                                         <label htmlFor="no_3">No</label>
                                         <span></span>
                                     </div>
@@ -638,7 +638,7 @@ class UserEdit extends Component {
                                         checked={!this.state.checked4}
                                         onChange={this.handleCheckChange}></input>
                                     <div id="switch_4">
-                                        <label htmlFor="yes_4">Si</label>
+                                        <label htmlFor="yes_4">Sí</label>
                                         <label htmlFor="no_4">No</label>
                                         <span></span>
                                     </div>
@@ -665,7 +665,7 @@ class UserEdit extends Component {
                                         checked={!this.state.checked5}
                                         onChange={this.handleCheckChange}></input>
                                     <div id="switch_5">
-                                        <label htmlFor="yes_5">Si</label>
+                                        <label htmlFor="yes_5">Sí</label>
                                         <label htmlFor="no_5">No</label>
                                         <span></span>
                                     </div>
@@ -673,7 +673,7 @@ class UserEdit extends Component {
                             </div>
                         </Grid>
                     </Grid>
-                        </div>         
+                        </div>
                     </div>
                     <div className= "tab_subcategories">
                         <div className="subcategories_container">
@@ -683,7 +683,7 @@ class UserEdit extends Component {
                 </SwipeableViews>
             </div>
             <div>
-                <this.StyledButton 
+                <this.StyledButton
                     focusRipple
                     variant="contained"
                     size="medium"
@@ -704,13 +704,13 @@ class UserEdit extends Component {
                         console.log(subcategoriesChecked);
                         console.log(this.state.subcategories);
                         axios.patch(route.url+'/users/me ', {
-                            
+
                             profilePhoto: this.state.profilePhoto,
                             biography: this.state.bio,
                             categories: this.state.initialCategories,
                             subCategories: subcategoriesChecked,
                             gender:this.state.gender
-            
+
                         }, config)
                             .then((response) => {
                                 //añadir logica
@@ -720,11 +720,11 @@ class UserEdit extends Component {
                                     userData: response.data
                                 });
                                 this.handleClickToUser();
-                                
-            
+
+
                             }, (error) => {
                                 console.log(error);
-            
+
                             });
                     }}
                     > Guardar Cambios
@@ -741,7 +741,7 @@ class UserEdit extends Component {
 									}>
 				</Link>
             </div>
-            
+
         </div>
     </div>
         );

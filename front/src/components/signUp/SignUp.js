@@ -213,7 +213,7 @@ class SignUp extends Component {
 
 		this.FacebookLoginElement.click();
 	}
-	
+
 
 	handleDialogOpen() {
 		this.setState({ dialogOpen: true });
@@ -293,7 +293,7 @@ class SignUp extends Component {
 					<div className="internal_paper">
 
 						<div className="title">
-							<h1>Registrate con</h1>
+							<h1>Regístrate con</h1>
 						</div>
 
 
@@ -309,21 +309,21 @@ class SignUp extends Component {
 												console.log(response.accessToken);
 												axios.post(route.url+'/authentication/oauth/facebook', {
 													access_token: response.accessToken
-									
+
 												}).then((resp) => {
 													//añadir logica
 													var data = "";
 													console.log(resp.data);
 													data = resp.data;
 													this.handleClick(data);
-													
-									
+
+
 												}, (error) => {
 													console.log(error);
-									
+
 												});
-									
-									
+
+
 											}}
 											render={renderProps => (
 												< div className="social_media_btn" onClick={renderProps.onClick} >
@@ -360,8 +360,8 @@ class SignUp extends Component {
 													</IconContext.Provider>
 												</this.SocialMedia>
 												</div>
-												
-												
+
+
 											  )}
 											onSuccess={(response) => {
 												console.log(response.Zi.access_token);
@@ -374,7 +374,7 @@ class SignUp extends Component {
 													this.handleClick(data);
 												}, (error) => {
 													console.log(error);
-									
+
 												});
 											}}
 											onFailure={(response) => {
@@ -398,17 +398,17 @@ class SignUp extends Component {
 									</div>
 								</IconContext.Provider>
 							</div>
-							<span>Ya existe una cuenta registrada con este correo electronico.</span>
+							<span>Ya existe una cuenta registrada con este correo electrónico.</span>
 						</div>
 
 						<Dialog onClose={this.handleDialogClose} aria-labelledby="customized-dialog-title" open={this.state.dialogOpen} fullWidth={true}>
 							<DialogTitle className="dialog_title" id="customized-dialog-title" onClose={this.handleDialogClose}>
-								Problemas con tu registro?
+								¿Problemas con tu registro?
 					</DialogTitle>
 							<DialogContent dividers>
 								<div className="dialog_content">
-									<p>Es posible que ya hayas creado una cuenta anteriormente con la direccion de correo especificada,
-								en ese caso te invitamos a <a href="/SignIn" > Iniciar sesion </a>
+									<p>Es posible que ya hayas creado una cuenta anteriormente con la dirección de correo especificada,
+								en ese caso te invitamos a <a href="/SignIn" > Iniciar sesión </a>
 									</p>
 								</div>
 							</DialogContent>
@@ -461,7 +461,7 @@ class SignUp extends Component {
 								value={this.state.password}
 								onChange={this.handleChange}
 								error={this.state.passwordError && this.state.password.length < 7}
-								helperText={this.state.passwordError && this.state.password.length < 7 ? "La contraseña debe tener minimo 7 caracteres" : ""}
+								helperText={this.state.passwordError && this.state.password.length < 7 ? "La contraseña debe tener mínimo 7 caracteres" : ""}
 								InputProps={{
 									endAdornment: (
 										<InputAdornment position="end">
@@ -550,7 +550,7 @@ class SignUp extends Component {
 												variant="outlined"
 												fullWidth>
 												<InputLabel htmlFor="outlined-age-simple">
-													Genero
+													Género
 												</InputLabel>
 												<Select
 													fullWidth
@@ -607,7 +607,7 @@ class SignUp extends Component {
 									variant="contained"
 									size="medium"
 									text="bold"
-								> Registrate
+								> Regístrate
 						</this.StyledButton>
 								<Link to={{
 									pathname: '/PrefAssistant',
@@ -620,10 +620,10 @@ class SignUp extends Component {
 									}>
 								</Link>
 							</div>
-			
 
-						
-							
+
+
+
 
 						</form>
 
@@ -633,7 +633,7 @@ class SignUp extends Component {
 				<Box mt={5}>
 					< div className="login_link" >
 						<p className="login_text">
-							¿Ya tienes una cuenta? <a href="/SignIn" > Inicia sesion </a>
+							¿Ya tienes una cuenta? <a href="/SignIn" > Inicia sesión </a>
 						</p>
 					</div>
 				</Box>

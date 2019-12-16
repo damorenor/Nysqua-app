@@ -30,7 +30,7 @@ class UserProfile extends Component {
       this.state={
           index : 0,
           token:this.props.location.state.token,
-          userData:this.props.location.state.userData,    
+          userData:this.props.location.state.userData,
           proposalsExchanges:[],
           offersExchanges: [],
           activeExchanges: [],
@@ -70,7 +70,7 @@ class UserProfile extends Component {
             fontSize: '1.05rem',
             transitionProperty: 'opacity',
             transitionDuration: '0.1s',
-            
+
             '&:hover': {
                 opacity: 0.9,
             },
@@ -82,7 +82,7 @@ class UserProfile extends Component {
             textTransform: 'capitalize',
         },
     })(Button);
-     
+
     }
 
     proposalsIsEmpty(){
@@ -111,7 +111,7 @@ class UserProfile extends Component {
         });
 
     }
-    
+
     handleChangeIndex(index) {
         this.setState({
             index,
@@ -163,10 +163,10 @@ class UserProfile extends Component {
             this.componentDidMount();
         }
    /*      if(this.state.erasedGarment){
-            
+
             console.log("Erased proposal");
             this.setState({erasedGarment: false});
-           
+
             const config = {
                 headers: {
                     'authorization': this.state.token,
@@ -174,22 +174,22 @@ class UserProfile extends Component {
             };
             axios.get(route.url+'/users/me',config).then((response2)=>{
                         console.log(response2.data);
-                        this.setState({userData : response2.data}); 
+                        this.setState({userData : response2.data});
                         this.renderGarmentList();
                     }, (error) => {
                     console.log(error);
                 });
 
-            
+
 
         }    */
     }
-    
+
     componentDidMount(){
         console.log(this.props.location.state);
         if(this.props.location.state.index != undefined){
             this.setState({index: this.props.location.state.index});
-            
+
         }
 
         const config = {
@@ -199,17 +199,17 @@ class UserProfile extends Component {
         };
         axios.get(route.url+'/users/me',config).then((response2)=>{
                     console.log(response2.data);
-                    this.setState({userData : response2.data}); 
+                    this.setState({userData : response2.data});
                     this.renderGarmentList();
 
                     axios.post(route.url+'/exchange/proposals',{
                         userID: this.state.userData._id
                         },config).then((response)=>
                             {
-                                console.log(response.data); 
+                                console.log(response.data);
                                 this.setState({proposalsExchanges: response.data});
-                                
-                           
+
+
                             }, (error) => {
                             console.log(error);
                         });
@@ -218,9 +218,9 @@ class UserProfile extends Component {
                         userID: this.state.userData._id
                         },config).then((response)=>
                             {
-                                console.log(response.data); 
+                                console.log(response.data);
                                 this.setState({offersExchanges: response.data});
-                           
+
                             }, (error) => {
                             console.log(error);
                         });
@@ -229,11 +229,11 @@ class UserProfile extends Component {
                         userID: this.state.userData._id
                         },config).then((response)=>
                             {
-                                console.log(response.data); 
+                                console.log(response.data);
                                 this.setState({
                                     activeExchanges: response.data
                                 });
-                           
+
                             }, (error) => {
                             console.log(error);
                         });
@@ -246,21 +246,21 @@ class UserProfile extends Component {
     propProposalsExchanges(element){
         console.log(element);
         return(
-            <ExchangeDetails 
-                token= {this.state.token} 
-                userData={this.state.userData} 
-                exchangeData={element} 
-                exchangeType={"other proposal"} 
+            <ExchangeDetails
+                token= {this.state.token}
+                userData={this.state.userData}
+                exchangeData={element}
+                exchangeType={"other proposal"}
                 parentCallback = {this.callbackFunctionExchange}/>
         );
     }
 
     propOffersExchanges(element){
         return(
-            <ExchangeDetails 
-                token= {this.state.token} 
-                userData={this.state.userData} 
-                exchangeData={element} 
+            <ExchangeDetails
+                token= {this.state.token}
+                userData={this.state.userData}
+                exchangeData={element}
                 exchangeType={"my proposal"}
                 parentCallback = {this.callbackFunctionExchange}/>
         );
@@ -269,10 +269,10 @@ class UserProfile extends Component {
     propActiveExchanges(element){
         console.log(element);
         return(
-            <ExchangeDetails 
-                token= {this.state.token} 
-                userData={this.state.userData} 
-                exchangeData={element} 
+            <ExchangeDetails
+                token= {this.state.token}
+                userData={this.state.userData}
+                exchangeData={element}
                 exchangeType={"exchange"}
                 parentCallback = {this.callbackFunctionExchange}/>
         );
@@ -284,34 +284,34 @@ class UserProfile extends Component {
         let garmentObjects = [];
         for(var i = 0; i < maxSize; i += 4){
             garmentObjects.push(
-        
-                    <Grid 
+
+                    <Grid
                         container
                         spacing={4}
                         direction = "row"
                         justify = "center">
                         <Grid item xs={3}>
-                            {(i < maxSize) ? <ProductCard token= {this.state.token} 
-                                                          productData={this.state.userData.garmentList[i]} 
+                            {(i < maxSize) ? <ProductCard token= {this.state.token}
+                                                          productData={this.state.userData.garmentList[i]}
                                                           parentCallback = {this.callbackFunctionErase} /> : ""}
                         </Grid>
                         <Grid item xs={3}>
-                            {(i + 1 < maxSize) ? <ProductCard token= {this.state.token} 
-                                                              productData={this.state.userData.garmentList[i+1]} 
+                            {(i + 1 < maxSize) ? <ProductCard token= {this.state.token}
+                                                              productData={this.state.userData.garmentList[i+1]}
                                                               parentCallback = {this.callbackFunctionErase}/> : ""}
                         </Grid>
                         <Grid item xs={3}>
-                            {(i + 2 < maxSize) ?<ProductCard token= {this.state.token} 
-                                                             productData={this.state.userData.garmentList[i+2]} 
+                            {(i + 2 < maxSize) ?<ProductCard token= {this.state.token}
+                                                             productData={this.state.userData.garmentList[i+2]}
                                                              parentCallback = {this.callbackFunctionErase}/> : ""}
                         </Grid>
                         <Grid item xs={3}>
-                            {(i + 3 < maxSize) ? <ProductCard token= {this.state.token} 
-                                                              productData={this.state.userData.garmentList[i+3]} 
+                            {(i + 3 < maxSize) ? <ProductCard token= {this.state.token}
+                                                              productData={this.state.userData.garmentList[i+3]}
                                                               parentCallback = {this.callbackFunctionErase}/> : ""}
                         </Grid>
                     </Grid>
-              
+
             );
         }
 
@@ -354,7 +354,7 @@ class UserProfile extends Component {
                                 </div>
                             </div>
                             <p className="user_bio_text">{this.state.userData.biography}</p>
-                            <Grid container 
+                            <Grid container
                                 direction = "row"
                                 justify = "center"
                                 alignItems = "center"
@@ -371,7 +371,7 @@ class UserProfile extends Component {
                                             numberOfStars={5}
                                             name='rating'
                                             starDimension ="25px"/>
-                                            <p className="user_rate_text">Super confiable!</p>
+                                            <p className="user_rate_text">¡Súper confiable!</p>
                                         </div>
                                     </div>
                                 </Grid>
@@ -396,14 +396,14 @@ class UserProfile extends Component {
                                                         <p>Cancelados por otros usuarios</p>
                                                     </div>
                                                 </div>
-                                            </div> 
+                                            </div>
                                         </div>
                                     </div>
                                 </Grid>
                             </Grid>
                         </div>
                      </div>
-                     <div className = "tabs_container">       
+                     <div className = "tabs_container">
                         <Tabs value={this.state.index} fullWidth onChange={this.handleChange} >
                             <Tab label="Guardarropa" />
                             <Tab label="Mis Catalogos" />
@@ -421,12 +421,12 @@ class UserProfile extends Component {
                                    {this.state.garmentList}
                                 </div>
                             </div>
-                            <div className= "tab_garment">Aca estaran los catalogos del usuario</div>
+                            <div className= "tab_garment">Acá estarán los catálogos del usuario</div>
                             <div className= "tab_garment">
                                 <h1 className="exchanges_heading">Intercambios activos</h1>
                                 <div className="exchanges_heading_divider"> <span></span></div>
                                 {
-                                    this.activeIsEmpty() ? 
+                                    this.activeIsEmpty() ?
                                         <p>No tienes intercambios activos actualmente</p> :
                                         <div>
                                             {this.state.activeExchanges.map(this.propActiveExchanges, this)}
@@ -435,7 +435,7 @@ class UserProfile extends Component {
                                 <h1 className="exchanges_heading">Solicitudes de intercambio para ti</h1>
                                 <div className="exchanges_heading_divider"> <span></span></div>
                                 {
-                                    this.proposalsIsEmpty() ? 
+                                    this.proposalsIsEmpty() ?
                                         <p>No tienes solicitudes de intercambio por el momento</p> :
                                         <div>
                                             {this.state.proposalsExchanges.map(this.propProposalsExchanges, this)}
@@ -444,7 +444,7 @@ class UserProfile extends Component {
                                 <h1 className="exchanges_heading">Solicitudes de intercambio realizadas por ti</h1>
                                 <div className="exchanges_heading_divider"> <span></span></div>
                                 {
-                                    this.offersIsEmpty() ? 
+                                    this.offersIsEmpty() ?
                                         <p>No tienes intercambios solicitados para mostrar</p> :
                                         <div>
                                             {this.state.offersExchanges.map(this.propOffersExchanges, this)}

@@ -55,10 +55,10 @@ class PrefAssistant extends Component {
 
         this.gradient = 'linear-gradient(136deg, rgb(242, 113, 33) 0%, rgb(233, 64, 87) 50%, rgb(138, 35, 135) 100%)';
         this.primaryColor = '#E94057';
-    
+
         this.steps = this.getSteps();
         this.handleClick = this.handleClick.bind(this);
-        
+
         this.onImageChange = this.onImageChange.bind(this);
         this.handleNext = this.handleNext.bind(this);
         this.handleBack = this.handleBack.bind(this);
@@ -215,7 +215,7 @@ class PrefAssistant extends Component {
                     console.log(error);
                 });
         } else if (this.state.activeStep == 2) {
-        
+
             var subcategoriesChecked = [];
             var categoriesChecked = [];
             var categories = ['Hombre', 'Mujer', 'Niño', 'Niña', 'Bebes'];
@@ -374,7 +374,7 @@ class PrefAssistant extends Component {
                                 ref={el => (this.reactSwipeEl = el)}>
                                 <div className="carousel_content">
                                     <div className="title_container">
-                                        <h1 className="title"> Cuentanos un poco sobre ti</h1>
+                                        <h1 className="title"> Cuéntanos un poco sobre ti</h1>
                                     </div>
                                     <Grid container
                                         spacing={0}
@@ -393,14 +393,14 @@ class PrefAssistant extends Component {
                                                 </label>
 
                                                 <input id="file-input" name="profilePhoto" type="file" onChange={this.onImageChange} />
-                                               
+
 
 
                                             </div>
 
                                         </Grid>
                                         <Grid item xs={6} sm={12}>
-                                            <h2>Agrega una breve descripcion para quienes verán tu perfil</h2>
+                                            <h2>Agrega una breve descripción para quienes verán tu perfil</h2>
                                         </Grid>
                                         <Grid item xs={6} sm={12}>
                                             < this.StyledTextField
@@ -422,7 +422,7 @@ class PrefAssistant extends Component {
                                 </div>
                                 <div className="carousel_content">
                                     <div className="title_container">
-                                        <h1 className="title"> ¿Qué ropa estas buscando?</h1>
+                                        <h1 className="title"> ¿Qué ropa estás buscando?</h1>
                                     </div>
                                     <div className="second_container">
                                         <Grid container
@@ -450,7 +450,7 @@ class PrefAssistant extends Component {
                                                             checked={!this.state.checked1}
                                                             onChange={this.handleCheckChange}></input>
                                                         <div id="switch_1">
-                                                            <label htmlFor="yes_1">Si</label>
+                                                            <label htmlFor="yes_1">Sí</label>
                                                             <label htmlFor="no_1">No</label>
                                                             <span></span>
                                                         </div>
@@ -477,7 +477,7 @@ class PrefAssistant extends Component {
                                                             checked={!this.state.checked2}
                                                             onChange={this.handleCheckChange}></input>
                                                         <div id="switch_2">
-                                                            <label htmlFor="yes_2">Si</label>
+                                                            <label htmlFor="yes_2">Sí</label>
                                                             <label htmlFor="no_2">No</label>
                                                             <span></span>
                                                         </div>
@@ -504,7 +504,7 @@ class PrefAssistant extends Component {
                                                             checked={!this.state.checked3}
                                                             onChange={this.handleCheckChange}></input>
                                                         <div id="switch_3">
-                                                            <label htmlFor="yes_3">Si</label>
+                                                            <label htmlFor="yes_3">Sí</label>
                                                             <label htmlFor="no_3">No</label>
                                                             <span></span>
                                                         </div>
@@ -531,7 +531,7 @@ class PrefAssistant extends Component {
                                                             checked={!this.state.checked4}
                                                             onChange={this.handleCheckChange}></input>
                                                         <div id="switch_4">
-                                                            <label htmlFor="yes_4">Si</label>
+                                                            <label htmlFor="yes_4">Sí</label>
                                                             <label htmlFor="no_4">No</label>
                                                             <span></span>
                                                         </div>
@@ -542,7 +542,7 @@ class PrefAssistant extends Component {
                                                 <div className="type2">
                                                     <div>
                                                         <div className="img_overlay">
-                                                            <a className="tm-link left">Bebes</a>
+                                                            <a className="tm-link left">Bebés</a>
                                                         </div>
                                                         <img
                                                             src="http://www.babyfashions.us/wp-content/uploads/2018/09/Baby-Fashion-Buying-the-Trendiest-Infant-Clothes.jpeg">
@@ -558,7 +558,7 @@ class PrefAssistant extends Component {
                                                             checked={!this.state.checked5}
                                                             onChange={this.handleCheckChange}></input>
                                                         <div id="switch_5">
-                                                            <label htmlFor="yes_5">Si</label>
+                                                            <label htmlFor="yes_5">Sí</label>
                                                             <label htmlFor="no_5">No</label>
                                                             <span></span>
                                                         </div>
@@ -570,7 +570,7 @@ class PrefAssistant extends Component {
                                 </div>
                                 <div className="carousel_content">
                                     <div className="title_container">
-                                        <h1 className="title">¿Te interesa algo en especifico?</h1>
+                                        <h1 className="title">¿Te interesa algo en específico?</h1>
                                     </div>
                                     <div className="subcategories_container">
                                         {listItems}
@@ -592,7 +592,7 @@ class PrefAssistant extends Component {
 									pathname: '/Home',
 									state: {
                                         token: this.state.token,
-                                        userData: this.state.userData   
+                                        userData: this.state.userData
 									}
 								}}
 									ref={
@@ -601,7 +601,7 @@ class PrefAssistant extends Component {
 								</Link>
                             </div>
 
-           
+
                         </div>
                     </div>
                 </div>

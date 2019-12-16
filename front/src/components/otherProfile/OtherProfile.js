@@ -30,7 +30,7 @@ class OtherProfile extends Component {
       this.state={
           index : 0,
           token:this.props.location.state.token,
-          ownerData:this.props.location.state.ownerData,    
+          ownerData:this.props.location.state.ownerData,
           userData:this.props.location.state.userData,
           garmentList: [],
           activeExchanges: [],
@@ -44,7 +44,7 @@ class OtherProfile extends Component {
 
       this.gradient = 'linear-gradient(136deg, rgb(242, 113, 33) 0%, rgb(233, 64, 87) 50%, rgb(138, 35, 135) 100%)';
 
-     
+
     }
 
     activeIsEmpty() {
@@ -58,7 +58,7 @@ class OtherProfile extends Component {
             index: value,
         });
     }
-    
+
     handleChangeIndex(index) {
         this.setState({
             index,
@@ -71,10 +71,10 @@ class OtherProfile extends Component {
 
     propActiveExchanges(element){
         return(
-            <ExchangeDetails 
-                token= {this.state.token} 
-                userData={this.state.userData} 
-                exchangeData={element} 
+            <ExchangeDetails
+                token= {this.state.token}
+                userData={this.state.userData}
+                exchangeData={element}
                 exchangeType={"none"}
                 parentCallback = {this.callbackFunctionExchange}/>
         );
@@ -101,15 +101,15 @@ class OtherProfile extends Component {
         });
     }
 
-    
+
     renderGarmentList() {
         var ctx = this;
         let maxSize = this.state.ownerData.garmentList.length;
         let garmentObjects = [];
         for(var i = 0; i < maxSize; i += 4){
             garmentObjects.push(
-        
-                    <Grid 
+
+                    <Grid
                         container
                         spacing={4}
                         direction = "row"
@@ -127,7 +127,7 @@ class OtherProfile extends Component {
                             {(i + 3 < maxSize) ? <ProductCard token= {this.state.token} productData={this.state.ownerData.garmentList[i+3]} /> : ""}
                         </Grid>
                     </Grid>
-              
+
             );
         }
 
@@ -150,10 +150,10 @@ class OtherProfile extends Component {
                         <div className = "text_info">
                             <div className="user_name_container_otherProfile">
                                 <p className="user_name_text">{this.state.ownerData.username}</p>
-                               
+
                             </div>
                             <p className="user_bio_text">{this.state.ownerData.biography}</p>
-                            <Grid container 
+                            <Grid container
                                 direction = "row"
                                 justify = "center"
                                 alignItems = "center"
@@ -170,7 +170,7 @@ class OtherProfile extends Component {
                                             numberOfStars={5}
                                             name='rating'
                                             starDimension ="25px"/>
-                                            <p className="user_rate_text">Super confiable!</p>
+                                            <p className="user_rate_text">¡Súper confiable!</p>
                                         </div>
                                     </div>
                                 </Grid>
@@ -195,14 +195,14 @@ class OtherProfile extends Component {
                                                         <p>Cancelados por otros usuarios</p>
                                                     </div>
                                                 </div>
-                                            </div> 
+                                            </div>
                                         </div>
                                     </div>
                                 </Grid>
                             </Grid>
                         </div>
                      </div>
-                     <div className = "tabs_container">       
+                     <div className = "tabs_container">
                         <Tabs value={this.state.index} fullWidth onChange={this.handleChange} >
                             <Tab label="Guardarropa" />
                             <Tab label="Intercambios" />
@@ -213,10 +213,10 @@ class OtherProfile extends Component {
                                    {this.state.garmentList}
                                 </div>
                             </div>
-                            
+
                             <div className= "tab_garment">
                                 {
-                                    this.activeIsEmpty() ? 
+                                    this.activeIsEmpty() ?
                                     <p>No tienes intercambios activos actualmente</p> :
                                     <div>
                                         {this.state.activeExchanges.map(this.propActiveExchanges, this)}
@@ -224,7 +224,7 @@ class OtherProfile extends Component {
                                 }
                             </div>
                         </SwipeableViews>
-                        
+
                      </div>
                  </div>
             </div>
