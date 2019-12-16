@@ -197,31 +197,32 @@ router.post('/close', authenticate, async (req, res) => {
             user.totalExchanges += 1
             otherUser.totalExchanges += 1
             user.exchangeList.splice(user.exchangeList.indexOf(exchangeID), 1);
-            otherUser.exchangeList.splice(user.exchangeList.indexOf(exchangeID), 1);
+            otherUser.exchangeList.splice(otherUser.exchangeList.indexOf(exchangeID), 1);
             user.garmentList.splice(user.garmentList.indexOf(garmentOne), 1);
-            otherUser.garmentList.splice(user.garmentList.indexOf(garmentTwo), 1);
+            otherUser.garmentList.splice(otherUser.garmentList.indexOf(garmentTwo), 1);
 
             var one = await Garment.deleteOne({ _id: garmentOne }, async function (error) {
                 if (error) return handleError(error)
 
-               
-         
+
+
                 return true
             })
             var two = await Garment.deleteOne({ _id: garmentTwo }, async function (error) {
                 if (error) return handleError(error)
 
-           
+
                 return true
             })
+            console.log("aca")
             var r = await Exchange.deleteOne({ _id: exchangeID }, async function (error) {
+
                 if (error) return handleError(error)
                 return true
             })
-
+            console.log("aca again")
             await user.save()
             await otherUser.save()
-            await exchange.save()
         } else {
             await exchange.save();
         }
