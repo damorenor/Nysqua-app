@@ -227,16 +227,16 @@ class ChatDialog extends Component {
                         <div className = "chat_info_container">
                             
                         <p className="chat_subtitle">Finaliza el intercambio solo cuando ya se haya realizado el cambio de prendas en la vida real y todo se encuentre en orden, recuerda que   
-                                                              <span className="chat_subtitle_bold"> el intercambio solo finalizara y dejara de esta activo cuando ambos usuarios lo finalicen. </span></p>
-                        <p className="chat_subtitle">Una vez se finalizado el intercambio el canal de chat será cerrado para ambos usuarios, así que es muy importante que solo 
-                                                    finalices el intercambio cuando todo está en orden.</p>
+                                                              <span className="chat_subtitle_bold"> el intercambio solo finalizará y dejará de estar activo cuando ambos usuarios lo finalicen. </span></p>
+                        <p className="chat_subtitle">Una vez se ha finalizado el intercambio el canal de chat se cerrará para ambos usuarios, así que es muy importante que solo 
+                                                    finalices el intercambio cuando todo esté en orden.</p>
 
                         </div>
                         
                       
                         <p className="chat_subtitle">
-                                {(!this.state.otherUserState) ? this.state.otherUserName + " aún no ha finalizado el intercambio, el intercambio no dejara de estar activo hasta que esto suceda." : 
-                                this.state.otherUserName +" ya finalizo el intercambio, una vez tu lo finalices este quedara totalmente completo"}    
+                                {(!this.state.otherUserState) ? this.state.otherUserName + " aún no ha finalizado el intercambio, el intercambio no dejará de estar activo hasta que esto suceda." : 
+                                this.state.otherUserName +" ya finalizó el intercambio, una vez tu lo finalices este quedará totalmente completo"}    
                         </p>
                             <div className={!this.state.userState ? "chat_buttons_container" : "chat_buttons_container_2"}>
                                 <div className="chat_btn" onClick={this.handleToprevious}>
