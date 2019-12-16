@@ -14,9 +14,9 @@ function Footer() {
             <div className="footer_logo_container">
                 <img className="footer_logo" src="https://raw.githubusercontent.com/nsaavedraa/imgs/master/nysqua.png"></img>
                 <p className = "footer_description"> En nysqua proponemos una solución tecnológica que le permita a nuestros
-                usuarios ofrecer las prendas de vestir que deseen intercambiar con las prendas de otros usuarios que sean de su interés. 
-                Si deseas conocer mas de nuestro proyecto <a className="footer_link" href="https://sites.google.com/view/nysqua/home" target="_blank">
-                    haz click aqui</a></p>
+                usuarios ofrecer las prendas de vestir que deseen intercambiar con las prendas de otros usuarios que sean de su interés.
+                Si deseas conocer más de nuestro proyecto <a className="footer_link" href="https://sites.google.com/view/nysqua/home" target="_blank">
+                    haz click aquí</a></p>
             </div>
             <div className="footer_spacing"></div>
             <div className="footer_content_container">
@@ -34,13 +34,13 @@ function Footer() {
                         <h1>Redes sociales</h1>
                         <div className="footer_social_media_btns_container">
                             <IconContext.Provider value={{ size: "2em", className: 'footer_social_media_icons' }}>
-                                <Grid container 
+                                <Grid container
                                     spacing={4}
                                     direction = "row"
                                     justify = "stretch"
                                     alignItems = "stretch"
                                     wrap = "nowrap" >
-                                    
+
                                     <Grid item xs={4}>
                                         <div className="footer_social_media_btn">
                                             <FaFacebookF />

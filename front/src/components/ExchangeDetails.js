@@ -13,6 +13,7 @@ import { FiMessageSquare } from "react-icons/fi";
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import ProductDetails from './ProductDetails';
+import ChatDialog from './ChatDialog';
 import route from './Route';
 
 import './ExchangeDetails.css';
@@ -40,17 +41,20 @@ class ExchangeDetails extends Component {
             user2Data: "",
             user2Photo: "",
             user2Name: "",
-            
+
             user1Garment:"",
             garment1Images:[],
             garment1Title:"",
-            
+
             user2Garment:"",
             garment2Images:[],
             garment2Title:"",
 
             garment1DialogOpen: false,
             garment2DialogOpen: false,
+
+            chatDialogOpen : false,
+            finishExchange : false,
         };
 
         this.handleToUser = this.handleToUser.bind(this);
@@ -66,8 +70,25 @@ class ExchangeDetails extends Component {
         this.handleDialogGarment2Close = this.handleDialogGarment2Close.bind(this);
         this.callbackFunctionGarment1 = this.callbackFunctionGarment1.bind(this);
 
+        this.handleDialogChatOpen = this.handleDialogChatOpen.bind(this);
+        this.handleDialogChatClose = this.handleDialogChatClose.bind(this);
+
+        this.callbackFunctionChat = this.callbackFunctionChat.bind(this);
+
         let userGarmentSliderRef;
         let exuserGarmentSliderRef;
+    }
+
+    handleDialogChatOpen() {
+        this.setState({
+            chatDialogOpen : true
+        });
+    }
+
+    handleDialogChatClose() {
+        this.setState({
+            chatDialogOpen : false
+        });
     }
 
     handleAcceptProposal(event){
@@ -82,13 +103,13 @@ class ExchangeDetails extends Component {
             exchangeID: this.state.exchangeID,
             },config).then((response)=>
                 {
-                    console.log(response.data); 
-                    
-               
+                    console.log(response.data);
+
+
                 }, (error) => {
                 console.log(error);
             });
-        this.props.parentCallback([true]);
+        this.props.parentCallback([true, false]);
     }
 
     handleDeclineProposal(event) {
@@ -103,9 +124,9 @@ class ExchangeDetails extends Component {
             exchangeID: this.state.exchangeID,
             },config).then((response)=>
                 {
-                    console.log(response.data); 
-                    
-               
+                    console.log(response.data);
+
+
                 }, (error) => {
                 console.log(error);
             });
@@ -114,6 +135,14 @@ class ExchangeDetails extends Component {
 
     callbackFunctionGarment1(childData) {
         console.log(childData);
+    }
+
+    callbackFunctionChat(childData){
+        this.setState({
+            finishExchange: childData,
+
+        });
+
     }
 
     handleDialogGarment1Open() {
@@ -167,7 +196,7 @@ class ExchangeDetails extends Component {
 
         const exchangeButtons = <div className="exchange_buttons_container">
                                         <div className="exchange_button_container">
-                                            <div className="exchange_button">
+                                            <div className="exchange_button" onClick = {this.handleDialogChatOpen}>
                                                 <IconContext.Provider value={{ size: "1.7em ", className: 'exchange_button_icon' }}>
                                                     <FiMessageSquare/>
                                                 </IconContext.Provider>
@@ -178,7 +207,7 @@ class ExchangeDetails extends Component {
 
         const myProposalButtons = <div className="exchange_buttons_container">
                                         <div className="exchange_button_container">
-                                            <p>Esta propuesta aun no ha sido respondida</p>
+                                            <p>Esta propuesta aún no ha sido respondida</p>
                                         </div>
                                     </div>;
 
@@ -192,6 +221,16 @@ class ExchangeDetails extends Component {
         }
 
         return ret;
+    }
+
+    selectExchangeTitle(){
+        if (this.state.exchangeType == "exchange"){
+            return "Intercambio";
+        }else if(this.state.exchangeType == "none"){
+            return "Intercambio";
+        }else{
+            return "Propuesta";
+        }
     }
 
     selectUsersName(name){
@@ -229,6 +268,7 @@ class ExchangeDetails extends Component {
         return ret;
     }
 
+
     componentDidMount(){
         const config = {
             headers: {
@@ -240,7 +280,7 @@ class ExchangeDetails extends Component {
                 },config).then((response)=>
                     {
                     console.log(response.data);
-                    this.setState({ user1Garment: response.data});  
+                    this.setState({ user1Garment: response.data});
                     this.setState({ garment1Title: response.data.title});
 
                     var garment1Images = [];
@@ -254,10 +294,10 @@ class ExchangeDetails extends Component {
                         garment1Images
                     });
                     console.log(this.state.garment1Images);
-                    
+
                     }, (error) => {
                     console.log(error);
-    
+
                 });
 
             axios.post(route.url+'/garment/get',{
@@ -265,21 +305,21 @@ class ExchangeDetails extends Component {
             },config).then((response)=>
                 {
                 console.log(response.data);
-                this.setState({ user2Garment: response.data});  
+                this.setState({ user2Garment: response.data});
                 this.setState({ garment2Title: response.data.title});
 
-                
+
                 var garment2Images = [];
 
                 for (var i = 0; i < response.data.images.length; i++) {
                     if (response.data.images[i] != "") {
                         garment2Images.push(response.data.images[i]);
                     }
-                    
+
                 }
                 this.setState({ garment2Images});
-                
-                
+
+
                 }, (error) => {
                 console.log(error);
 
@@ -292,14 +332,14 @@ class ExchangeDetails extends Component {
                 ,config).then((response)=>
                 {
                     this.setState({ user1Data: response.data});
-                    this.setState({ user1Photo: response.data.profilePhoto});  
-                    this.setState({ user1Name: response.data.username});    
-         
+                    this.setState({ user1Photo: response.data.profilePhoto});
+                    this.setState({ user1Name: response.data.username});
+
                     console.log(response.data);
 
                 }, (error) => {
                     console.log(error);
-        
+
                 });
 
             axios.post(route.url+'/users/getUser',{
@@ -309,16 +349,28 @@ class ExchangeDetails extends Component {
                 ,config).then((response)=>
                 {
                     this.setState({ user2Data: response.data});
-                    this.setState({ user2Photo: response.data.profilePhoto});  
-                    this.setState({ user2Name: response.data.username});    
-         
+                    this.setState({ user2Photo: response.data.profilePhoto});
+                    this.setState({ user2Name: response.data.username});
+
                     console.log(response.data);
 
                 }, (error) => {
                     console.log(error);
-        
+
                 });
 
+    }
+
+    componentDidUpdate() {
+        if (this.state.finishExchange) {
+            console.log("Intercambio Finalizado - ExchangeDetailsFlag")
+
+            this.setState({
+                finishExchange : false
+            });
+            this.props.parentCallback([false, true]);
+            this.handleDialogChatClose();
+        }
     }
 
     handleToUser(event){
@@ -328,7 +380,7 @@ class ExchangeDetails extends Component {
     render() {
         return (
             <div className="exchange_details_card">
-                <Grid container 
+                <Grid container
                     spacing={0}
                     direction = "row"
                     justify = "center">
@@ -344,13 +396,13 @@ class ExchangeDetails extends Component {
                             <div>
                                 <div className="exchange_garment_container">
                                     <div className="garment">
-                                        <IconContext.Provider 
-                                            value={{ size: "1.8em ", 
+                                        <IconContext.Provider
+                                            value={{ size: "1.8em ",
                                                         className: 'exchange_garment_left_arrow'}}>
                                             <FaChevronCircleLeft onClick={() => this.userGarmentSliderRef.previous()}/>
                                         </IconContext.Provider>
-                                        <IconContext.Provider 
-                                            value={{ size: "1.8em ", 
+                                        <IconContext.Provider
+                                            value={{ size: "1.8em ",
                                                         className: 'exchange_garment_right_arrow'}}>
                                             <FaChevronCircleRight onClick={() => this.userGarmentSliderRef.next()}/>
                                         </IconContext.Provider>
@@ -379,14 +431,12 @@ class ExchangeDetails extends Component {
                                 </div>
                             </div>
                         </div>
-                    </Grid>    
+                    </Grid>
                     <Grid item xs={2}>
                         <div className="exchange_details_exchange_content">
                             <div className="exchange_details_exchange_info_container">
                                 < h1 > {
-                                        (this.state.exchangeType == "exchange") ?
-                                            "Intercambio" : 
-                                            "Propuesta"
+                                        this.selectExchangeTitle()
                                         } </h1>
                                 <IconContext.Provider value={{ size: "4.5em ", className: 'exchange_details_icon' }}>
                                     <FaExchangeAlt/>
@@ -394,19 +444,19 @@ class ExchangeDetails extends Component {
                                 {this.selectButtons()}
                             </div>
                         </div>
-                    </Grid>   
+                    </Grid>
                     <Grid item xs={5}>
                         <div className="exchange_details_user_content">
                             <div>
                                 <div className="exchange_garment_container">
                                     <div className="garment">
-                                        <IconContext.Provider 
-                                            value={{ size: "1.8em ", 
+                                        <IconContext.Provider
+                                            value={{ size: "1.8em ",
                                                         className: 'exchange_garment_left_arrow'}}>
                                             <FaChevronCircleLeft onClick={() => this.exuserGarmentSliderRef.previous()}/>
                                         </IconContext.Provider>
-                                        <IconContext.Provider 
-                                            value={{ size: "1.8em ", 
+                                        <IconContext.Provider
+                                            value={{ size: "1.8em ",
                                                         className: 'exchange_garment_right_arrow'}}>
                                             <FaChevronCircleRight onClick={() => this.exuserGarmentSliderRef.next()}/>
                                         </IconContext.Provider>
@@ -442,14 +492,14 @@ class ExchangeDetails extends Component {
                                 {this.selectUsersName(this.state.user2Name)}
                             </div>
                         </div>
-                    </Grid>   
+                    </Grid>
                 </Grid>
-                <Dialog 
-                    className="dialog" 
+                <Dialog
+                    className="dialog"
                     scroll="body"
-                    onClose={this.handleDialogGarment1Close} 
-                    aria-labelledby="customized-dialog-title" 
-                    open={this.state.garment1DialogOpen} 
+                    onClose={this.handleDialogGarment1Close}
+                    aria-labelledby="customized-dialog-title"
+                    open={this.state.garment1DialogOpen}
                     fullWidth={true}>
                     <DialogContent dividers>
                         < ProductDetails token = {
@@ -467,12 +517,12 @@ class ExchangeDetails extends Component {
                         />
                     </DialogContent>
                 </Dialog>
-                <Dialog 
-                    className="dialog" 
+                <Dialog
+                    className="dialog"
                     scroll="body"
-                    onClose={this.handleDialogGarment2Close} 
-                    aria-labelledby="customized-dialog-title" 
-                    open={this.state.garment2DialogOpen} 
+                    onClose={this.handleDialogGarment2Close}
+                    aria-labelledby="customized-dialog-title"
+                    open={this.state.garment2DialogOpen}
                     fullWidth={true}>
                     <DialogContent dividers>
                         < ProductDetails token = {
@@ -490,6 +540,28 @@ class ExchangeDetails extends Component {
                         />
                     </DialogContent>
                 </Dialog>
+                <Dialog
+                        className="dialog"
+                        scroll="body"
+                        onClose={this.handleDialogChatClose}
+                        aria-labelledby="customized-dialog-title"
+                        open={this.state.chatDialogOpen}
+                        fullWidth={true}>
+                        <DialogContent dividers>
+                            < ChatDialog token = {
+                                this.props.token
+                            }
+                            parentCallback = {
+                                this.callbackFunctionChat
+                            }
+                            exchangeID = {this.state.exchangeID}
+                            exchangeData = {this.props.exchangeData}
+                            userData = {this.state.userData}
+                            user1Name={this.state.user1Name}
+                            user2Name={this.state.user2Name}
+                            />
+                        </DialogContent>
+                    </Dialog>
             </div>
         );
     }

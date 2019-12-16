@@ -32,11 +32,11 @@ class CategoriesBar extends Component {
       this.boySubcategories = this.boySubcategories.bind(this);
       this.girlSubcategories = this.girlSubcategories.bind(this);
       this.babySubcategories = this.babySubcategories.bind(this);
-     
+
     };
     handleToFind(categorie,subcategorie){
         categorie = [categorie];
-        subcategorie = [subcategorie];  
+        subcategorie = [subcategorie];
         const head = {
             headers: {
                 'authorization': this.state.token,
@@ -46,32 +46,32 @@ class CategoriesBar extends Component {
         axios.post(route.url+'/garment/preferences',{
             categories: categorie,
             subcategories: subcategorie,
-        
-            
+
+
         },head).then((response)=>{
             console.log(response.data);
-            this.setState({clothes : response.data});    
-            this.setState({categorieToFind: categorie[0]}); 
-            this.setState({subcategorieToFind : subcategorie[0]}); 
+            this.setState({clothes : response.data});
+            this.setState({categorieToFind: categorie[0]});
+            this.setState({subcategorieToFind : subcategorie[0]});
             this.LinkResultElement.click();
 
         }     , (error) => {
             console.log(error);
         })
- 
-     
-        
+
+
+
     }
 
     manSubcategories(data){
         return(
         <li>
             < button onClick= {()=>{
-                
+
                 this.handleToFind("Hombre",data);
-            
-            }} 
-                     className= "Menu-item" 
+
+            }}
+                     className= "Menu-item"
                      type="button">
                 <p>{data}</p>
             </button>
@@ -82,11 +82,11 @@ class CategoriesBar extends Component {
         return(
         <li>
             < button onClick= {()=>{
-                
+
                 this.handleToFind("Mujer",data);
-            
-            }} 
-                     className= "Menu-item" 
+
+            }}
+                     className= "Menu-item"
                      type="button">
                 <p>{data}</p>
             </button>
@@ -97,11 +97,11 @@ class CategoriesBar extends Component {
         return(
         <li>
             < button onClick= {()=>{
-                
+
                 this.handleToFind("Niño",data);
-            
-            }} 
-                     className= "Menu-item" 
+
+            }}
+                     className= "Menu-item"
                      type="button">
                 <p>{data}</p>
             </button>
@@ -112,11 +112,11 @@ class CategoriesBar extends Component {
         return(
         <li>
             < button onClick= {()=>{
-                
+
                 this.handleToFind("Niña",data);
-            
-            }} 
-                     className= "Menu-item" 
+
+            }}
+                     className= "Menu-item"
                      type="button">
                 <p>{data}</p>
             </button>
@@ -127,33 +127,33 @@ class CategoriesBar extends Component {
         return(
         <li>
             < button onClick= {()=>{
-                
+
                 this.handleToFind("Bebes",data);
-            
-            }} 
-                     className= "Menu-item" 
+
+            }}
+                     className= "Menu-item"
                      type="button">
                 <p>{data}</p>
             </button>
         </li>
         )
     }
-    
+
 
 
     render(){
 
-  
+
 
         return(
             <div  className ="container-cat">
-                <Grid 
+                <Grid
                     container spacing={2}
-                    direction = "row"   
+                    direction = "row"
                     justify="center"
-                   
+
                     alignItems="center"
-                    wrap = "nowrap" >   
+                    wrap = "nowrap" >
                         <Grid item xs={2}>
                             <PopupMenu token= {this.state.token} userData ={this.state.userData} id="PopupMenuUnder" menuLabel="Menu Under" title="Hombre" position="under">
                                 <div className ="MenuTitle">
@@ -172,7 +172,7 @@ class CategoriesBar extends Component {
                                         clothes: this.state.clothes,
                                         labelCategorie: this.state.categorieToFind,
                                         labelSubcategorie: this.state.subcategorieToFind,
-                                        
+
 									}
 								}}
 									ref={
@@ -180,7 +180,7 @@ class CategoriesBar extends Component {
 									}>
 				                </Link>
                                </div>
-                              
+
                                 </ul>
                             </PopupMenu>
                         </Grid>
@@ -203,9 +203,9 @@ class CategoriesBar extends Component {
                                 </div>
                                 <ul className="Menu">
                                 {this.state.categories.Ninos.map(this.boySubcategories, this)}
-                                </ul>   
+                                </ul>
                             </PopupMenu>
-                
+
                         </Grid>
                         <Grid item xs={2}>
                         <PopupMenu token= {this.state.token} userData ={this.state.userData} id="PopupMenuUnder" menuLabel="Menu Under" title="Niña" position="under">
@@ -231,9 +231,9 @@ class CategoriesBar extends Component {
                         </Grid>
 
                 </Grid>
-                
+
             </div>
-            
+
         )
     }
 }

@@ -34,7 +34,7 @@ class ProductDetails extends Component {
             token: this.props.token,
             ownerData: "",
             userData: "",
-            garmentList: null,
+            garmentList: [],
             selectedGarmets: [],
             garmentObjects: [],
             detailsType: this.props.detailsType,
@@ -85,7 +85,7 @@ class ProductDetails extends Component {
         else{
             this.LinkToProfileElement.click();
         }
-       
+
     }
 
     searchSelectedGarment(garmentID){
@@ -127,58 +127,66 @@ class ProductDetails extends Component {
                 console.log(error);
 
             });
-            this.props.parentCallback(true);
+            this.props.parentCallback([true,false]);
         }else{
             console.log("error");
         }
-        
+
     }
 
     buildGarmentCard(garment){
         let clothesSliderRef;
         let garmentSelected = this.searchSelectedGarment(garment.garmentID);
-        return(
-            <div>
-                <div className="garment_clothes_container">
-                    <div className="garment_clothes">
-                        <IconContext.Provider 
-                            value={{ size: "2.2em ", 
-                                        className: 'garment_clothes_left_arrow'}}>
-                            <FaChevronCircleLeft onClick={() => clothesSliderRef.previous()}/>
-                        </IconContext.Provider>
-                        <IconContext.Provider 
-                            value={{ size: "2.2em ", 
-                                        className: 'garment_clothes_right_arrow'}}>
-                            <FaChevronCircleRight onClick={() => clothesSliderRef.next()}/>
-                        </IconContext.Provider>
-                        <div className="garment_clothes_size_label">
-                            <p><span>{garment.size}</span> </p>
-                        </div>
-                        <div className = {garmentSelected ? "garment_clotehs_img_slider_container_selected" : "garment_clotehs_img_slider_container"} >
-                            <Slider duration={300}
-                                ref = {
-                                    ref => (clothesSliderRef = ref)
-                                }
-                                previousButton={null}
-                                nextButton={null}>
-                                {garment.images.map((image) => (
-                                    <div className="img_content"
-                                        style={{ background: `url('${image}') no-repeat center center` }}>
-                                        <div id={garment.garmentID} 
-                                            className = "img_overlay"
-                                            onClick={this.garmentOnClick}>
+        if (garment.images != undefined){
+            return (
+                <div>
+                    <div className="garment_clothes_container">
+                        <div className="garment_clothes">
+                            <IconContext.Provider
+                                value={{
+                                    size: "2.2em ",
+                                    className: 'garment_clothes_left_arrow'
+                                }}>
+                                <FaChevronCircleLeft onClick={() => clothesSliderRef.previous()} />
+                            </IconContext.Provider>
+                            <IconContext.Provider
+                                value={{
+                                    size: "2.2em ",
+                                    className: 'garment_clothes_right_arrow'
+                                }}>
+                                <FaChevronCircleRight onClick={() => clothesSliderRef.next()} />
+                            </IconContext.Provider>
+                            <div className="garment_clothes_size_label">
+                                <p><span>{garment.size}</span> </p>
+                            </div>
+                            <div className={garmentSelected ? "garment_clotehs_img_slider_container_selected" : "garment_clotehs_img_slider_container"} >
+                                <Slider duration={300}
+                                    ref={
+                                        ref => (clothesSliderRef = ref)
+                                    }
+                                    previousButton={null}
+                                    nextButton={null}>
+                                    {garment.images.map((image) => (
+                                        <div className="img_content"
+                                            style={{ background: `url('${image}') no-repeat center center` }}>
+                                            <div id={garment.garmentID}
+                                                className="img_overlay"
+                                                onClick={this.garmentOnClick}>
+                                            </div>
                                         </div>
-                                    </div>
-                                ))}
-                            </Slider>
+                                    ))}
+                                </Slider>
+                            </div>
                         </div>
                     </div>
+                    <div className={garmentSelected ? "garment_clothes_title_selected" : "garment_clothes_title"}>
+                        <h1>{garmentSelected ? "Seleccionado" : garment.title}</h1>
+                    </div>
                 </div>
-                <div className={garmentSelected ? "garment_clothes_title_selected" : "garment_clothes_title"}>
-                    <h1>{garmentSelected ? "Seleccionado" : garment.title}</h1>
-                </div>
-            </div>
-        );
+            );
+        }else{
+            return(<div></div>);
+        }
     }
 
     async componentDidMount(): Promise<void> {
@@ -190,7 +198,7 @@ class ProductDetails extends Component {
 
         axios.get(route.url+'/users/me',config).then((response2)=>{
                     console.log(response2.data);
-                    this.setState({userData : response2.data}); 
+                    this.setState({userData : response2.data});
                     let garments = response2.data.garmentList;
                     let garmentList = [];
                     for (let i = 0; i < garments.length; i++) {
@@ -230,23 +238,24 @@ class ProductDetails extends Component {
             }
             ,config).then((response)=>
             {
-                this.setState({ ownerData: response.data});  
+                this.setState({ ownerData: response.data});
             }, (error) => {
                 console.log(error);
 
             });
-        
+
+        //await new Promise(resolve => { setTimeout(resolve, 2000); });
         var ctx = this;
         await new Promise(function (resolve, reject) {
             (function waitForFoo() {
-                if (ctx.state.garmentList != null){
+                if (ctx.state.garmentList[ctx.state.garmentList.length - 1] != undefined){
                     if (ctx.state.garmentList[ctx.state.garmentList.length - 1].size != undefined &&
                             ctx.state.garmentList[ctx.state.garmentList.length - 1].images != undefined &&
                             ctx.state.garmentList[ctx.state.garmentList.length - 1].title != undefined) {
                         return resolve();
-                    }                    
+                    }
                 }
-                setTimeout(waitForFoo, 300);
+                setTimeout(waitForFoo, 500);
             })();
         });
 
@@ -255,7 +264,7 @@ class ProductDetails extends Component {
         for(var i = 0; i < maxSize; i += 4){
             garmentObjects.push(
                 <div className="wardrobe_container_row">
-                    <Grid 
+                    <Grid
                         container
                         spacing={0}
                         direction = "row"
@@ -274,7 +283,7 @@ class ProductDetails extends Component {
                             {(i + 3 < maxSize) ? ctx.buildGarmentCard(this.state.garmentList[i + 3]) : ""}
                         </Grid>
                     </Grid>
-                </div> 
+                </div>
             );
         }
 
@@ -288,7 +297,7 @@ class ProductDetails extends Component {
             if(this.state.images[i] != ""){
                 imagesArray.push(this.state.images[i]);
             }
-            
+
         }
 
         console.log(imagesArray);
@@ -306,16 +315,17 @@ class ProductDetails extends Component {
         };
         axios.post(route.url+'/garment/delete',{
             garmentID: this.state.id,
-            
-            
+
+
         },config).then((response)=>
         {
             console.log(response.data);
+            this.props.parentCallback([false,true]);
         }, (error) => {
             console.log(error);
 
         });
-        this.props.parentCallback(true);
+
 
 
     }
@@ -327,7 +337,7 @@ class ProductDetails extends Component {
         for(var i = 0; i < maxSize; i += 4){
             garmentObjects.push(
                 <div className="wardrobe_container_row">
-                    <Grid 
+                    <Grid
                         container
                         spacing={0}
                         direction = "row"
@@ -346,7 +356,7 @@ class ProductDetails extends Component {
                             {(i + 3 < maxSize) ? ctx.buildGarmentCard(this.state.garmentList[i + 3]) : ""}
                         </Grid>
                     </Grid>
-                </div> 
+                </div>
             );
         }
 
@@ -416,7 +426,7 @@ class ProductDetails extends Component {
 
         const renderThumb = ({ style, ...props }) => {
             const thumbStyle = {
-                width: "8px", 
+                width: "8px",
                 height: "0px",
                 marginRight: "0px",
                 cursor: "pointer",
@@ -467,7 +477,7 @@ class ProductDetails extends Component {
                             <div className="details_header_desc">
                                 <h1>{this.state.title}</h1>
                                 <p><span className="bold">Descripcion: </span>{this.state.description}</p>
-                                <p><span className="bold">Subido por: </span> 
+                                <p><span className="bold">Subido por: </span>
                                     <a id={this.state.ownerData.username}
                                         onClick={this.handleToUser}>{this.state.ownerData.username}</a></p>
                                         <Link to={{
@@ -507,7 +517,7 @@ class ProductDetails extends Component {
                             </div>
                         </div>
                         <div className="product_extra_info_container">
-                            <Grid 
+                            <Grid
                                 container
                                 spacing={4}
                                 direction = "row"
@@ -517,46 +527,46 @@ class ProductDetails extends Component {
                                     <div className="details_info_container">
                                         <h1>Talla</h1>
                                             <h2 className="size_txt">{this.state.size.replace("talla ", "")}</h2>
-                                    </div>  
+                                    </div>
                                 </Grid>
                                 <Grid item xs={4}>
                                     <div className="details_info_container">
                                         <h1>Gama de color</h1>
-                                        <div className="details_color" 
+                                        <div className="details_color"
                                             style = {colorStyle}>
                                         </div>
                                         <p className="details_color_string">{colorStr}</p>
-                                    </div> 
+                                    </div>
                                 </Grid>
                                 <Grid item xs={4}>
                                     <div className="details_info_container">
                                         <h1>Estado de la prenda</h1>
                                         <h2 className="state_string">{this.state.state}</h2>
                                         <p className="time_string">{time}</p>
-                                    </div> 
+                                    </div>
                                 </Grid>
                             </Grid>
                         </div>
                         {this.isExchangeType()?
                             <div></div> :
                             <div>
-                                 {this.isTheSameUser() ? 
+                                 {this.isTheSameUser() ?
                                     <div className="product_details_swap_btn" onClick={this.handleDelete}>
                                         <p>Eliminar Prenda</p>
                                     </div>:
                                     <div className="product_details_swap_btn" onClick={this.handletoSwap}>
                                         <p>Proponer intercambio</p>
-                                    </div>} 
+                                    </div>}
                             </div>}
 
-                      
+
 
                     </div>
                     <div className="product_details_content">
                         <h1 className="swap_wardrobe_title">Selecciona prendas para realizar el intecambio</h1>
-                        <p className="swap_wardrobe_subtitle">Recuerda que puedes seleccionar <span className="swap_wardrobe_subtitle_bold">1 o mas prendas de tu guardaropa</span>  
-                                                                para realizar un intercambio. cuando hayas terminado de seleccionar las prendas haz 
-                                                                <span className="swap_wardrobe_subtitle_bold">click en enviar propuesta</span> para finalizar el proceso</p>
+                        <p className="swap_wardrobe_subtitle">Recuerda que puedes seleccionar <span className="swap_wardrobe_subtitle_bold">1 o más prendas de tu guardaropa </span>  
+                                                                para realizar un intercambio. Cuando hayas terminado de seleccionar las prendas haz
+                                                                <span className="swap_wardrobe_subtitle_bold"> click en enviar propuesta</span> para finalizar el proceso</p>
                         <CustomScrollbars autoHide autoHideTimeout={500} autoHideDuration={200}>
                         <div className="wardrobe_ctx">
                             <div className="wardrobe_container">

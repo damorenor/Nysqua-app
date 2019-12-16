@@ -18,7 +18,7 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import axios from 'axios';
-import { Link} from 'react-router-dom'; 
+import { Link} from 'react-router-dom';
 import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -198,7 +198,7 @@ class SignIn extends Component {
                           console.log(response.accessToken);
                           axios.post(route.url+'/authentication/oauth/facebook', {
                             access_token: response.accessToken
-                    
+
                           }).then((resp) => {
                             //añadir logica
                             var data = "";
@@ -210,13 +210,13 @@ class SignIn extends Component {
                             else{
                               this.handleClick(data);
                             }
-                    
+
                           }, (error) => {
                             console.log(error);
-                    
+
                           });
-                    
-                    
+
+
                         }}
                         render={renderProps => (
                           < div className="social_media_btn" onClick={renderProps.onClick} >
@@ -253,8 +253,8 @@ class SignIn extends Component {
                             </IconContext.Provider>
                           </this.SocialMedia>
                           </div>
-                          
-                          
+
+
                           )}
                         onSuccess={(response) => {
                           console.log(response.Zi.access_token);
@@ -270,10 +270,10 @@ class SignIn extends Component {
                             else{
                               this.handleClick(data);
                             }
-                            
+
                           }, (error) => {
                             console.log(error);
-                    
+
                           });
                         }}
                         onFailure={(response) => {
@@ -297,20 +297,20 @@ class SignIn extends Component {
                         </div>
                     </IconContext.Provider>
                 </div>
-                <span>Correo electronico o contraseña incorrectos. Por favor intentalo nuevamente</span>
+                <span>Correo electrónico o contraseña incorrectos. Por favor inténtalo nuevamente</span>
             </div>
 
             <Dialog onClose={this.handleDialogClose} aria-labelledby="customized-dialog-title" open={this.state.dialogOpen} fullWidth={true}>
                 <DialogTitle className="dialog_title" id="customized-dialog-title" onClose={this.handleDialogClose}>
-                Problemas con tu inicio de sesion?
+                ¿Problemas con tu inicio de sesión?
                 </DialogTitle>
                 <DialogContent dividers>
                     <div className="dialog_content">
-                        <p>Recuerda escribir una direccion de correo valida (nombre@dominio.com) y ten cuidado con las mayusculas al
+                        <p>Recuerda escribir una dirección de correo válida (nombre@dominio.com) y ten cuidado con las mayúsculas al
                             momento de escribir tu contraseña.
                         </p>
                         <p>
-                            Si aun no tienes una cuenta, <a href="/SignUp" > Registrate aqui </a>
+                            Si aún no tienes una cuenta, <a href="/SignUp" > Regístrate aquí </a>
                         </p>
                     </div>
                 </DialogContent>
@@ -351,7 +351,7 @@ class SignIn extends Component {
                 endAdornment: (
                     <InputAdornment position="end">
                     <IconButton
-                    
+
                         aria-label="toggle password visibility"
                         onClick={this.handleClickShowPassword}
                         onMouseDown={this.handleMouseDownPassword}>
@@ -391,7 +391,7 @@ class SignIn extends Component {
                   });
 
               }}
-              /* href="/PrefAssistant" */  
+              /* href="/PrefAssistant" */
                   fullWidth
                   focusRipple
                   variant="contained"
@@ -403,26 +403,26 @@ class SignIn extends Component {
                     state: {
                         token: this.state.userData.token,
                         userData: this.state.userData.user
-                    }}} 
+                    }}}
                     ref={
                         Link => this.LinkElement = Link
-                        }>		
+                        }>
                 </Link>
                 <Link  to={{
                     pathname: '/PrefAssistant',
                     state: {
                         token: this.state.userData,
                         userData: this.state.userData.user
-                    }}} 
+                    }}}
                     ref={
                         Link => this.LinkToAssistantElement = Link
-                        }>		
+                        }>
                 </Link>
-            </div>    
+            </div>
 
 
             <div className="login_link">
-                < a href="#"> Olvidaste tu contraseña? </a>
+                < a href="#"> ¿Olvidaste tu contraseña? </a>
             </div>
 
             </form>
@@ -432,7 +432,7 @@ class SignIn extends Component {
         <Box mt={5}>
         < div className="login_link" >
             <p>
-                No tienes una cuenta?  <a href="/SignUp" > Registrate </a>
+                ¿No tienes una cuenta?  <a href="/SignUp" > Regístrate </a>
             </p>
         </div>
         </Box>

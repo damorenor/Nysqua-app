@@ -16,6 +16,7 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import Navbar from '../home/Navbar';
 import ClothesAssistant from '../ClothesAssistant/ClothesAssistant';
+import ExchangeDetails from './../ExchangeDetails';
 import axios from 'axios';
 import route from '../Route';
 import './OtherProfile.css';
@@ -29,10 +30,10 @@ class OtherProfile extends Component {
       this.state={
           index : 0,
           token:this.props.location.state.token,
-          ownerData:this.props.location.state.ownerData,    
+          ownerData:this.props.location.state.ownerData,
           userData:this.props.location.state.userData,
           garmentList: [],
-
+          activeExchanges: [],
       };
 
       this.handleToEdit = this.handleToEdit.bind(this);
@@ -43,7 +44,11 @@ class OtherProfile extends Component {
 
       this.gradient = 'linear-gradient(136deg, rgb(242, 113, 33) 0%, rgb(233, 64, 87) 50%, rgb(138, 35, 135) 100%)';
 
-     
+
+    }
+
+    activeIsEmpty() {
+        return (this.state.activeExchanges.length == 0);
     }
 
     handleChange(event, value){
@@ -53,7 +58,7 @@ class OtherProfile extends Component {
             index: value,
         });
     }
-    
+
     handleChangeIndex(index) {
         this.setState({
             index,
@@ -64,19 +69,47 @@ class OtherProfile extends Component {
         this.LinkToEditElement.click();
     }
 
-    componentDidMount(){
-        this.renderGarmentList();
+    propActiveExchanges(element){
+        return(
+            <ExchangeDetails
+                token= {this.state.token}
+                userData={this.state.userData}
+                exchangeData={element}
+                exchangeType={"none"}
+                parentCallback = {this.callbackFunctionExchange}/>
+        );
     }
 
-    
+    componentDidMount(){
+        this.renderGarmentList();
+
+        const config = {
+            headers: {
+                'authorization': this.state.token,
+            }
+        };
+        axios.post(route.url + '/exchange/active', {
+            userID: this.state.userData._id
+        }, config).then((response) => {
+            console.log(response.data);
+            this.setState({
+                activeExchanges: response.data
+            });
+
+        }, (error) => {
+            console.log(error);
+        });
+    }
+
+
     renderGarmentList() {
         var ctx = this;
         let maxSize = this.state.ownerData.garmentList.length;
         let garmentObjects = [];
         for(var i = 0; i < maxSize; i += 4){
             garmentObjects.push(
-        
-                    <Grid 
+
+                    <Grid
                         container
                         spacing={4}
                         direction = "row"
@@ -94,7 +127,7 @@ class OtherProfile extends Component {
                             {(i + 3 < maxSize) ? <ProductCard token= {this.state.token} productData={this.state.ownerData.garmentList[i+3]} /> : ""}
                         </Grid>
                     </Grid>
-              
+
             );
         }
 
@@ -117,10 +150,10 @@ class OtherProfile extends Component {
                         <div className = "text_info">
                             <div className="user_name_container_otherProfile">
                                 <p className="user_name_text">{this.state.ownerData.username}</p>
-                               
+
                             </div>
                             <p className="user_bio_text">{this.state.ownerData.biography}</p>
-                            <Grid container 
+                            <Grid container
                                 direction = "row"
                                 justify = "center"
                                 alignItems = "center"
@@ -137,7 +170,7 @@ class OtherProfile extends Component {
                                             numberOfStars={5}
                                             name='rating'
                                             starDimension ="25px"/>
-                                            <p className="user_rate_text">Super confiable!</p>
+                                            <p className="user_rate_text">¡Súper confiable!</p>
                                         </div>
                                     </div>
                                 </Grid>
@@ -162,30 +195,36 @@ class OtherProfile extends Component {
                                                         <p>Cancelados por otros usuarios</p>
                                                     </div>
                                                 </div>
-                                            </div> 
+                                            </div>
                                         </div>
                                     </div>
                                 </Grid>
                             </Grid>
                         </div>
                      </div>
-                     <div className = "tabs_container">       
+                     <div className = "tabs_container">
                         <Tabs value={this.state.index} fullWidth onChange={this.handleChange} >
                             <Tab label="Guardarropa" />
                             <Tab label="Intercambios" />
                         </Tabs>
                         <SwipeableViews index={this.state.index} onChangeIndex={this.handleChangeIndex}>
                             <div className= "tab_garment">
-            
                                 <div className="wardrobe_container">
-                            
                                    {this.state.garmentList}
                                 </div>
                             </div>
-                            
-                            <div className= "tab_garment">Aca estaran los intercambios del usuario</div>
+
+                            <div className= "tab_garment">
+                                {
+                                    this.activeIsEmpty() ?
+                                    <p>No tienes intercambios activos actualmente</p> :
+                                    <div>
+                                        {this.state.activeExchanges.map(this.propActiveExchanges, this)}
+                                    </div>
+                                }
+                            </div>
                         </SwipeableViews>
-                        
+
                      </div>
                  </div>
             </div>
