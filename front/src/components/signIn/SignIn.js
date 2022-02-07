@@ -200,7 +200,7 @@ class SignIn extends Component {
                               var data = "";
                               console.log(resp.data);
                               data = resp.data;
-                              if (data.user.profilePhoto == "undefined") {
+                              if (data.user.profilePhoto === "undefined") {
                                 this.handleToAssistant(data);
                               } else {
                                 this.handleClick(data);
@@ -275,7 +275,7 @@ class SignIn extends Component {
                               var data = "";
                               console.log(resp.data);
                               data = resp.data;
-                              if (data.user.profilePhoto == "undefined") {
+                              if (data.user.profilePhoto === "undefined") {
                                 this.handleToAssistant(data);
                               } else {
                                 this.handleClick(data);
