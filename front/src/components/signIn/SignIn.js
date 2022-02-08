@@ -42,7 +42,8 @@ class SignIn extends Component {
       error: false,
       dialogOpen: false,
 
-      captchaValido: "false",
+      captchaExpired: false,
+      captchaValue: null,
       usuarioValido: false,
     };
     this._reCaptchaRef = React.createRef();
@@ -56,6 +57,8 @@ class SignIn extends Component {
     this.handleDialogOpen = this.handleDialogOpen.bind(this);
     this.handleDialogClose = this.handleDialogClose.bind(this);
     this.handleToAssistant = this.handleToAssistant.bind(this);
+    this.onClickLogin = this.onClickLogin.bind(this);
+    this.handleCaptchaChange = this.handleCaptchaChange.bind(this);
 
     this.handleMouseDownPassword = (event) => {
       event.preventDefault();
@@ -176,19 +179,61 @@ class SignIn extends Component {
 
   handleCaptchaChange(value) {
     console.log("Captcha value:", value);
+    console.log(value === null);
 
     if (value === null) {
-      this.setState({ captchaValido: false });
+      this.setState({ captchaExpired: true });
+      console.log("handle captcha value is null");
     } else {
-      this.setState({ captchaValido: value });
+      this.setState({ captchaValue: value });
+      console.log("handle captcha seting value state");
     }
   }
 
-  onSubmit = (e) => {
+  onClickLogin = (e) => {
     e.preventDefault();
     if (this.state.email !== "" && this.state.password !== "") {
       this.setState({ usuarioValido: true });
       console.log("usuario valido");
+      if (!this.state.captchaExpired && this.state.captchaValue) {
+        console.log(
+          "Captcha expirado?: ",
+          this.state.captchaExpired,
+          "value: ",
+          this.state.captchaValue
+        );
+
+        axios
+          .post(route.url + "/users/login", {
+            email: this.state.email,
+            password: this.state.password,
+          })
+          .then(
+            (response) => {
+              //añadir logica
+              var data = "";
+              console.log(response.data);
+              data = response.data;
+              this.setState({
+                error: false,
+              });
+              this.handleClick(data);
+            },
+            (error) => {
+              console.log(error);
+              this.setState({
+                error: true,
+              });
+            }
+          );
+      } else {
+        console.log(
+          "Captcha expirado?: ",
+          this.state.captchaExpired,
+          "value: ",
+          this.state.captchaValue
+        );
+      }
     } else {
       this.setState({ usuarioValido: false });
       console.log("usuario invalido");
@@ -345,9 +390,7 @@ class SignIn extends Component {
 
             <div
               className="error_msg"
-              style={
-                this.state.captchaValido && false ? {} : { display: "none" }
-              }
+              style={this.state.captchaExpired ? {} : { display: "none" }}
             >
               <span>Completa el captcha</span>
             </div>
@@ -435,40 +478,13 @@ class SignIn extends Component {
               </ThemeProvider>
               <div>
                 <this.StyledButton
-                  onClick={() => {
-                    if (this.state.usuarioValido && this.state.captchaValido) {
-                      axios
-                        .post(route.url + "/users/login", {
-                          email: this.state.email,
-                          password: this.state.password,
-                        })
-                        .then(
-                          (response) => {
-                            //añadir logica
-                            var data = "";
-                            console.log(response.data);
-                            data = response.data;
-                            this.setState({
-                              error: false,
-                            });
-                            this.handleClick(data);
-                          },
-                          (error) => {
-                            console.log(error);
-                            this.setState({
-                              error: true,
-                            });
-                          }
-                        );
-                    }
-                  }}
                   /* href="/PrefAssistant" */
                   fullWidth
                   focusRipple
                   variant="contained"
                   size="medium"
                   text="bold"
-                  type="submit"
+                  onClick={this.onClickLogin}
                 >
                   Inicia sesion
                 </this.StyledButton>
