@@ -26,6 +26,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
 import GoogleLogin from "react-google-login";
 import route from "../Route";
+import ReCAPTCHA from "react-google-recaptcha";
 
 import "./SignIn.css";
 
@@ -40,8 +41,11 @@ class SignIn extends Component {
       password: "",
       error: false,
       dialogOpen: false,
-    };
 
+      captchaValido: "false",
+      usuarioValido: false,
+    };
+    this._reCaptchaRef = React.createRef();
     this.gradient =
       "linear-gradient(136deg, rgb(242, 113, 33) 0%, rgb(233, 64, 87) 50%, rgb(138, 35, 135) 100%)";
     this.primaryColor = "#E94057";
@@ -169,6 +173,27 @@ class SignIn extends Component {
   handleDialogClose() {
     this.setState({ dialogOpen: false });
   }
+
+  handleCaptchaChange(value) {
+    console.log("Captcha value:", value);
+
+    if (value === null) {
+      this.setState({ captchaValido: false });
+    } else {
+      this.setState({ captchaValido: value });
+    }
+  }
+
+  onSubmit = (e) => {
+    e.preventDefault();
+    if (this.state.email !== "" && this.state.password !== "") {
+      this.setState({ usuarioValido: true });
+      console.log("usuario valido");
+    } else {
+      this.setState({ usuarioValido: false });
+      console.log("usuario invalido");
+    }
+  };
 
   render() {
     return (
@@ -318,6 +343,15 @@ class SignIn extends Component {
               </span>
             </div>
 
+            <div
+              className="error_msg"
+              style={
+                this.state.captchaValido && false ? {} : { display: "none" }
+              }
+            >
+              <span>Completa el captcha</span>
+            </div>
+
             <Dialog
               onClose={this.handleDialogClose}
               aria-labelledby="customized-dialog-title"
@@ -351,7 +385,7 @@ class SignIn extends Component {
               </DialogActions>
             </Dialog>
 
-            <form className="form" noValidate>
+            <form className="form" noValidate onSubmit={this.onSubmit}>
               <this.StyledTextField
                 variant="outlined"
                 margin="normal"
@@ -402,29 +436,31 @@ class SignIn extends Component {
               <div>
                 <this.StyledButton
                   onClick={() => {
-                    axios
-                      .post(route.url + "/users/login", {
-                        email: this.state.email,
-                        password: this.state.password,
-                      })
-                      .then(
-                        (response) => {
-                          //añadir logica
-                          var data = "";
-                          console.log(response.data);
-                          data = response.data;
-                          this.setState({
-                            error: false,
-                          });
-                          this.handleClick(data);
-                        },
-                        (error) => {
-                          console.log(error);
-                          this.setState({
-                            error: true,
-                          });
-                        }
-                      );
+                    if (this.state.usuarioValido && this.state.captchaValido) {
+                      axios
+                        .post(route.url + "/users/login", {
+                          email: this.state.email,
+                          password: this.state.password,
+                        })
+                        .then(
+                          (response) => {
+                            //añadir logica
+                            var data = "";
+                            console.log(response.data);
+                            data = response.data;
+                            this.setState({
+                              error: false,
+                            });
+                            this.handleClick(data);
+                          },
+                          (error) => {
+                            console.log(error);
+                            this.setState({
+                              error: true,
+                            });
+                          }
+                        );
+                    }
                   }}
                   /* href="/PrefAssistant" */
                   fullWidth
@@ -432,9 +468,9 @@ class SignIn extends Component {
                   variant="contained"
                   size="medium"
                   text="bold"
+                  type="submit"
                 >
-                  {" "}
-                  Inicia sesion{" "}
+                  Inicia sesion
                 </this.StyledButton>
                 <Link
                   to={{
@@ -461,6 +497,12 @@ class SignIn extends Component {
               <div className="login_link">
                 <a href="#"> ¿Olvidaste tu contraseña? </a>
               </div>
+              <ReCAPTCHA
+                onChange={this.handleCaptchaChange}
+                sitekey="6Lf4gVoeAAAAAEoi7WgrcYI5Nk-EIRzKvUM2Z8RW"
+                style={{ display: "inline-block" }}
+                ref={this._reCaptchaRef}
+              />
             </form>
           </div>
         </div>
