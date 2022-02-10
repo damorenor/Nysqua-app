@@ -10,6 +10,9 @@ var assistantRouter = require('./routes/assistant.route');
 var garmentRouter = require('./routes/garment.route');
 var bannerRouter = require('./routes/banners.route')
 var exchangeRouter = require('./routes/exchanges.route')
+const morgan = require('morgan')
+const fs = require('fs')
+const path = require('path')
 const bodyParser = require('body-parser');
 
 //settings
@@ -19,7 +22,7 @@ app.set("port", port);
 //midleware
 app.use(cors());
 //app.use(express.json());
-
+var accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' })
 
 
 var jsonParser = bodyParser.json({ limit: 1024 * 1024 * 20, type: 'application/json' });
@@ -29,6 +32,7 @@ app.use(jsonParser);
 app.use(urlencodedParser);
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(morgan('combined', { stream: accessLogStream }))
 
 app.use('/users', usersRouter);
 app.use('/signIn', signInRouter);
