@@ -27,7 +27,7 @@ import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props
 import GoogleLogin from "react-google-login";
 import route from "../Route";
 import ReCAPTCHA from "react-google-recaptcha";
-
+import validator from "validator";
 import "./SignIn.css";
 
 class SignIn extends Component {
@@ -148,7 +148,27 @@ class SignIn extends Component {
 
   handleChange(event) {
     var prop = String(event.target.id);
+    this.checkEmail();
+    this.checkPassword();
     this.setState({ [prop]: event.target.value });
+  }
+  checkEmail() {
+    if (validator.isEmail(this.state.email)) {
+      console.warn("El correo tiene un formato correcto");
+    } else {
+      console.error(
+        "Error de validación: el campo correo debe cumplir el formato xxxx@yyy.zzz"
+      );
+    }
+  }
+  checkPassword() {
+    if (validator.isStrongPassword(this.state.password)) {
+      console.warn("La contraseña cumple el formato seguro");
+    } else {
+      console.error(
+        "Error de validación: el campo contraseña no tiene almenos 8 caracteres, una minuscula, una mayuscula, un numero y un caracter especial "
+      );
+    }
   }
 
   handleClickShowPassword() {

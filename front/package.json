@@ -39,7 +39,8 @@
     "react-tag-input": "^6.4.1",
     "reactjs-tag-input": "^2.0.13",
     "slick-carousel": "^1.8.1",
-    "swipe-js-iso": "^2.1.5"
+    "swipe-js-iso": "^2.1.5",
+    "validator": "^13.7.0"
   },
   "scripts": {
     "start": "react-scripts start",
